@@ -1,9 +1,9 @@
 import VueFlux
 import ReactiveSwift
 
-extension Reactive where Base == CounterViewModel {
+extension Export where State == CounterViewModel {
     var count: Property<Int> {
-        return .init(base.count)
+        return .init(state.count)
     }
 }
 

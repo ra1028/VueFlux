@@ -1,16 +1,20 @@
 import ReactiveSwift
 import enum Result.NoError
 
-public struct Dispatcher<State: VueFlux.State> {
-    private let (signal, observer) = Signal<State.Action, NoError>.pipe()
+public struct Dispatcher<Action> {
+    private let (signal, observer) = Signal<Action, NoError>.pipe()
+    
+    public var actions: Actions<Action> {
+        return .init(dispatcher: self)
+    }
 
     public init() {}
 
-    public func dispatch(action: State.Action) {
+    public func dispatch(action: Action) {
         observer.send(value: action)
     }
 
-    public func bind(store: Store<State>, on scheduler: Scheduler) -> Disposable? {
+    public func bind<State>(store: Store<State>, on scheduler: Scheduler) -> Disposable? where State.Action == Action {
         return signal
             .observe(on: scheduler)
             .observeValues { [weak store] action in store?.dispatch(action: action) }
@@ -18,19 +22,22 @@ public struct Dispatcher<State: VueFlux.State> {
 }
 
 public class Store<State: VueFlux.State> {
-    public let state: State
+    private let state: State
     private let mutations: State.Mutations
-    private let dispatcher: Dispatcher<State>
+    private let dispatcher = Dispatcher<State.Action>()
     private let disposable = ScopedDisposable<SerialDisposable>(.init())
 
-    public var actions: Actions<State> {
-        return .init(dispatcher: dispatcher)
+    public var actions: Actions<State.Action> {
+        return dispatcher.actions
+    }
+    
+    public var export: Export<State> {
+        return .init(state: state)
     }
 
-    public init(state: State, mutations: State.Mutations, dispatcher: Dispatcher<State> = .init(), scheduler: Scheduler = QueueScheduler()) {
+    public init(state: State, mutations: State.Mutations, scheduler: Scheduler = QueueScheduler()) {
         self.state = state
         self.mutations = mutations
-        self.dispatcher = dispatcher
         self.disposable.inner.inner = dispatcher.bind(store: self, on: scheduler)
     }
 
@@ -50,8 +57,8 @@ public protocol State: class {
     associatedtype Mutations: VueFlux.Mutations where Mutations.State == Self
 }
 
-public struct Actions<State: VueFlux.State> {
-    public typealias Dispatcher = VueFlux.Dispatcher<State>
+public struct Actions<Action> {
+    public typealias Dispatcher = VueFlux.Dispatcher<Action>
 
     private let dispatcher: Dispatcher
 
@@ -59,8 +66,15 @@ public struct Actions<State: VueFlux.State> {
         self.dispatcher = dispatcher
     }
 
-    public func dispatch(action: State.Action) {
+    public func dispatch(action: Action) {
         dispatcher.dispatch(action: action)
     }
 }
 
+public struct Export<State: VueFlux.State> {
+    public let state: State
+    
+    fileprivate init(state: State) {
+        self.state = state
+    }
+}

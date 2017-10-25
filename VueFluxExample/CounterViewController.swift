@@ -23,7 +23,7 @@ private extension CounterViewController {
     func configure() {
         let interval = Property(initial: 0, then: stepper.reactive.values)
         intervalLabel.reactive.text <~ interval.map { "Count after: \(round($0 * 10) / 10)" }
-        countLabel.reactive.text <~ store.state.reactive.count.map(String.init(_:))
+        countLabel.reactive.text <~ store.export.count.map(String.init(_:))
         
         incrementButton.reactive.controlEvents(.touchUpInside)
             .take(duringLifetimeOf: self)

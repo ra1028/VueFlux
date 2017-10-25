@@ -6,7 +6,7 @@ enum CounterAction {
     case decrement
 }
 
-extension Actions where State == CounterViewModel {
+extension Actions where Action == CounterAction {
     func increment(after interval: TimeInterval = 0) -> Disposable? {
         guard interval > 0 else {
             dispatch(action: .increment)
