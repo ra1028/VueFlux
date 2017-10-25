@@ -2,7 +2,7 @@ import RxSwift
 import RxCocoa
 
 public struct Dispatcher<Action> {
-    private let replay = PublishRelay<Action>()
+    private let relay = PublishRelay<Action>()
     
     public var actions: Actions<Action> {
         return .init(dispatcher: self)
@@ -11,11 +11,11 @@ public struct Dispatcher<Action> {
     public init() {}
 
     public func dispatch(action: Action) {
-        replay.accept(action)
+        relay.accept(action)
     }
 
     public func register<State>(store: Store<State>, on scheduler: ImmediateSchedulerType) -> Disposable where State.Action == Action {
-        return replay
+        return relay
             .observeOn(scheduler)
             .subscribe(onNext: { [weak store] action in store?.dispatch(action: action) })
     }
