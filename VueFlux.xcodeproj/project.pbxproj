@@ -7,11 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6B8CF8CD1F9FBDC100DD44D9 /* ReactiveSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE712821F9FB88500237C8E /* ReactiveSwift.framework */; };
-		6B8CF8CE1F9FBDC100DD44D9 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE712831F9FB88500237C8E /* Result.framework */; };
-		6B8CF8CF1F9FBDD400DD44D9 /* ReactiveSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE712821F9FB88500237C8E /* ReactiveSwift.framework */; };
-		6B8CF8D01F9FBDD400DD44D9 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE712831F9FB88500237C8E /* Result.framework */; };
-		6B8CF8D21F9FC10B00DD44D9 /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B8CF8D11F9FC10B00DD44D9 /* ReactiveCocoa.framework */; };
+		6B8CF8F31FA0DE1300DD44D9 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B8CF8F11FA0DE1300DD44D9 /* RxCocoa.framework */; };
+		6B8CF8F41FA0DE1300DD44D9 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B8CF8F21FA0DE1300DD44D9 /* RxSwift.framework */; };
+		6B8CF8F51FA0DE2500DD44D9 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B8CF8F21FA0DE1300DD44D9 /* RxSwift.framework */; };
 		6BE712711F9FB78600237C8E /* VueFlux.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE7126A1F9FB78600237C8E /* VueFlux.framework */; };
 		6BE712721F9FB78600237C8E /* VueFlux.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6BE7126A1F9FB78600237C8E /* VueFlux.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6BE7127B1F9FB83500237C8E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE7125D1F9FB6D900237C8E /* AppDelegate.swift */; };
@@ -50,6 +48,8 @@
 
 /* Begin PBXFileReference section */
 		6B8CF8D11F9FC10B00DD44D9 /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/iOS/ReactiveCocoa.framework; sourceTree = "<group>"; };
+		6B8CF8F11FA0DE1300DD44D9 /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxCocoa.framework; path = Carthage/Build/iOS/RxCocoa.framework; sourceTree = "<group>"; };
+		6B8CF8F21FA0DE1300DD44D9 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Carthage/Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
 		6BE712471F9FB5C500237C8E /* VueFluxExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VueFluxExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BE7125D1F9FB6D900237C8E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6BE7125E1F9FB6D900237C8E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -71,9 +71,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6B8CF8D21F9FC10B00DD44D9 /* ReactiveCocoa.framework in Frameworks */,
-				6B8CF8CF1F9FBDD400DD44D9 /* ReactiveSwift.framework in Frameworks */,
-				6B8CF8D01F9FBDD400DD44D9 /* Result.framework in Frameworks */,
+				6B8CF8F31FA0DE1300DD44D9 /* RxCocoa.framework in Frameworks */,
+				6B8CF8F41FA0DE1300DD44D9 /* RxSwift.framework in Frameworks */,
 				6BE712711F9FB78600237C8E /* VueFlux.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -82,8 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6B8CF8CD1F9FBDC100DD44D9 /* ReactiveSwift.framework in Frameworks */,
-				6B8CF8CE1F9FBDC100DD44D9 /* Result.framework in Frameworks */,
+				6B8CF8F51FA0DE2500DD44D9 /* RxSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,6 +134,8 @@
 		6BE712811F9FB88400237C8E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6B8CF8F11FA0DE1300DD44D9 /* RxCocoa.framework */,
+				6B8CF8F21FA0DE1300DD44D9 /* RxSwift.framework */,
 				6B8CF8D11F9FC10B00DD44D9 /* ReactiveCocoa.framework */,
 				6BE712821F9FB88500237C8E /* ReactiveSwift.framework */,
 				6BE712831F9FB88500237C8E /* Result.framework */,
@@ -262,8 +262,7 @@
 			files = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/ReactiveSwift.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Result.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/RxSwift.framework",
 			);
 			name = Carthage;
 			outputPaths = (
@@ -278,9 +277,8 @@
 			files = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/ReactiveSwift.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Result.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/ReactiveCocoa.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/RxSwift.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/RxCocoa.framework",
 			);
 			name = Carthage;
 			outputPaths = (

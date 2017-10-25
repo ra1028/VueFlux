@@ -1,9 +1,10 @@
 import VueFlux
-import ReactiveSwift
+import RxSwift
+import RxCocoa
 
 extension Export where State == CounterViewModel {
-    var count: Property<Int> {
-        return .init(state.count)
+    var count: Observable<Int> {
+        return state.count.asObservable()
     }
 }
 
@@ -11,17 +12,17 @@ final class CounterViewModel: State {
     typealias Action = CounterAction
     typealias Mutations = CounterMutations
     
-    fileprivate let count = MutableProperty(0)
+    fileprivate let count = BehaviorRelay(value: 0)
 }
 
 struct CounterMutations: Mutations {
-    func commit(action: CounterViewModel.Action, state: CounterViewModel) {
+    func commit(action: CounterAction, state: CounterViewModel) {
         switch action {
         case .increment:
-            state.count.value += 1
-            
+            state.count.accept(state.count.value + 1)
+
         case .decrement:
-            state.count.value -= 1
+            state.count.accept(state.count.value - 1)
         }
     }
 }

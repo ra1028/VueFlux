@@ -1,5 +1,6 @@
+import Foundation
 import VueFlux
-import ReactiveSwift
+import RxSwift
 
 enum CounterAction {
     case increment
@@ -7,25 +8,17 @@ enum CounterAction {
 }
 
 extension Actions where Action == CounterAction {
-    func increment(after interval: TimeInterval = 0) -> Disposable? {
-        guard interval > 0 else {
-            dispatch(action: .increment)
-            return nil
-        }
-        
-        return QueueScheduler().schedule(after: .init(timeIntervalSinceNow: interval)) {
+    func increment(after interval: TimeInterval = 0) -> Disposable {
+        return SerialDispatchQueueScheduler(qos: .default).scheduleRelative((), dueTime: interval) {
             self.dispatch(action: .increment)
+            return Disposables.create()
         }
     }
     
-    func decrement(after interval: TimeInterval = 0) -> Disposable? {
-        guard interval > 0 else {
-            dispatch(action: .decrement)
-            return nil
-        }
-        
-        return QueueScheduler().schedule(after: .init(timeIntervalSinceNow: interval)) {
+    func decrement(after interval: TimeInterval = 0) -> Disposable {
+        return SerialDispatchQueueScheduler(qos: .default).scheduleRelative((), dueTime: interval) {
             self.dispatch(action: .decrement)
+            return Disposables.create()
         }
     }
 }
