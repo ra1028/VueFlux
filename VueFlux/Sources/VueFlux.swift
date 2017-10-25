@@ -14,7 +14,7 @@ public struct Dispatcher<Action> {
         observer.send(value: action)
     }
 
-    public func bind<State>(store: Store<State>, on scheduler: Scheduler) -> Disposable? where State.Action == Action {
+    public func register<State>(store: Store<State>, on scheduler: Scheduler) -> Disposable? where State.Action == Action {
         return signal
             .observe(on: scheduler)
             .observeValues { [weak store] action in store?.dispatch(action: action) }
@@ -38,7 +38,7 @@ public class Store<State: VueFlux.State> {
     public init(state: State, mutations: State.Mutations, scheduler: Scheduler = QueueScheduler()) {
         self.state = state
         self.mutations = mutations
-        self.disposable.inner.inner = dispatcher.bind(store: self, on: scheduler)
+        self.disposable.inner.inner = dispatcher.register(store: self, on: scheduler)
     }
 
     fileprivate func dispatch(action: State.Action) {
