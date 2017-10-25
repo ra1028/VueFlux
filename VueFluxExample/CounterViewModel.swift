@@ -7,22 +7,21 @@ extension Export where State == CounterViewModel {
     }
 }
 
-final class CounterViewModel: State, ReactiveExtensionsProvider {
+final class CounterViewModel: State {
     typealias Action = CounterAction
+    typealias Mutations = CounterMutations
     
     fileprivate let count = MutableProperty(0)
 }
 
-extension CounterViewModel {
-    struct Mutations: VueFlux.Mutations {
-        func commit(action: Action, state: CounterViewModel) {
-            switch action {
-            case .increment:
-                state.count.value += 1
-                
-            case .decrement:
-                state.count.value -= 1
-            }
+struct CounterMutations: Mutations {
+    func commit(action: CounterViewModel.Action, state: CounterViewModel) {
+        switch action {
+        case .increment:
+            state.count.value += 1
+            
+        case .decrement:
+            state.count.value -= 1
         }
     }
 }

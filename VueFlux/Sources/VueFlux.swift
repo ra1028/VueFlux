@@ -48,8 +48,9 @@ public class Store<State: VueFlux.State> {
 
 public protocol Mutations {
     associatedtype State: VueFlux.State
+    typealias Action = State.Action
 
-    func commit(action: State.Action, state: State)
+    func commit(action: Action, state: State)
 }
 
 public protocol State: class {
