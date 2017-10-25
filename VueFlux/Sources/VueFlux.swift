@@ -1,8 +1,8 @@
-import ReactiveSwift
-import enum Result.NoError
+import RxSwift
+import RxCocoa
 
 public struct Dispatcher<Action> {
-    private let (signal, observer) = Signal<Action, NoError>.pipe()
+    private let replay = PublishRelay<Action>()
     
     public var actions: Actions<Action> {
         return .init(dispatcher: self)
@@ -11,13 +11,13 @@ public struct Dispatcher<Action> {
     public init() {}
 
     public func dispatch(action: Action) {
-        observer.send(value: action)
+        replay.accept(action)
     }
 
-    public func register<State>(store: Store<State>, on scheduler: Scheduler) -> Disposable? where State.Action == Action {
-        return signal
-            .observe(on: scheduler)
-            .observeValues { [weak store] action in store?.dispatch(action: action) }
+    public func register<State>(store: Store<State>, on scheduler: ImmediateSchedulerType) -> Disposable where State.Action == Action {
+        return replay
+            .observeOn(scheduler)
+            .subscribe(onNext: { [weak store] action in store?.dispatch(action: action) })
     }
 }
 
@@ -25,7 +25,7 @@ public class Store<State: VueFlux.State> {
     private let state: State
     private let mutations: State.Mutations
     private let dispatcher = Dispatcher<State.Action>()
-    private let disposable = ScopedDisposable<SerialDisposable>(.init())
+    private let disposeBag = DisposeBag()
 
     public var actions: Actions<State.Action> {
         return dispatcher.actions
@@ -35,10 +35,10 @@ public class Store<State: VueFlux.State> {
         return .init(state: state)
     }
 
-    public init(state: State, mutations: State.Mutations, scheduler: Scheduler = QueueScheduler()) {
+    public init(state: State, mutations: State.Mutations, scheduler: ImmediateSchedulerType = SerialDispatchQueueScheduler(qos: .default)) {
         self.state = state
         self.mutations = mutations
-        self.disposable.inner.inner = dispatcher.register(store: self, on: scheduler)
+        dispatcher.register(store: self, on: scheduler).disposed(by: disposeBag)
     }
 
     fileprivate func dispatch(action: State.Action) {
@@ -48,9 +48,8 @@ public class Store<State: VueFlux.State> {
 
 public protocol Mutations {
     associatedtype State: VueFlux.State
-    typealias Action = State.Action
-
-    func commit(action: Action, state: State)
+    
+    func commit(action: State.Action, state: State)
 }
 
 public protocol State: class {
