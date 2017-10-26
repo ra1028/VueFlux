@@ -7,7 +7,7 @@ enum CounterAction {
     case decrement
 }
 
-extension Actions where Action == CounterAction {
+extension Actions where State == CounterViewModel {
     func increment(after interval: TimeInterval = 0) -> Disposable {
         return SerialDispatchQueueScheduler(qos: .default).scheduleRelative((), dueTime: interval) {
             self.dispatch(action: .increment)

@@ -1,20 +1,24 @@
 import RxSwift
 import RxCocoa
 
-public struct Dispatcher<Action> {
-    private let relay = PublishRelay<Action>()
+public struct Dispatcher<State: VueFlux.State> {
+    public static var shared: Dispatcher<State> {
+        return DispatcherContext.shared.dispatcher(for: State.self)
+    }
     
-    public var actions: Actions<Action> {
+    public var actions: Actions<State> {
         return .init(dispatcher: self)
     }
+    
+    private let relay = PublishRelay<State.Action>()
 
     public init() {}
 
-    public func dispatch(action: Action) {
+    public func dispatch(action: State.Action) {
         relay.accept(action)
     }
 
-    public func register<State>(store: Store<State>, on scheduler: ImmediateSchedulerType) -> Disposable where State.Action == Action {
+    public func register(store: Store<State>, on scheduler: ImmediateSchedulerType) -> Disposable {
         return relay
             .observeOn(scheduler)
             .subscribe(onNext: { [weak store] action in store?.dispatch(action: action) })
@@ -24,25 +28,22 @@ public struct Dispatcher<Action> {
 public class Store<State: VueFlux.State> {
     private let state: State
     private let mutations: State.Mutations
-    private let dispatcher = Dispatcher<State.Action>()
+    private let dispatcher = Dispatcher<State>()
     private let disposeBag = DisposeBag()
 
-    public var actions: Actions<State.Action> {
-        return dispatcher.actions
-    }
-    
-    public var export: Export<State> {
-        return .init(state: state)
-    }
+    public lazy var actions: Actions<State> = dispatcher.actions
+    public lazy var export: Export<State> = .init(state: state)
 
     public init(state: State, mutations: State.Mutations, scheduler: ImmediateSchedulerType = SerialDispatchQueueScheduler(qos: .default)) {
         self.state = state
         self.mutations = mutations
+        
         dispatcher.register(store: self, on: scheduler).disposed(by: disposeBag)
+        Dispatcher<State>.shared.register(store: self, on: scheduler).disposed(by: disposeBag)
     }
 
     fileprivate func dispatch(action: State.Action) {
-        self.mutations.commit(action: action, state: state)
+        mutations.commit(action: action, state: state)
     }
 }
 
@@ -57,16 +58,14 @@ public protocol State: class {
     associatedtype Mutations: VueFlux.Mutations where Mutations.State == Self
 }
 
-public struct Actions<Action> {
-    public typealias Dispatcher = VueFlux.Dispatcher<Action>
+public struct Actions<State: VueFlux.State> {
+    private let dispatcher: Dispatcher<State>
 
-    private let dispatcher: Dispatcher
-
-    fileprivate init(dispatcher: Dispatcher) {
+    fileprivate init(dispatcher: Dispatcher<State>) {
         self.dispatcher = dispatcher
     }
 
-    public func dispatch(action: Action) {
+    public func dispatch(action: State.Action) {
         dispatcher.dispatch(action: action)
     }
 }
@@ -76,5 +75,61 @@ public struct Export<State: VueFlux.State> {
     
     fileprivate init(state: State) {
         self.state = state
+    }
+}
+
+// MARK: - private
+
+private struct DispatcherContext {
+    struct Identifier: Hashable {
+        let hashValue: Int
+        
+        init<State: VueFlux.State>(type: State.Type) {
+            hashValue = String(reflecting: type).hashValue
+        }
+        
+        static func ==(lhs: Identifier, rhs: Identifier) -> Bool {
+            return lhs.hashValue == rhs.hashValue
+        }
+    }
+    
+    static let shared = DispatcherContext()
+    
+    private var dispatchers = Atomic<[Identifier: Any]>(value: [:])
+    
+    private init() {}
+    
+    func dispatcher<State: VueFlux.State>(for type: State.Type) -> Dispatcher<State> {
+        return dispatchers.modify { dispatchers in
+            let identifier = Identifier(type: type)
+            if let dispatcher = dispatchers[identifier] as? Dispatcher<State> {
+                return dispatcher
+            }
+            
+            let dispatcher = Dispatcher<State>()
+            dispatchers[identifier] = dispatcher
+            return dispatcher
+        }
+    }
+}
+
+private final class Atomic<Value> {
+    private let lock = NSLock()
+    private var innerValue: Value
+    
+    var value: Value {
+        get { return modify { $0 } }
+        set { modify { $0 = newValue } }
+    }
+    
+    init(value: Value) {
+        innerValue = value
+    }
+    
+    @discardableResult
+    func modify<Result>(_ action: (inout Value) throws -> Result) rethrows -> Result {
+        lock.lock()
+        defer { lock.unlock() }
+        return try action(&innerValue)
     }
 }
