@@ -81,18 +81,6 @@ public struct Export<State: VueFlux.State> {
 // MARK: - private
 
 private struct DispatcherContext {
-    struct Identifier: Hashable {
-        let hashValue: Int
-        
-        init<State: VueFlux.State>(type: State.Type) {
-            hashValue = String(reflecting: type).hashValue
-        }
-        
-        static func ==(lhs: Identifier, rhs: Identifier) -> Bool {
-            return lhs.hashValue == rhs.hashValue
-        }
-    }
-    
     static let shared = DispatcherContext()
     
     private var dispatchers = Atomic<[Identifier: Any]>(value: [:])
@@ -109,6 +97,20 @@ private struct DispatcherContext {
             let dispatcher = Dispatcher<State>()
             dispatchers[identifier] = dispatcher
             return dispatcher
+        }
+    }
+}
+
+extension DispatcherContext {
+    private struct Identifier: Hashable {
+        let hashValue: Int
+        
+        init<State: VueFlux.State>(type: State.Type) {
+            hashValue = String(reflecting: type).hashValue
+        }
+        
+        static func ==(lhs: Identifier, rhs: Identifier) -> Bool {
+            return lhs.hashValue == rhs.hashValue
         }
     }
 }
