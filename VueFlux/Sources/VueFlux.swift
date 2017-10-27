@@ -8,7 +8,7 @@ public struct Dispatcher<State: VueFlux.State> {
     
     private let relay = PublishRelay<State.Action>()
 
-    public init() {}
+    fileprivate init() {}
 
     public func dispatch(action: State.Action) {
         relay.accept(action)
