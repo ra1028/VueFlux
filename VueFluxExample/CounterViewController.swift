@@ -34,7 +34,7 @@ private extension CounterViewController {
             .bind(to: intervalLabel.rx.text)
             .disposed(by: disposeBag)
         
-        store.export.count
+        store.expose.count
             .map(String.init(_:))
             .bind(to: countLabel.rx.text)
             .disposed(by: disposeBag)

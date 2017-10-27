@@ -32,7 +32,7 @@ public class Store<State: VueFlux.State> {
     private let disposeBag = DisposeBag()
 
     public lazy var actions: Actions<State> = dispatcher.actions
-    public lazy var export: Export<State> = .init(state: state)
+    public lazy var expose: Expose<State> = .init(state: state)
 
     public init(state: State, mutations: State.Mutations, scheduler: ImmediateSchedulerType = SerialDispatchQueueScheduler(qos: .default)) {
         self.state = state
@@ -70,7 +70,7 @@ public struct Actions<State: VueFlux.State> {
     }
 }
 
-public struct Export<State: VueFlux.State> {
+public struct Expose<State: VueFlux.State> {
     public let state: State
     
     fileprivate init(state: State) {

@@ -2,7 +2,7 @@ import VueFlux
 import RxSwift
 import RxCocoa
 
-extension Export where State == CounterViewModel {
+extension Expose where State == CounterViewModel {
     var count: Observable<Int> {
         return state.count.asObservable()
     }
