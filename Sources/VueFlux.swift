@@ -1,11 +1,8 @@
-import RxSwift
-import RxCocoa
-
 public class Store<State: VueFlux.State> {
     private let state: State
     private let mutations: State.Mutations
     private let dispatcher = Dispatcher<State>()
-    private let disposeBag = DisposeBag()
+//    private let disposeBag = DisposeBag()
 
     public static var actions: Actions<State> {
         return .init(dispatcher: Dispatcher<State>.shared)
@@ -14,12 +11,13 @@ public class Store<State: VueFlux.State> {
     public lazy var actions: Actions<State> = .init(dispatcher: dispatcher)
     public lazy var expose: Expose<State> = .init(state: state)
 
-    public init(state: State, mutations: State.Mutations, scheduler: ImmediateSchedulerType = SerialDispatchQueueScheduler(qos: .default)) {
+//    public init(state: State, mutations: State.Mutations, scheduler: ImmediateSchedulerType = SerialDispatchQueueScheduler(qos: .default)) {
+        public init(state: State, mutations: State.Mutations) {
         self.state = state
         self.mutations = mutations
         
-        dispatcher.register(store: self, on: scheduler).disposed(by: disposeBag)
-        Dispatcher<State>.shared.register(store: self, on: scheduler).disposed(by: disposeBag)
+//        dispatcher.register(store: self, on: scheduler).disposed(by: disposeBag)
+//        Dispatcher<State>.shared.register(store: self, on: scheduler).disposed(by: disposeBag)
     }
 
     fileprivate func dispatch(action: State.Action) {
@@ -65,32 +63,32 @@ private struct Dispatcher<State: VueFlux.State> {
         return DispatcherContext.shared.dispatcher(for: State.self)
     }
     
-    private let relay = PublishRelay<State.Action>()
+//    private let relay = PublishRelay<State.Action>()
     
     init() {}
     
     func dispatch(action: State.Action) {
-        relay.accept(action)
+//        relay.accept(action)
     }
     
-    func register(store: Store<State>, on scheduler: ImmediateSchedulerType) -> Disposable {
-        return relay
-            .observeOn(scheduler)
-            .subscribe(onNext: { [weak store] action in store?.dispatch(action: action) })
-    }
+//    func register(store: Store<State>, on scheduler: ImmediateSchedulerType) -> Disposable {
+//        return relay
+//            .observeOn(scheduler)
+//            .subscribe(onNext: { [weak store] action in store?.dispatch(action: action) })
+//    }
 }
 
 private final class DispatcherContext {
     static let shared = DispatcherContext()
     
     private var dispatchers = [Identifier: Any]()
-    private let lock = NSLock()
+//    private let lock = NSLock()
     
     private init() {}
     
     func dispatcher<State: VueFlux.State>(for stateType: State.Type) -> Dispatcher<State> {
-        lock.lock()
-        defer { lock.unlock() }
+//        lock.lock()
+//        defer { lock.unlock() }
         
         let identifier = Identifier(for: stateType)
         if let dispatcher = dispatchers[identifier] as? Dispatcher<State> {

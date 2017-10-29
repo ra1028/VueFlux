@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6BE712461F9FB5C500237C8E"
-               BuildableName = "VueFluxExample.app"
-               BlueprintName = "VueFluxExample"
-               ReferencedContainer = "container:VueFlux.xcodeproj">
+               BlueprintIdentifier = "6B9E32A91FA63CE3000B24D4"
+               BuildableName = "RxExample.app"
+               BlueprintName = "RxExample"
+               ReferencedContainer = "container:RxExample.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,10 +33,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6BE712461F9FB5C500237C8E"
-            BuildableName = "VueFluxExample.app"
-            BlueprintName = "VueFluxExample"
-            ReferencedContainer = "container:VueFlux.xcodeproj">
+            BlueprintIdentifier = "6B9E32A91FA63CE3000B24D4"
+            BuildableName = "RxExample.app"
+            BlueprintName = "RxExample"
+            ReferencedContainer = "container:RxExample.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -57,10 +57,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6BE712461F9FB5C500237C8E"
-            BuildableName = "VueFluxExample.app"
-            BlueprintName = "VueFluxExample"
-            ReferencedContainer = "container:VueFlux.xcodeproj">
+            BlueprintIdentifier = "6B9E32A91FA63CE3000B24D4"
+            BuildableName = "RxExample.app"
+            BlueprintName = "RxExample"
+            ReferencedContainer = "container:RxExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -76,10 +76,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6BE712461F9FB5C500237C8E"
-            BuildableName = "VueFluxExample.app"
-            BlueprintName = "VueFluxExample"
-            ReferencedContainer = "container:VueFlux.xcodeproj">
+            BlueprintIdentifier = "6B9E32A91FA63CE3000B24D4"
+            BuildableName = "RxExample.app"
+            BlueprintName = "RxExample"
+            ReferencedContainer = "container:RxExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
