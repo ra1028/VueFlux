@@ -4,7 +4,7 @@ public class Store<State: VueFlux.State> {
     private let state: State
     private let mutations: State.Mutations
     private let dispatcher = Dispatcher<State>()
-    private var disposables = ContiguousArray<Dispatcher<State>.Disposable>()
+    private let disposableScope = Dispatcher<State>.Disposable.Scope()
 
     public static var actions: Actions<State> {
         return .init(dispatcher: Dispatcher<State>.shared)
@@ -18,14 +18,8 @@ public class Store<State: VueFlux.State> {
         self.state = state
         self.mutations = mutations
         
-        disposables.append(dispatcher.subscribe(store: self))
-        disposables.append(Dispatcher<State>.shared.subscribe(store: self))
-    }
-    
-    deinit {
-        for disposable in disposables {
-            disposable.dispose()
-        }
+        disposableScope += dispatcher.subscribe(store: self)
+        disposableScope += Dispatcher<State>.shared.subscribe(store: self)
     }
 
     fileprivate func dispatch(action: State.Action) {
@@ -64,69 +58,73 @@ public struct Expose<State: VueFlux.State> {
     }
 }
 
-// MARK: - private
+// MARK: - Private
 
 private final class Dispatcher<State: VueFlux.State> {
+    private typealias Entry = (key: Key, store: Store<State>, disposable: Disposable)
+    private typealias Buffer = (nextKey: Key, entries: ContiguousArray<Entry>)
+    
     static var shared: Dispatcher<State> {
         return DispatcherContext.shared.dispatcher(for: State.self)
     }
     
-    private let storage = Atomic(Storage())
+    private let buffer = Atomic<Buffer>((nextKey: Key.first, entries: []))
     
     init() {}
     
     func dispatch(action: State.Action) {
-        storage.synchronized { storage in
-            storage.forEach { store in
-                store.dispatch(action: action)
+        buffer.synchronized { buffer in
+            for entry in buffer.entries {
+                entry.store.dispatch(action: action)
             }
         }
     }
     
     func subscribe(store: Store<State>) -> Disposable {//, on scheduler: ImmediateSchedulerType) -> Disposable {
-        let key = storage.modify { $0.add(store: store) }
-        return .init{ [weak self] in
-            self?.storage.modify { $0.remove(for: key) }
+        return buffer.modify { buffer in
+            let key = buffer.nextKey
+            buffer.nextKey = key.next
+            
+            let disposable = Disposable { [weak self] in
+                guard let `self` = self else { return }
+                
+                self.buffer.modify { buffer in
+                    for index in buffer.entries.startIndex..<buffer.entries.endIndex where buffer.entries[index].key == key {
+                        buffer.entries.remove(at: index)
+                        break
+                    }
+                }
+            }
+            
+            buffer.entries.append((key: key, store: store, disposable: disposable))
+            return disposable
         }
     }
 }
 
 private extension Dispatcher {
-    struct Storage {
-        private typealias Pair = (key: Key, store: Store<State>)
+    struct Key: Equatable {
+        private let value: UInt64
         
-        private var buffer = ContiguousArray<Pair>()
-        private var nextKey = Key.first
-        
-        mutating func add(store: Store<State>) -> Key {
-            let key = nextKey
-            nextKey = key.next
-            buffer.append((key: key, store: store))
-            return key
+        fileprivate static var first: Key {
+            return .init(value: 0)
         }
         
-        mutating func remove(for key: Key) {
-            for index in self.buffer.startIndex..<self.buffer.endIndex where self.buffer[index].key == key {
-                self.buffer.remove(at: index)
-                break
-            }
+        fileprivate var next: Key {
+            return .init(value: value &+ 1)
         }
         
-        func forEach(_ body: (Store<State>) -> Void) {
-            for pair in buffer {
-                body(pair.store)
-            }
+        static func == (lhs: Key, rhs: Key) -> Bool {
+            return lhs.value == rhs.value
         }
     }
-}
-
-private extension Dispatcher {
+    
     final class Disposable {
         private let state = UnsafeMutablePointer<Int32>.allocate(capacity: 1)
         private var action: (() -> Void)?
         
         var isDisposed: Bool {
-            return state.pointee == 0
+            return state.pointee == 1
         }
         
         init(_ action: @escaping () -> Void) {
@@ -140,28 +138,27 @@ private extension Dispatcher {
         }
         
         func dispose() {
-            if OSAtomicCompareAndSwap32Barrier(0, 1, state) {
-                action?()
-                action = nil
-            }
+            guard OSAtomicCompareAndSwap32Barrier(0, 1, state) else { return }
+            action?()
+            action = nil
         }
     }
 }
 
-private extension Dispatcher.Storage {
-    struct Key: Equatable {
-        private let rawValue: UInt64
+private extension Dispatcher.Disposable {
+    final class Scope {
+        private var disposables = Atomic(ContiguousArray<Dispatcher.Disposable>())
         
-        fileprivate static var first: Key {
-            return .init(rawValue: 0)
+        static func += (scope: Dispatcher.Disposable.Scope, disposable: Dispatcher.Disposable) {
+            scope.disposables.modify { $0.append(disposable) }
         }
         
-        fileprivate var next: Key {
-            return .init(rawValue: rawValue &+ 1)
-        }
-        
-        static func == (lhs: Key, rhs: Key) -> Bool {
-            return lhs.rawValue == rhs.rawValue
+        deinit {
+            disposables.synchronized { disposables in
+                for disposable in disposables {
+                    disposable.dispose()
+                }
+            }
         }
     }
 }
@@ -211,11 +208,6 @@ private final class Atomic<Value> {
             return PosixThreadMutex()
         }
     }()
-    
-    var value: Value {
-        get { return modify { $0 } }
-        set { modify { $0 = newValue } }
-    }
     
     public init(_ value: Value) {
         innerValue = value
