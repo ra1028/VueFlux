@@ -9,13 +9,14 @@
 /* Begin PBXBuildFile section */
 		6B1685511FA6489500FCDC62 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B16854F1FA6489400FCDC62 /* RxSwift.framework */; };
 		6B1685521FA6489500FCDC62 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B1685501FA6489500FCDC62 /* RxCocoa.framework */; };
+		6B1685661FA65EA600FCDC62 /* VueFlux.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B1685651FA65EA600FCDC62 /* VueFlux.framework */; };
+		6B1685671FA65EA600FCDC62 /* VueFlux.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6B1685651FA65EA600FCDC62 /* VueFlux.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6B9E32B51FA63CE3000B24D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B9E32B41FA63CE3000B24D4 /* Assets.xcassets */; };
 		6B9E32C41FA63D4E000B24D4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9E32C01FA63D4E000B24D4 /* AppDelegate.swift */; };
 		6B9E32D01FA6400B000B24D4 /* CounterViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B9E32CF1FA64006000B24D4 /* CounterViewController.storyboard */; };
 		6B9E32D61FA64305000B24D4 /* CounterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9E32D31FA64305000B24D4 /* CounterViewController.swift */; };
 		6B9E32D71FA64305000B24D4 /* CounterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9E32D41FA64305000B24D4 /* CounterViewModel.swift */; };
 		6B9E32D81FA64305000B24D4 /* CounterActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9E32D51FA64305000B24D4 /* CounterActions.swift */; };
-		6B9E32DF1FA6437C000B24D4 /* VueFlux.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B9E32E01FA6437C000B24D4 /* VueFlux.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +26,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				6B1685671FA65EA600FCDC62 /* VueFlux.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -34,6 +36,7 @@
 /* Begin PBXFileReference section */
 		6B16854F1FA6489400FCDC62 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Carthage/Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
 		6B1685501FA6489500FCDC62 /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxCocoa.framework; path = Carthage/Build/iOS/RxCocoa.framework; sourceTree = "<group>"; };
+		6B1685651FA65EA600FCDC62 /* VueFlux.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = VueFlux.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B9E32AA1FA63CE3000B24D4 /* RxExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RxExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B9E32B41FA63CE3000B24D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6B9E32B91FA63CE3000B24D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -42,7 +45,6 @@
 		6B9E32D31FA64305000B24D4 /* CounterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterViewController.swift; sourceTree = "<group>"; };
 		6B9E32D41FA64305000B24D4 /* CounterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterViewModel.swift; sourceTree = "<group>"; };
 		6B9E32D51FA64305000B24D4 /* CounterActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterActions.swift; sourceTree = "<group>"; };
-		6B9E32E01FA6437C000B24D4 /* VueFlux.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = VueFlux.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,7 +52,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6B9E32DF1FA6437C000B24D4 /* VueFlux.framework in Frameworks */,
+				6B1685661FA65EA600FCDC62 /* VueFlux.framework in Frameworks */,
 				6B1685511FA6489500FCDC62 /* RxSwift.framework in Frameworks */,
 				6B1685521FA6489500FCDC62 /* RxCocoa.framework in Frameworks */,
 			);
@@ -63,8 +65,9 @@
 			isa = PBXGroup;
 			children = (
 				6B9E32AC1FA63CE3000B24D4 /* RxExample */,
-				6B9E32AB1FA63CE3000B24D4 /* Products */,
 				6B9E32C71FA63DD8000B24D4 /* Frameworks */,
+				6B9E32AB1FA63CE3000B24D4 /* Products */,
+				6B1685651FA65EA600FCDC62 /* VueFlux.framework */,
 			);
 			sourceTree = "<group>";
 		};
@@ -95,7 +98,6 @@
 			children = (
 				6B1685501FA6489500FCDC62 /* RxCocoa.framework */,
 				6B16854F1FA6489400FCDC62 /* RxSwift.framework */,
-				6B9E32E01FA6437C000B24D4 /* VueFlux.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -313,6 +315,7 @@
 		6B9E32BD1FA63CE3000B24D4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -331,6 +334,7 @@
 		6B9E32BE1FA63CE3000B24D4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
