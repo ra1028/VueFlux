@@ -2,13 +2,13 @@ import VueFlux
 import RxSwift
 import RxCocoa
 
-extension Expose where State == CounterViewModel {
+extension Expose where State == CounterState {
     var count: Observable<Int> {
         return state.count.asObservable()
     }
 }
 
-final class CounterViewModel: State {
+final class CounterState: State {
     typealias Action = CounterAction
     typealias Mutations = CounterMutations
     
@@ -16,7 +16,7 @@ final class CounterViewModel: State {
 }
 
 struct CounterMutations: Mutations {
-    func commit(action: CounterAction, state: CounterViewModel) {
+    func commit(action: CounterAction, state: CounterState) {
         switch action {
         case .increment:
             state.count.accept(state.count.value + 1)

@@ -7,7 +7,7 @@ enum CounterAction {
     case decrement
 }
 
-extension Actions where State == CounterViewModel {
+extension Actions where State == CounterState {
     func incrementAcync(after interval: TimeInterval = 0) {
         DispatchQueue.global(qos: .default).asyncAfter(deadline: .now() + interval) {
             self.dispatch(action: .increment)
