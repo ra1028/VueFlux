@@ -120,20 +120,20 @@ private extension Executer {
 }
 
 private final class Dispatcher<State: VueFlux.State> {
-    private typealias Entry = (key: Key, observer: (State.Action) -> Void)
-    private typealias Buffer = (nextKey: Key, entries: ContiguousArray<Entry>)
+    private typealias Subscription = (key: Key, observer: (State.Action) -> Void)
+    private typealias Buffer = (nextKey: Key, subscriptions: ContiguousArray<Subscription>)
     
     static var shared: Dispatcher<State> {
         return DispatcherContext.shared.dispatcher(for: State.self)
     }
     
-    private let buffer = Atomic<Buffer>((nextKey: Key.first, entries: []))
+    private let buffer = Atomic<Buffer>((nextKey: Key.first, subscriptions: []))
     
     init() {}
     
     func dispatch(action: State.Action) {
         buffer.synchronized { buffer in
-            for entry in buffer.entries {
+            for entry in buffer.subscriptions {
                 entry.observer(action)
             }
         }
@@ -155,7 +155,7 @@ private final class Dispatcher<State: VueFlux.State> {
                 }
             }
             
-            buffer.entries.append((key: key, observer: observer))
+            buffer.subscriptions.append((key: key, observer: observer))
             return disposable
         }
     }
@@ -163,8 +163,8 @@ private final class Dispatcher<State: VueFlux.State> {
     @inline(__always)
     private func unsubscribe(for key: Key) {
         buffer.modify { buffer in
-            for index in buffer.entries.startIndex..<buffer.entries.endIndex where buffer.entries[index].key == key {
-                buffer.entries.remove(at: index)
+            for index in buffer.subscriptions.startIndex..<buffer.subscriptions.endIndex where buffer.subscriptions[index].key == key {
+                buffer.subscriptions.remove(at: index)
                 break
             }
         }
@@ -216,23 +216,21 @@ private extension Dispatcher {
 
 private extension Dispatcher.Disposable {
     final class Scope {
-        private var disposables = Atomic(ContiguousArray<Dispatcher.Disposable>())
+        private var disposables = ContiguousArray<Dispatcher.Disposable>()
         
         static func += (scope: Dispatcher.Disposable.Scope, disposable: Dispatcher.Disposable) {
-            scope.disposables.modify { $0.append(disposable) }
+            scope.disposables.append(disposable)
         }
         
         deinit {
-            disposables.synchronized { disposables in
-                for disposable in disposables {
-                    disposable.dispose()
-                }
+            for disposable in disposables {
+                disposable.dispose()
             }
         }
     }
 }
 
-private final class DispatcherContext {
+private struct DispatcherContext {
     static let shared = DispatcherContext()
     
     private var dispatchers = Atomic([Identifier: Any]())
