@@ -12,8 +12,7 @@ public class Store<State: VueFlux.State> {
     
     public lazy var actions: Actions<State> = .init(dispatcher: dispatcher)
     public lazy var expose: Expose<State> = .init(state: state)
-
-//    public init(state: State, mutations: State.Mutations, scheduler: ImmediateSchedulerType = SerialDispatchQueueScheduler(qos: .default)) {
+    
     public init(state: State, mutations: State.Mutations, executer: Executer) {
         self.state = state
         self.mutations = mutations
@@ -58,24 +57,34 @@ public struct Expose<State: VueFlux.State> {
     }
 }
 
-public enum Executer {
-    case immediate
-    case mainThread
-    case queue(DispatchQueue)
+public struct Executer {
+    public static var immediate: Executer {
+        return .init { action in
+            action()
+        }
+    }
     
-    private static let mainThreadInnerExecuter = MainThreadInnerExecuter()
+    public static var mainThread: Executer {
+        let innerExecuter = MainThreadInnerExecuter()
+        return .init { action in
+            innerExecuter.execute(action)
+        }
+    }
+    
+    public static func queue(_ dispatchQueue: DispatchQueue) -> Executer {
+        return .init { action in
+            dispatchQueue.async(execute: action)
+        }
+    }
+    
+    private let executer: (@escaping () -> Void) -> Void
+    
+    private init(_ executer: @escaping (@escaping () -> Void) -> Void) {
+        self.executer = executer
+    }
     
     public func execute(_ action: @escaping () -> Void) {
-        switch self {
-        case .immediate:
-            action()
-            
-        case .mainThread:
-            Executer.mainThreadInnerExecuter.execute(action)
-            
-        case .queue(let queue):
-            queue.async(execute: action)
-        }
+        executer(action)
     }
 }
 
