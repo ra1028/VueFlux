@@ -8,17 +8,15 @@ enum CounterAction {
 }
 
 extension Actions where State == CounterViewModel {
-    func increment(after interval: TimeInterval = 0) -> Disposable {
-        return SerialDispatchQueueScheduler(qos: .default).scheduleRelative((), dueTime: interval) {
+    func incrementAcync(after interval: TimeInterval = 0) {
+        DispatchQueue.global(qos: .default).asyncAfter(deadline: .now() + interval) {
             self.dispatch(action: .increment)
-            return Disposables.create()
         }
     }
     
-    func decrement(after interval: TimeInterval = 0) -> Disposable {
-        return SerialDispatchQueueScheduler(qos: .default).scheduleRelative((), dueTime: interval) {
+    func decrementAcync(after interval: TimeInterval = 0) {
+        DispatchQueue.global(qos: .default).asyncAfter(deadline: .now() + interval) {
             self.dispatch(action: .decrement)
-            return Disposables.create()
         }
     }
 }

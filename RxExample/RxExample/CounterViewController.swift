@@ -10,7 +10,7 @@ final class CounterViewController: UIViewController {
     @IBOutlet private weak var intervalLabel: UILabel!
     @IBOutlet private weak var countLabel: UILabel!
     
-    private let store = Store<CounterViewModel>(state: .init(), mutations: .init())
+    private let store = Store<CounterViewModel>(state: .init(), mutations: .init(), executer: .mainThread)
     private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -22,8 +22,6 @@ final class CounterViewController: UIViewController {
 private extension CounterViewController {
     func configure() {
         let interval = BehaviorRelay<Double>(value: 0)
-        let countDisposable = SerialDisposable()
-        countDisposable.disposed(by: disposeBag)
         
         stepper.rx.value
             .subscribe(onNext: interval.accept(_:))
@@ -41,13 +39,13 @@ private extension CounterViewController {
             
         incrementButton.rx.controlEvent(.touchUpInside)
             .subscribe(onNext: { [unowned self] _ in
-                countDisposable.disposable = self.store.actions.increment(after: interval.value)
+                self.store.actions.incrementAcync(after: interval.value)
             })
             .disposed(by: disposeBag)
         
         decrementButton.rx.controlEvent(.touchUpInside)
             .subscribe(onNext: { [unowned self] _ in
-                countDisposable.disposable = self.store.actions.decrement(after: interval.value)
+                self.store.actions.decrementAcync(after: interval.value)
             })
             .disposed(by: disposeBag)
     }

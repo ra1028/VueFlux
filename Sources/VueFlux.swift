@@ -14,28 +14,28 @@ public class Store<State: VueFlux.State> {
     public lazy var expose: Expose<State> = .init(state: state)
 
 //    public init(state: State, mutations: State.Mutations, scheduler: ImmediateSchedulerType = SerialDispatchQueueScheduler(qos: .default)) {
-    public init(state: State, mutations: State.Mutations) {
+    public init(state: State, mutations: State.Mutations, executer: Executer) {
         self.state = state
         self.mutations = mutations
         
-        disposableScope += dispatcher.subscribe(store: self)
-        disposableScope += Dispatcher<State>.shared.subscribe(store: self)
+        disposableScope += dispatcher.subscribe(store: self, executer: executer)
+        disposableScope += Dispatcher<State>.shared.subscribe(store: self, executer: executer)
     }
-
+    
     fileprivate func dispatch(action: State.Action) {
         mutations.commit(action: action, state: state)
     }
+}
+
+public protocol State: class {
+    associatedtype Action
+    associatedtype Mutations: VueFlux.Mutations where Mutations.State == Self
 }
 
 public protocol Mutations {
     associatedtype State: VueFlux.State
     
     func commit(action: State.Action, state: State)
-}
-
-public protocol State: class {
-    associatedtype Action
-    associatedtype Mutations: VueFlux.Mutations where Mutations.State == Self
 }
 
 public struct Actions<State: VueFlux.State> {
@@ -58,10 +58,60 @@ public struct Expose<State: VueFlux.State> {
     }
 }
 
+public enum Executer {
+    case immediate
+    case mainThread
+    case queue(DispatchQueue)
+    
+    private static let mainThreadInnerExecuter = MainThreadInnerExecuter()
+    
+    public func execute(_ action: @escaping () -> Void) {
+        switch self {
+        case .immediate:
+            action()
+            
+        case .mainThread:
+            Executer.mainThreadInnerExecuter.execute(action)
+            
+        case .queue(let queue):
+            queue.async(execute: action)
+        }
+    }
+}
+
 // MARK: - Private
 
+private extension Executer {
+    final class MainThreadInnerExecuter {
+        let executingCount: UnsafeMutablePointer<Int32> = {
+            let memory = UnsafeMutablePointer<Int32>.allocate(capacity: 1)
+            memory.initialize(to: 0)
+            return memory
+        }()
+        
+        deinit {
+            executingCount.deinitialize()
+            executingCount.deallocate(capacity: 1)
+        }
+        
+        func execute(_ action: @escaping () -> Void) {
+            let count = OSAtomicIncrement32(executingCount)
+            
+            if Thread.isMainThread && count == 1 {
+                action()
+                OSAtomicDecrement32(executingCount)
+            } else {
+                DispatchQueue.main.async {
+                    action()
+                    OSAtomicDecrement32(self.executingCount)
+                }
+            }
+        }
+    }
+}
+
 private final class Dispatcher<State: VueFlux.State> {
-    private typealias Entry = (key: Key, store: Store<State>, disposable: Disposable)
+    private typealias Entry = (key: Key, observer: (State.Action) -> Void)
     private typealias Buffer = (nextKey: Key, entries: ContiguousArray<Entry>)
     
     static var shared: Dispatcher<State> {
@@ -75,29 +125,39 @@ private final class Dispatcher<State: VueFlux.State> {
     func dispatch(action: State.Action) {
         buffer.synchronized { buffer in
             for entry in buffer.entries {
-                entry.store.dispatch(action: action)
+                entry.observer(action)
             }
         }
     }
     
-    func subscribe(store: Store<State>) -> Disposable {//, on scheduler: ImmediateSchedulerType) -> Disposable {
+    func subscribe(store: Store<State>, executer: Executer) -> Disposable {
         return buffer.modify { buffer in
             let key = buffer.nextKey
             buffer.nextKey = key.next
             
             let disposable = Disposable { [weak self] in
-                guard let `self` = self else { return }
-                
-                self.buffer.modify { buffer in
-                    for index in buffer.entries.startIndex..<buffer.entries.endIndex where buffer.entries[index].key == key {
-                        buffer.entries.remove(at: index)
-                        break
-                    }
+                self?.unsubscribe(for: key)
+            }
+            
+            let observer: (State.Action) -> Void = { [weak store] action in
+                executer.execute {
+                    guard !disposable.isDisposed else { return }
+                    store?.dispatch(action: action)
                 }
             }
             
-            buffer.entries.append((key: key, store: store, disposable: disposable))
+            buffer.entries.append((key: key, observer: observer))
             return disposable
+        }
+    }
+    
+    @inline(__always)
+    private func unsubscribe(for key: Key) {
+        buffer.modify { buffer in
+            for index in buffer.entries.startIndex..<buffer.entries.endIndex where buffer.entries[index].key == key {
+                buffer.entries.remove(at: index)
+                break
+            }
         }
     }
 }
@@ -186,7 +246,7 @@ private final class DispatcherContext {
 }
 
 private extension DispatcherContext {
-    private struct Identifier: Hashable {
+    struct Identifier: Hashable {
         let hashValue: Int
         
         init<State: VueFlux.State>(for stateType: State.Type) {
