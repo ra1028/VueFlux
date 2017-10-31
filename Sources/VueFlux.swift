@@ -5,7 +5,7 @@ public class Store<State: VueFlux.State> {
     private let mutations: State.Mutations
     private let dispatcher = Dispatcher<State>()
     private let disposableScope = Dispatcher<State>.Disposable.Scope()
-
+    
     public static var actions: Actions<State> {
         return .init(dispatcher: Dispatcher<State>.shared)
     }
@@ -59,21 +59,19 @@ public struct Expose<State: VueFlux.State> {
 
 public struct Executer {
     public static var immediate: Executer {
-        return .init { action in
-            action()
+        return .init { execute in
+            execute()
         }
     }
     
     public static var mainThread: Executer {
         let innerExecuter = MainThreadInnerExecuter()
-        return .init { action in
-            innerExecuter.execute(action)
-        }
+        return .init(innerExecuter.execute(_:))
     }
     
     public static func queue(_ dispatchQueue: DispatchQueue) -> Executer {
-        return .init { action in
-            dispatchQueue.async(execute: action)
+        return .init { execute in
+            dispatchQueue.async(execute: execute)
         }
     }
     
@@ -83,8 +81,8 @@ public struct Executer {
         self.executer = executer
     }
     
-    public func execute(_ action: @escaping () -> Void) {
-        executer(action)
+    public func execute(_ body: @escaping () -> Void) {
+        executer(body)
     }
 }
 
@@ -92,7 +90,7 @@ public struct Executer {
 
 private extension Executer {
     final class MainThreadInnerExecuter {
-        let executingCount: UnsafeMutablePointer<Int32> = {
+        private let executingCount: UnsafeMutablePointer<Int32> = {
             let memory = UnsafeMutablePointer<Int32>.allocate(capacity: 1)
             memory.initialize(to: 0)
             return memory
@@ -175,12 +173,16 @@ private extension Dispatcher {
     struct Key: Equatable {
         private let value: UInt64
         
-        fileprivate static var first: Key {
+        static var first: Key {
             return .init(value: 0)
         }
         
-        fileprivate var next: Key {
+        var next: Key {
             return .init(value: value &+ 1)
+        }
+        
+        private init(value: UInt64) {
+            self.value = value
         }
         
         static func == (lhs: Key, rhs: Key) -> Bool {
@@ -235,7 +237,6 @@ private struct DispatcherContext {
     
     private var dispatchers = Atomic([Identifier: Any]())
     
-    
     private init() {}
     
     func dispatcher<State: VueFlux.State>(for stateType: State.Type) -> Dispatcher<State> {
@@ -260,7 +261,7 @@ private extension DispatcherContext {
             hashValue = String(reflecting: stateType).hashValue
         }
         
-        static func ==(lhs: Identifier, rhs: Identifier) -> Bool {
+        static func == (lhs: Identifier, rhs: Identifier) -> Bool {
             return lhs.hashValue == rhs.hashValue
         }
     }
@@ -276,7 +277,7 @@ private final class Atomic<Value> {
         }
     }()
     
-    public init(_ value: Value) {
+    init(_ value: Value) {
         innerValue = value
     }
     
