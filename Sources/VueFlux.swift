@@ -4,7 +4,7 @@ public class Store<State: VueFlux.State> {
     private let state: State
     private let mutations: State.Mutations
     private let dispatcher = Dispatcher<State>()
-    private let disposableScope = Dispatcher<State>.Disposable.Scope()
+    private var subscribedDispatchers = ContiguousArray<(key: Dispatcher<State>.Key, dispatcher: Dispatcher<State>)>()
     
     public static var actions: Actions<State> {
         return .init(dispatcher: Dispatcher<State>.shared)
@@ -17,8 +17,20 @@ public class Store<State: VueFlux.State> {
         self.state = state
         self.mutations = mutations
         
-        disposableScope += dispatcher.subscribe(store: self, executer: executer)
-        disposableScope += Dispatcher<State>.shared.subscribe(store: self, executer: executer)
+        @inline(__always)
+        func subscribe(to dispatcher: Dispatcher<State>) {
+            let key = dispatcher.subscribe(store: self, executer: executer)
+            subscribedDispatchers.append((key: key, dispatcher: dispatcher))
+        }
+        
+        subscribe(to: dispatcher)
+        subscribe(to: Dispatcher<State>.shared)
+    }
+    
+    deinit {
+        for (key, dispatcher) in subscribedDispatchers {
+            dispatcher.unsubscribe(for: key)
+        }
     }
     
     fileprivate func dispatch(action: State.Action) {
@@ -137,29 +149,21 @@ private final class Dispatcher<State: VueFlux.State> {
         }
     }
     
-    func subscribe(store: Store<State>, executer: Executer) -> Disposable {
+    func subscribe(store: Store<State>, executer: Executer) -> Key {
         return buffer.modify { buffer in
             let key = buffer.nextKey
             buffer.nextKey = key.next
             
-            let disposable = Disposable { [weak self] in
-                self?.unsubscribe(for: key)
-            }
-            
             let observer: (State.Action) -> Void = { [weak store] action in
-                executer.execute {
-                    guard !disposable.isDisposed else { return }
-                    store?.dispatch(action: action)
-                }
+                executer.execute { store?.dispatch(action: action) }
             }
             
             buffer.subscriptions.append((key: key, observer: observer))
-            return disposable
+            return key
         }
     }
     
-    @inline(__always)
-    private func unsubscribe(for key: Key) {
+    func unsubscribe(for key: Key) {
         buffer.modify { buffer in
             for index in buffer.subscriptions.startIndex..<buffer.subscriptions.endIndex where buffer.subscriptions[index].key == key {
                 buffer.subscriptions.remove(at: index)
@@ -187,47 +191,6 @@ private extension Dispatcher {
         
         static func == (lhs: Key, rhs: Key) -> Bool {
             return lhs.value == rhs.value
-        }
-    }
-    
-    final class Disposable {
-        private let state = UnsafeMutablePointer<Int32>.allocate(capacity: 1)
-        private var action: (() -> Void)?
-        
-        var isDisposed: Bool {
-            return state.pointee == 1
-        }
-        
-        init(_ action: @escaping () -> Void) {
-            self.action = action
-            state.initialize(to: 0)
-        }
-        
-        deinit {
-            state.deinitialize()
-            state.deallocate(capacity: 1)
-        }
-        
-        func dispose() {
-            guard OSAtomicCompareAndSwap32Barrier(0, 1, state) else { return }
-            action?()
-            action = nil
-        }
-    }
-}
-
-private extension Dispatcher.Disposable {
-    final class Scope {
-        private var disposables = ContiguousArray<Dispatcher.Disposable>()
-        
-        static func += (scope: Dispatcher.Disposable.Scope, disposable: Dispatcher.Disposable) {
-            scope.disposables.append(disposable)
-        }
-        
-        deinit {
-            for disposable in disposables {
-                disposable.dispose()
-            }
         }
     }
 }
