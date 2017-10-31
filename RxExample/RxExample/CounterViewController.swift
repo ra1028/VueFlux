@@ -10,7 +10,7 @@ final class CounterViewController: UIViewController {
     @IBOutlet private weak var intervalLabel: UILabel!
     @IBOutlet private weak var countLabel: UILabel!
     
-    private let store = Store<CounterState>(state: .init(), mutations: .init(), executer: .mainThread)
+    private let store = Store<CounterState>(state: .init(), mutations: .init(), executor: .mainThread)
     private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {

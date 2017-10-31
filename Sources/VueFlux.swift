@@ -13,13 +13,13 @@ public class Store<State: VueFlux.State> {
     public lazy var actions: Actions<State> = .init(dispatcher: dispatcher)
     public lazy var computed: Computed<State> = .init(state: state)
     
-    public init(state: State, mutations: State.Mutations, executer: Executer) {
+    public init(state: State, mutations: State.Mutations, executor: Executor) {
         self.state = state
         self.mutations = mutations
         
         @inline(__always)
         func subscribe(to dispatcher: Dispatcher<State>) {
-            let key = dispatcher.subscribe(store: self, executer: executer)
+            let key = dispatcher.subscribe(store: self, executor: executor)
             subscribedDispatchers.append((key: key, dispatcher: dispatcher))
         }
         
@@ -69,39 +69,39 @@ public struct Computed<State: VueFlux.State> {
     }
 }
 
-public struct Executer {
-    public static var immediate: Executer {
+public struct Executor {
+    public static var immediate: Executor {
         return .init { execute in
             execute()
         }
     }
     
-    public static var mainThread: Executer {
-        let innerExecuter = MainThreadInnerExecuter()
-        return .init(innerExecuter.execute(_:))
+    public static var mainThread: Executor {
+        let innerExecutor = MainThreadInnerExecutor()
+        return .init(innerExecutor.execute(_:))
     }
     
-    public static func queue(_ dispatchQueue: DispatchQueue) -> Executer {
+    public static func queue(_ dispatchQueue: DispatchQueue) -> Executor {
         return .init { execute in
             dispatchQueue.async(execute: execute)
         }
     }
     
-    private let executer: (@escaping () -> Void) -> Void
+    private let executor: (@escaping () -> Void) -> Void
     
-    private init(_ executer: @escaping (@escaping () -> Void) -> Void) {
-        self.executer = executer
+    private init(_ executor: @escaping (@escaping () -> Void) -> Void) {
+        self.executor = executor
     }
     
     public func execute(_ body: @escaping () -> Void) {
-        executer(body)
+        executor(body)
     }
 }
 
 // MARK: - Private
 
-private extension Executer {
-    final class MainThreadInnerExecuter {
+private extension Executor {
+    final class MainThreadInnerExecutor {
         private let executingCount: UnsafeMutablePointer<Int32> = {
             let memory = UnsafeMutablePointer<Int32>.allocate(capacity: 1)
             memory.initialize(to: 0)
@@ -149,13 +149,13 @@ private final class Dispatcher<State: VueFlux.State> {
         }
     }
     
-    func subscribe(store: Store<State>, executer: Executer) -> Key {
+    func subscribe(store: Store<State>, executor: Executor) -> Key {
         return buffer.modify { buffer in
             let key = buffer.nextKey
             buffer.nextKey = key.next
             
             let observer: (State.Action) -> Void = { [weak store] action in
-                executer.execute { store?.dispatch(action: action) }
+                executor.execute { store?.dispatch(action: action) }
             }
             
             buffer.subscriptions.append((key: key, observer: observer))
