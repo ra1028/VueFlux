@@ -2,7 +2,7 @@ import VueFlux
 import RxSwift
 import RxCocoa
 
-extension Expose where State == CounterState {
+extension Computed where State == CounterState {
     var count: Observable<Int> {
         return state.count.asObservable()
     }

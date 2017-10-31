@@ -11,7 +11,7 @@ public class Store<State: VueFlux.State> {
     }
     
     public lazy var actions: Actions<State> = .init(dispatcher: dispatcher)
-    public lazy var expose: Expose<State> = .init(state: state)
+    public lazy var computed: Computed<State> = .init(state: state)
     
     public init(state: State, mutations: State.Mutations, executer: Executer) {
         self.state = state
@@ -61,7 +61,7 @@ public struct Actions<State: VueFlux.State> {
     }
 }
 
-public struct Expose<State: VueFlux.State> {
+public struct Computed<State: VueFlux.State> {
     public let state: State
     
     fileprivate init(state: State) {
