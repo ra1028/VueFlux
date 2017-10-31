@@ -1,6 +1,6 @@
 import Foundation
 
-public class Store<State: VueFlux.State> {
+open class Store<State: VueFlux.State> {
     private let state: State
     private let mutations: State.Mutations
     private let dispatcher = Dispatcher<State>()
