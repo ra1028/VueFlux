@@ -103,9 +103,9 @@ public struct Executor {
 private extension Executor {
     final class MainThreadInnerExecutor {
         private let executingCount: UnsafeMutablePointer<Int32> = {
-            let memory = UnsafeMutablePointer<Int32>.allocate(capacity: 1)
-            memory.initialize(to: 0)
-            return memory
+            let pointer = UnsafeMutablePointer<Int32>.allocate(capacity: 1)
+            pointer.initialize(to: 0)
+            return pointer
         }()
         
         deinit {
@@ -198,7 +198,7 @@ private extension Dispatcher {
 private struct DispatcherContext {
     static let shared = DispatcherContext()
     
-    private var dispatchers = Atomic([Identifier: Any]())
+    private let dispatchers = Atomic([Identifier: Any]())
     
     private init() {}
     
