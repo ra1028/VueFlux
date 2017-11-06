@@ -14,10 +14,6 @@ final class CounterViewController: UIViewController {
     private let store = Store<CounterState>(state: .init(max: 1000), mutations: .init(), executor: .queue(.global()))
     private let disposeBag = DisposeBag()
     
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         bind()
