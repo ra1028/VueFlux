@@ -3,10 +3,6 @@ import RxSwift
 import RxCocoa
 
 extension Computed where State == CounterState {
-    var excute: Observable<Void> {
-        return state.excute.asObservable()
-    }
-    
     var count: Observable<Int> {
         return state.count.asObservable()
     }
@@ -18,7 +14,6 @@ final class CounterState: State {
     
     fileprivate let max: Int
     fileprivate let count = BehaviorRelay(value: 0)
-    fileprivate let excute = PublishSubject<()>()
     
     init(max: Int) {
         self.max = max
@@ -28,9 +23,6 @@ final class CounterState: State {
 struct CounterMutations: Mutations {
     func commit(action: CounterAction, state: CounterState) {
         switch action {
-        case .excute:
-            state.excute.onNext(())
-            
         case .increment:
             state.count.accept(min(state.max, state.count.value + 1))
 
