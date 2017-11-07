@@ -74,22 +74,19 @@ private extension CounterViewController {
         round(view: incrementButton, corners: [.topRight, .bottomRight])
         round(view: decrementButton, corners: [.topRight, .bottomRight])
         round(view: resetButton, corners: [.topLeft, .bottomLeft])
+        
+        counterLabel.font = .monospacedDigitSystemFont(ofSize: 80, weight: .thin)
+        intervalLabel.font = .monospacedDigitSystemFont(ofSize: 20, weight: .light)
     }
 }
 
 final class GradientView: UIView {
     @IBInspectable var startColor: UIColor? {
-        didSet {
-            guard startColor != oldValue else { return }
-            configure()
-        }
+        didSet { configure() }
     }
     
     @IBInspectable var endColor: UIColor? {
-        didSet {
-            guard endColor != oldValue else { return }
-            configure()
-        }
+        didSet { configure() }
     }
     
     required init?(coder aDecoder: NSCoder) {

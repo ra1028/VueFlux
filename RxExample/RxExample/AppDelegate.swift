@@ -66,16 +66,8 @@ private extension TouchDisplayWidow {
         
         trackView.bounds = .init(x: 0, y: 0, width: 64, height: 64)
         trackView.backgroundColor = .init(white: 1, alpha: 0.4)
+        trackView.layer.cornerRadius = trackView.bounds.height / 2
         trackView.isHidden = true
-        
-        let path = UIBezierPath(
-            roundedRect: trackView.bounds,
-            byRoundingCorners: .allCorners,
-            cornerRadii: .init(width: trackView.bounds.height, height: trackView.bounds.height)
-        )
-        let mask = CAShapeLayer()
-        mask.path = path.cgPath
-        trackView.layer.mask = mask
         
         addSubview(trackView)
         
