@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		6B9E328B1FA639DF000B24D4 /* VueFlux.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B9E32811FA639DF000B24D4 /* VueFlux.framework */; };
 		6B9E32A01FA63B9E000B24D4 /* VueFlux.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9E329D1FA63AEE000B24D4 /* VueFlux.swift */; };
+		6BE63FE91FB39138007F8B5D /* Atomic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE63FE81FB39138007F8B5D /* Atomic.swift */; };
+		6BE63FEB1FB391F2007F8B5D /* Dispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE63FEA1FB391F2007F8B5D /* Dispatcher.swift */; };
+		6BE63FED1FB392A5007F8B5D /* DispatcherContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE63FEC1FB392A5007F8B5D /* DispatcherContext.swift */; };
+		6BE63FEF1FB39385007F8B5D /* Excuter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE63FEE1FB39385007F8B5D /* Excuter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,6 +31,10 @@
 		6B9E329C1FA63AEE000B24D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6B9E329D1FA63AEE000B24D4 /* VueFlux.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VueFlux.swift; sourceTree = "<group>"; };
 		6B9E329F1FA63B07000B24D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6BE63FE81FB39138007F8B5D /* Atomic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Atomic.swift; sourceTree = "<group>"; };
+		6BE63FEA1FB391F2007F8B5D /* Dispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dispatcher.swift; sourceTree = "<group>"; };
+		6BE63FEC1FB392A5007F8B5D /* DispatcherContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatcherContext.swift; sourceTree = "<group>"; };
+		6BE63FEE1FB39385007F8B5D /* Excuter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Excuter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +78,8 @@
 			isa = PBXGroup;
 			children = (
 				6B9E329D1FA63AEE000B24D4 /* VueFlux.swift */,
+				6BE63FEE1FB39385007F8B5D /* Excuter.swift */,
+				6BE63FE71FB3912E007F8B5D /* Internal */,
 				6B9E329C1FA63AEE000B24D4 /* Info.plist */,
 			);
 			path = Sources;
@@ -81,6 +91,16 @@
 				6B9E329F1FA63B07000B24D4 /* Info.plist */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		6BE63FE71FB3912E007F8B5D /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				6BE63FEA1FB391F2007F8B5D /* Dispatcher.swift */,
+				6BE63FEC1FB392A5007F8B5D /* DispatcherContext.swift */,
+				6BE63FE81FB39138007F8B5D /* Atomic.swift */,
+			);
+			path = Internal;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -192,7 +212,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6BE63FE91FB39138007F8B5D /* Atomic.swift in Sources */,
+				6BE63FEF1FB39385007F8B5D /* Excuter.swift in Sources */,
 				6B9E32A01FA63B9E000B24D4 /* VueFlux.swift in Sources */,
+				6BE63FED1FB392A5007F8B5D /* DispatcherContext.swift in Sources */,
+				6BE63FEB1FB391F2007F8B5D /* Dispatcher.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
