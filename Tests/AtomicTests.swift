@@ -49,7 +49,7 @@ final class AtomicTests: XCTestCase {
             sleep(1)
         }
         
-        DispatchQueue.global().asyncAfter(deadline: .now() + 0.5) {
+        DispatchQueue.globalQueue().asyncAfter(deadline: .now() + 0.5) {
             XCTAssertEqual(self.atomic.synchronized { $0 }, 200)
             
             self.atomic.modify { value in

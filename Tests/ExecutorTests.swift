@@ -18,7 +18,7 @@ final class ExecutorTests: XCTestCase {
         
         let expectation = self.expectation(description: "global default queue execute")
         
-        DispatchQueue.global().async {
+        DispatchQueue.globalQueue().async {
             excutor.execute {
                 XCTAssertTrue(Thread.isMainThread)
                 expectation.fulfill()
@@ -37,7 +37,7 @@ final class ExecutorTests: XCTestCase {
         
         let group = DispatchGroup()
         
-        DispatchQueue.global().async(group: group) {
+        DispatchQueue.globalQueue().async(group: group) {
             excutor.execute {
                 array.append(0)
             }
@@ -45,7 +45,7 @@ final class ExecutorTests: XCTestCase {
         
         group.wait()
         
-        DispatchQueue.global().async(group: group) {
+        DispatchQueue.globalQueue().async(group: group) {
             excutor.execute {
                 array.append(1)
             }
@@ -68,7 +68,7 @@ final class ExecutorTests: XCTestCase {
     }
     
     func testDispatchQueueExcutor() {
-        let dispatchQueue = DispatchQueue.global()
+        let dispatchQueue = DispatchQueue.globalQueue()
         dispatchQueue.suspend()
         
         let excutor = Executor.queue(dispatchQueue)

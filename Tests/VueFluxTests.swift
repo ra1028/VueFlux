@@ -39,7 +39,7 @@ final class VueFluxTests: XCTestCase {
             XCTAssertFalse(Thread.isMainThread)
             expectation.fulfill()
         }
-        let store2 = Store<TestState>(state: state2, mutations: .init(), executor: .queue(.global()))
+        let store2 = Store<TestState>(state: state2, mutations: .init(), executor: .queue(.globalQueue()))
         
         store2.actions.check()
         
@@ -121,5 +121,15 @@ extension Computed where State == TestState {
 extension Actions where State == TestState {
     func check() {
         dispatch(action: ())
+    }
+}
+
+extension DispatchQueue {
+    static func globalQueue() -> DispatchQueue {
+        if #available(OSX 10.10, *) {
+            return .global()
+        } else {
+            return .global(priority: .default)
+        }
     }
 }
