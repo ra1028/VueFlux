@@ -71,9 +71,7 @@ public struct Computed<State: VueFlux.State> {
 
 public struct Executor {
     public static var immediate: Executor {
-        return .init { execute in
-            execute()
-        }
+        return .init { execute in execute() }
     }
     
     public static var mainThread: Executor {
@@ -82,9 +80,7 @@ public struct Executor {
     }
     
     public static func queue(_ dispatchQueue: DispatchQueue) -> Executor {
-        return .init { execute in
-            dispatchQueue.async(execute: execute)
-        }
+        return .init { execute in dispatchQueue.async(execute: execute) }
     }
     
     private let executor: (@escaping () -> Void) -> Void
@@ -102,11 +98,11 @@ public struct Executor {
 
 private extension Executor {
     final class MainThreadInnerExecutor {
-        private let executingCount: UnsafeMutablePointer<Int32> = {
-            let pointer = UnsafeMutablePointer<Int32>.allocate(capacity: 1)
-            pointer.initialize(to: 0)
-            return pointer
-        }()
+        private let executingCount = UnsafeMutablePointer<Int32>.allocate(capacity: 1)
+        
+        init() {
+            executingCount.initialize(to: 0)
+        }
         
         deinit {
             executingCount.deinitialize()
@@ -129,7 +125,7 @@ private extension Executor {
     }
 }
 
-private final class Dispatcher<State: VueFlux.State> {
+private struct Dispatcher<State: VueFlux.State> {
     private typealias Subscription = (key: Key, observer: (State.Action) -> Void)
     private typealias Buffer = (nextKey: Key, subscriptions: ContiguousArray<Subscription>)
     
@@ -137,7 +133,7 @@ private final class Dispatcher<State: VueFlux.State> {
         return DispatcherContext.shared.dispatcher(for: State.self)
     }
     
-    private let buffer = Atomic<Buffer>((nextKey: Key.first, subscriptions: []))
+    private let buffer = Atomic<Buffer>((nextKey: .first, subscriptions: []))
     
     init() {}
     
@@ -231,7 +227,7 @@ private extension DispatcherContext {
 }
 
 private final class Atomic<Value> {
-    private var innerValue: Value
+    private var _value: Value
     private let lock: NSLocking = {
         if #available(iOS 10.0, *) {
             return OSUnfairLock()
@@ -241,21 +237,21 @@ private final class Atomic<Value> {
     }()
     
     init(_ value: Value) {
-        innerValue = value
+        _value = value
     }
     
     @discardableResult
     func synchronized<Result>(_ action: (Value) throws -> Result) rethrows -> Result {
         lock.lock()
         defer { lock.unlock() }
-        return try action(innerValue)
+        return try action(_value)
     }
     
     @discardableResult
     func modify<Result>(_ action: (inout Value) throws -> Result) rethrows -> Result {
         lock.lock()
         defer { lock.unlock() }
-        return try action(&innerValue)
+        return try action(&_value)
     }
 }
 
