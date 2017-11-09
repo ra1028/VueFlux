@@ -1,3 +1,4 @@
+/// Shared instance provider for Dispatcher.
 struct DispatcherContext {
     static let shared = DispatcherContext()
     
@@ -5,6 +6,12 @@ struct DispatcherContext {
     
     private init() {}
     
+    /// Provide a shared instance of Dispatcher.
+    ///
+    /// - Parameters:
+    ///   - stateType: State protocol conformed type for Dispatcher.
+    ///
+    /// - Returns: An shared instance of Dispatcher.
     func dispatcher<State: VueFlux.State>(for stateType: State.Type) -> Dispatcher<State> {
         return dispatchers.modify { dispatchers in
             let identifier = Identifier(for: stateType)
