@@ -12,7 +12,6 @@
 		6BE63FE91FB39138007F8B5D /* Atomic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE63FE81FB39138007F8B5D /* Atomic.swift */; };
 		6BE63FEB1FB391F2007F8B5D /* Dispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE63FEA1FB391F2007F8B5D /* Dispatcher.swift */; };
 		6BE63FED1FB392A5007F8B5D /* DispatcherContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE63FEC1FB392A5007F8B5D /* DispatcherContext.swift */; };
-		6BE63FEF1FB39385007F8B5D /* Excutor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE63FEE1FB39385007F8B5D /* Excutor.swift */; };
 		6BE63FF21FB39457007F8B5D /* AtomicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE63FF01FB39446007F8B5D /* AtomicTests.swift */; };
 		6BE63FF51FB39A51007F8B5D /* DispatcherContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE63FF31FB39A3C007F8B5D /* DispatcherContextTests.swift */; };
 		6BE63FF81FB39CF2007F8B5D /* DispatcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE63FF61FB39CDD007F8B5D /* DispatcherTests.swift */; };
@@ -39,7 +38,6 @@
 		6BE63FE81FB39138007F8B5D /* Atomic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Atomic.swift; sourceTree = "<group>"; };
 		6BE63FEA1FB391F2007F8B5D /* Dispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dispatcher.swift; sourceTree = "<group>"; };
 		6BE63FEC1FB392A5007F8B5D /* DispatcherContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatcherContext.swift; sourceTree = "<group>"; };
-		6BE63FEE1FB39385007F8B5D /* Excutor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Excutor.swift; sourceTree = "<group>"; };
 		6BE63FF01FB39446007F8B5D /* AtomicTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomicTests.swift; sourceTree = "<group>"; };
 		6BE63FF31FB39A3C007F8B5D /* DispatcherContextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatcherContextTests.swift; sourceTree = "<group>"; };
 		6BE63FF61FB39CDD007F8B5D /* DispatcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatcherTests.swift; sourceTree = "<group>"; };
@@ -88,7 +86,6 @@
 			isa = PBXGroup;
 			children = (
 				6B9E329D1FA63AEE000B24D4 /* VueFlux.swift */,
-				6BE63FEE1FB39385007F8B5D /* Excutor.swift */,
 				6BE63FE71FB3912E007F8B5D /* Internal */,
 				6B9E329C1FA63AEE000B24D4 /* Info.plist */,
 			);
@@ -228,7 +225,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6BE63FE91FB39138007F8B5D /* Atomic.swift in Sources */,
-				6BE63FEF1FB39385007F8B5D /* Excutor.swift in Sources */,
 				6B9E32A01FA63B9E000B24D4 /* VueFlux.swift in Sources */,
 				6BE63FED1FB392A5007F8B5D /* DispatcherContext.swift in Sources */,
 				6BE63FEB1FB391F2007F8B5D /* Dispatcher.swift in Sources */,
