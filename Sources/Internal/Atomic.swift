@@ -3,11 +3,9 @@ import Foundation
 final class Atomic<Value> {
     private var _value: Value
     private let lock: NSLocking = {
-        #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
-            if #available(*, iOS 10.0, macOS 10.12, tvOS 10.0, watchOS 3.0) {
-                return OSUnfairLock()
-            }
-        #endif
+        if #available(*, iOS 10.0, macOS 10.12, tvOS 10.0, watchOS 3.0) {
+            return OSUnfairLock()
+        }
         return PosixThreadMutex()
     }()
     
@@ -31,7 +29,6 @@ final class Atomic<Value> {
 }
 
 extension Atomic {
-    #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
     @available(iOS 10.0, *)
     @available(macOS 10.12, *)
     @available(tvOS 10.0, *)
@@ -56,7 +53,6 @@ extension Atomic {
             os_unfair_lock_unlock(_lock)
         }
     }
-    #endif
     
     private final class PosixThreadMutex: NSLocking {
         private let _lock = UnsafeMutablePointer<pthread_mutex_t>.allocate(capacity: 1)
