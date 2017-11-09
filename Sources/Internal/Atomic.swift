@@ -46,6 +46,8 @@ final class Atomic<Value> {
 }
 
 private extension Atomic {
+    /// Fastest non-recursive thread lock.
+    /// Use only supported OS version.
     @available(iOS 10.0, *)
     @available(macOS 10.12, *)
     @available(tvOS 10.0, *)
@@ -71,6 +73,8 @@ private extension Atomic {
         }
     }
     
+    /// Non-recursive thread lock.
+    /// Use where OS that `os_unfair_lock` is not available.
     final class PosixThreadMutex: NSLocking {
         private let _lock = UnsafeMutablePointer<pthread_mutex_t>.allocate(capacity: 1)
         

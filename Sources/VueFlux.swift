@@ -107,19 +107,19 @@ public struct Computed<State: VueFlux.State> {
 
 /// Execute arbitrary function by given behavior.
 public struct Executor {
-    /// Given function is executed immediately.
+    /// Given function will execute immediately.
     public static var immediate: Executor {
         return .init { function in function() }
     }
     
-    /// Given function is executed on main-thread.
-    /// If called on main-thread, function is not enqueued and execute immediately.
+    /// Given function will execute on main-thread.
+    /// If called on main-thread, function is not enqueue and execute immediately.
     public static var mainThread: Executor {
         let innerExecutor = MainThreadInnerExecutor()
         return .init(innerExecutor.execute(_:))
     }
     
-    /// Given function is all enqueued arbitrary dispatchQueue.
+    /// Given function will all enqueue to arbitrary DispatchQueue.
     public static func queue(_ dispatchQueue: DispatchQueue) -> Executor {
         return .init { function in dispatchQueue.async(execute: function) }
     }
@@ -140,9 +140,11 @@ public struct Executor {
 }
 
 private extension Executor {
+    /// Inner executor that serial execute on main thread.
     final class MainThreadInnerExecutor {
         private let executingCount = UnsafeMutablePointer<Int32>.allocate(capacity: 1)
         
+        /// Initialize a inner executor.
         init() {
             executingCount.initialize(to: 0)
         }
@@ -152,15 +154,19 @@ private extension Executor {
             executingCount.deallocate(capacity: 1)
         }
         
-        func execute(_ action: @escaping () -> Void) {
+        /// Serial execute a function on main thread.
+        ///
+        /// - Parameters:
+        ///   - function: A function to be execute.
+        func execute(_ function: @escaping () -> Void) {
             let count = OSAtomicIncrement32(executingCount)
             
             if Thread.isMainThread && count == 1 {
-                action()
+                function()
                 OSAtomicDecrement32(executingCount)
             } else {
                 DispatchQueue.main.async {
-                    action()
+                    function()
                     OSAtomicDecrement32(self.executingCount)
                 }
             }

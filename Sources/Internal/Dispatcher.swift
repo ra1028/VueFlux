@@ -4,6 +4,7 @@ struct Dispatcher<State: VueFlux.State> {
     private typealias Subscription = (key: Key, observer: (State.Action) -> Void)
     private typealias Buffer = (nextKey: Key, subscriptions: ContiguousArray<Subscription>)
     
+    /// Shared instance associated by `State` type.
     static var shared: Dispatcher<State> {
         return DispatcherContext.shared.dispatcher(for: State.self)
     }

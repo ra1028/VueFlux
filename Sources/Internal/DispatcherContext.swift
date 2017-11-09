@@ -27,13 +27,22 @@ struct DispatcherContext {
 }
 
 private extension DispatcherContext {
+    /// Identifier for save dispatcher instance.
     struct Identifier: Hashable {
         let hashValue: Int
         
+        /// Construct with arbitrary State protocol conformed type.
         init<State: VueFlux.State>(for stateType: State.Type) {
             hashValue = String(reflecting: stateType).hashValue
         }
         
+        /// Compare whether two identifiers are equal.
+        ///
+        /// - Parameters:
+        ///   - lhs: A identifier to compare.
+        ///   - rhs: Another identifier to compare.
+        ///
+        /// - Returns: A Bool value indicating whether two identifiers are equal.
         static func == (lhs: Identifier, rhs: Identifier) -> Bool {
             return lhs.hashValue == rhs.hashValue
         }
