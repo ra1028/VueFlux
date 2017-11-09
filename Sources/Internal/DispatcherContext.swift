@@ -39,7 +39,7 @@ private extension DispatcherContext {
         /// Compare whether two identifiers are equal.
         ///
         /// - Parameters:
-        ///   - lhs: A identifier to compare.
+        ///   - lhs: An identifier to compare.
         ///   - rhs: Another identifier to compare.
         ///
         /// - Returns: A Bool value indicating whether two identifiers are equal.
