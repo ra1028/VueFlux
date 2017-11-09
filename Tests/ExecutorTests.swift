@@ -68,34 +68,20 @@ final class ExecutorTests: XCTestCase {
     }
     
     func testDispatchQueueExcutor() {
-        let dispatchQueue = DispatchQueue.globalQueue()
-        dispatchQueue.suspend()
-        
-        let excutor = Executor.queue(dispatchQueue)
+        let excutor = Executor.queue(.globalQueue())
         
         let expectation = self.expectation(description: "multi global default queue execute")
         
         var value = 0
         
-        let times = 5
-        
-        (1...times).forEach { currentTimes in
-            excutor.execute {
-                XCTAssertFalse(Thread.isMainThread)
-                value += 1
-                
-                if currentTimes == times {
-                    expectation.fulfill()
-                }
-            }
+        excutor.execute {
+            XCTAssertFalse(Thread.isMainThread)
+            value = 1
+            expectation.fulfill()
         }
         
-        XCTAssertEqual(value, 0)
-        
-        dispatchQueue.resume()
-        
         waitForExpectations(timeout: 1) { _ in
-            XCTAssertEqual(value, times)
+            XCTAssertEqual(value, 1)
         }
     }
 }
