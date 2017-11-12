@@ -21,7 +21,7 @@ final class Atomic<Value> {
     /// Perform a given action with current value thread-safely.
     ///
     /// - Parameters:
-    ///   - function: Arbitrary action with current value.
+    ///   - function: Arbitrary function with current value.
     ///
     /// - Returns: Result value of action.
     @discardableResult
@@ -34,7 +34,7 @@ final class Atomic<Value> {
     /// Modifies the value thread-safely.
     ///
     /// - Parameters:
-    ///   - function: Arbitrary modification action for current value.
+    ///   - function: Arbitrary modification function for current value.
     ///
     /// - Returns: Result value of modification action.
     @discardableResult

@@ -126,7 +126,11 @@ public struct Executor {
     
     private let executor: (@escaping () -> Void) -> Void
     
-    private init(_ executor: @escaping (@escaping () -> Void) -> Void) {
+    /// Construct with executor function.
+    ///
+    /// - Parameters:
+    ///   - executor: A function to that executes other function.
+    public init(_ executor: @escaping (@escaping () -> Void) -> Void) {
         self.executor = executor
     }
     
