@@ -83,6 +83,55 @@ final class VueFluxTests: XCTestCase {
         
         XCTAssertEqual(computed.value, 2)
     }
+    
+    func testSubscribe() {
+        var value = 0
+        let store = Store<TestState>(state: .init(), mutations: .init(), executor: .immediate)
+        
+        let subscription = store.subscribe { store, _ in
+            value = store.computed.value
+        }
+        
+        store.actions.check()
+        
+        XCTAssertEqual(value, 1)
+        
+        subscription.unsubscribe()
+        store.actions.check()
+        
+        XCTAssertEqual(value, 1)
+    }
+    
+    func testUnsubscribeAtDeinitObject() {
+        final class Object {}
+        
+        var value1 = 0
+        var value2 = 0
+        var object: Object? = .init()
+        let store = Store<TestState>(state: .init(), mutations: .init(), executor: .immediate)
+        
+        store
+            .subscribe { store, _ in
+                value1 = store.computed.value
+            }
+            .unsubscribed(byScopeOf: object!)
+        
+        store
+            .subscribe { store, _ in
+                value2 = store.computed.value * 10
+            }
+            .unsubscribed(byScopeOf: object!)
+        
+        store.actions.check()
+        
+        XCTAssertEqual(value1, 1)
+        XCTAssertEqual(value2, 10)
+        
+        object = nil
+        
+        XCTAssertEqual(value1, 1)
+        XCTAssertEqual(value2, 10)
+    }
 }
 
 final class TestState: State {

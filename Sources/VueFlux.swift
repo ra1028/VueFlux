@@ -4,6 +4,7 @@ import Foundation
 open class Store<State: VueFlux.State> {
     private let state: State
     private let mutations: State.Mutations
+    private let observers = Atomic(Storage<(Store, State.Action) -> Void>())
     private let dispatcher = Dispatcher<State>()
     private let subscriptionScope = SubscriptionScope()
     
@@ -37,12 +38,35 @@ open class Store<State: VueFlux.State> {
         self.subscriptionScope += Dispatcher<State>.shared.subscribe(executor: executor, dispatch: dispatch)
     }
     
+    /// Subscribe the observer function to be receive on state change.
+    ///
+    /// - Prameters:
+    ///   - observer: An function to be received a store and action on state change.
+    ///
+    /// - Returns: A subscription to unsubscribe given observer.
+    public func subscribe(_ observer: @escaping (Store, State.Action) -> Void) -> Subscription {
+        return observers.modify { observers in
+            let key = observers.append(observer)
+            
+            return .init { [weak self] in
+                self?.observers.modify { observers in
+                    observers.remove(for: key)
+                }
+            }
+        }
+    }
+    
     /// Commit action to mutations.
     ///
     /// - Parameters:
     ///   - action: An action to change state.
     fileprivate func commit(action: State.Action) {
-        mutations.commit(action: action, state: state)
+        observers.synchronized { observers in
+            mutations.commit(action: action, state: state)
+            observers.forEach { observer in
+                observer(self, action)
+            }
+        }
     }
 }
 
