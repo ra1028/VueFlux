@@ -2,10 +2,10 @@ import XCTest
 @testable import VueFlux
 
 final class AtomicTests: XCTestCase {
-    private let atomic = Atomic<Int>(0)
-    
     func testSynchronized() {
-        var targetValue = 100
+        let atomic = Atomic(0)
+        
+        var targetValue = 1
         
         atomic.synchronized { value in
             targetValue = value
@@ -15,6 +15,8 @@ final class AtomicTests: XCTestCase {
     }
     
     func testSynchronizedResult() {
+        let atomic = Atomic(0)
+        
         let result = atomic.synchronized { value in
             "\(value)"
         }
@@ -23,6 +25,8 @@ final class AtomicTests: XCTestCase {
     }
     
     func testModify() {
+        let atomic = Atomic(0)
+        
         let expectedValue = 1
         
         atomic.modify { value in
@@ -33,40 +37,68 @@ final class AtomicTests: XCTestCase {
     }
     
     func testModifyResult() {
+        let atomic = Atomic(0)
+        
         let result: String = atomic.modify { value in
-            value = 100
+            value = 1
             return "\(value)"
         }
         
-        XCTAssertEqual(result, "100")
+        XCTAssertEqual(result, "1")
+    }
+    
+    func testValueGetterAndSetter() {
+        let atomic = Atomic(0)
+        
+        let expectedValue = 1
+        
+        atomic.value = expectedValue
+        let resultValue = atomic.value
+        
+        XCTAssertEqual(resultValue, expectedValue)
+    }
+    
+    func testSwap() {
+        let initialValue = 0
+        let expectedValue = 1
+        
+        let atomic = Atomic(initialValue)
+
+        let oldValue = atomic.swap(expectedValue)
+        let newValue = atomic.value
+        
+        XCTAssertEqual(oldValue, initialValue)
+        XCTAssertEqual(newValue, expectedValue)
     }
     
     func testAsync() {
+        let atomic = Atomic(0)
+        
         let expectation = self.expectation(description: "async modify")
         
         atomic.modify { value in
-            value = 200
+            value = 1
             sleep(1)
         }
         
         DispatchQueue.globalQueue().asyncAfter(deadline: .now() + 0.5) {
-            XCTAssertEqual(self.atomic.synchronized { $0 }, 200)
+            XCTAssertEqual(atomic.synchronized { $0 }, 1)
             
-            self.atomic.modify { value in
-                value += 100
+            atomic.modify { value in
+                value += 1
             }
             
-            XCTAssertEqual(self.atomic.synchronized { $0 }, 300)
+            XCTAssertEqual(atomic.synchronized { $0 }, 2)
             
-            self.atomic.modify { value in
-                value += 100
+            atomic.modify { value in
+                value += 1
             }
             
             expectation.fulfill()
         }
         
         waitForExpectations(timeout: 2) { _ in
-            XCTAssertEqual(self.atomic.synchronized { $0 }, 400)
+            XCTAssertEqual(atomic.synchronized { $0 }, 3)
         }
     }
 }

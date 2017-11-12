@@ -7,7 +7,7 @@ final class DispatcherContextTests: XCTestCase {
         
         var value = 0
         
-        let key = dispatcher1.subscribe(executor: .immediate) {
+        let subscription = dispatcher1.subscribe(executor: .immediate) {
             value += 1
         }
         
@@ -17,7 +17,7 @@ final class DispatcherContextTests: XCTestCase {
         
         XCTAssertEqual(value, 1)
         
-        dispatcher2.unsubscribe(for: key)
+        subscription.unsubscribe()
         
         dispatcher2.dispatch(action: ())
         

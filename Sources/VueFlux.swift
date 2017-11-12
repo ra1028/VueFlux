@@ -5,7 +5,7 @@ open class Store<State: VueFlux.State> {
     private let state: State
     private let mutations: State.Mutations
     private let dispatcher = Dispatcher<State>()
-    private var subscribedDispatchers = ContiguousArray<(key: Dispatcher<State>.Key, dispatcher: Dispatcher<State>)>()
+    private let subscriptionScope = SubscriptionScope()
     
     /// An actions proxy via shared dispatcher.
     /// Action is dispatched to all Store instances constrained as same `State` type.
@@ -29,22 +29,12 @@ open class Store<State: VueFlux.State> {
         self.state = state
         self.mutations = mutations
         
-        @inline(__always)
-        func subscribe(to dispatcher: Dispatcher<State>) {
-            let key = dispatcher.subscribe(executor: executor) { [weak self] action in
-                self?.commit(action: action)
-            }
-            subscribedDispatchers.append((key: key, dispatcher: dispatcher))
+        let dispatch: ((State.Action) -> Void) = { [weak self] action in
+            self?.commit(action: action)
         }
         
-        subscribe(to: dispatcher)
-        subscribe(to: Dispatcher<State>.shared)
-    }
-    
-    deinit {
-        for (key, dispatcher) in subscribedDispatchers {
-            dispatcher.unsubscribe(for: key)
-        }
+        self.subscriptionScope += dispatcher.subscribe(executor: executor, dispatch: dispatch)
+        self.subscriptionScope += Dispatcher<State>.shared.subscribe(executor: executor, dispatch: dispatch)
     }
     
     /// Commit action to mutations.

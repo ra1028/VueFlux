@@ -10,6 +10,12 @@ final class Atomic<Value> {
         return PosixThreadMutex()
     }()
     
+    /// Synchronized value getter and setter
+    var value: Value {
+        get { return synchronized { $0 } }
+        set { modify { $0 = newValue } }
+    }
+    
     /// Initialize with the given initial value.
     ///
     /// - Parameters:
@@ -43,11 +49,26 @@ final class Atomic<Value> {
         defer { lock.unlock() }
         return try function(&_value)
     }
+    
+    /// Set the new value and returns old value.
+    ///
+    /// - Parameters:
+    ///   - newValue: A new value.
+    ///
+    /// - Returns: An old value.
+    @discardableResult
+    public func swap(_ newValue: Value) -> Value {
+        return modify { value in
+            let oldValue = value
+            value = newValue
+            return oldValue
+        }
+    }
 }
 
 private extension Atomic {
-    /// Fastest non-recursive thread lock.
-    /// Use only supported OS version.
+    /// Fast non-recursive thread lock.
+    /// Use in supported OS version only.
     @available(iOS 10.0, *)
     @available(macOS 10.12, *)
     @available(tvOS 10.0, *)
@@ -74,7 +95,7 @@ private extension Atomic {
     }
     
     /// Non-recursive thread lock.
-    /// Use where OS that `os_unfair_lock` is not available.
+    /// Use in OS that `os_unfair_lock` not available.
     final class PosixThreadMutex: NSLocking {
         private let _lock = UnsafeMutablePointer<pthread_mutex_t>.allocate(capacity: 1)
         

@@ -1,15 +1,11 @@
 /// An action dispatcher for subscribed dispatch functions.
-/// Can be unsubscribe it.
-struct Dispatcher<State: VueFlux.State> {
-    private typealias Subscription = (key: Key, observer: (State.Action) -> Void)
-    private typealias Buffer = (nextKey: Key, subscriptions: ContiguousArray<Subscription>)
-    
+final class Dispatcher<State: VueFlux.State> {
     /// Shared instance associated by `State` type.
     static var shared: Dispatcher<State> {
         return DispatcherContext.shared.dispatcher(for: State.self)
     }
     
-    private let buffer = Atomic<Buffer>((nextKey: .first, subscriptions: []))
+    private let observers = Atomic(Storage<(State.Action) -> Void>())
     
     /// Construct a Dispatcher
     init() {}
@@ -19,9 +15,9 @@ struct Dispatcher<State: VueFlux.State> {
     /// - Parameters:
     ///   - action: An Action to be dispatch.
     func dispatch(action: State.Action) {
-        buffer.synchronized { buffer in
-            for entry in buffer.subscriptions {
-                entry.observer(action)
+        observers.synchronized { observers in
+            observers.forEach { observer in
+                observer(action)
             }
         }
     }
@@ -33,63 +29,18 @@ struct Dispatcher<State: VueFlux.State> {
     ///   - executor: An executor to dispatch actions on.
     ///   - dispatch: A function to be called with action.
     ///
-    /// - Returns: A key for unsubscribe a dispatch function.
-    func subscribe(executor: Executor, dispatch: @escaping (State.Action) -> Void) -> Key {
-        return buffer.modify { buffer in
-            let key = buffer.nextKey
-            buffer.nextKey = key.next
-            
-            let observer: (State.Action) -> Void = { action in
+    /// - Returns: A subscription to be able to unsubscribe.
+    func subscribe(executor: Executor, dispatch: @escaping (State.Action) -> Void) -> Subscription {
+        return observers.modify { observers in
+            let key = observers.append { action in
                 executor.execute { dispatch(action) }
             }
             
-            buffer.subscriptions.append((key: key, observer: observer))
-            return key
-        }
-    }
-    
-    /// Unsubscribe a dispatch function.
-    ///
-    /// - Parameters:
-    ///   - key: A key given when subscribing.
-    func unsubscribe(for key: Key) {
-        buffer.modify { buffer in
-            for index in buffer.subscriptions.startIndex..<buffer.subscriptions.endIndex where buffer.subscriptions[index].key == key {
-                buffer.subscriptions.remove(at: index)
-                break
+            return .init { [weak self] in
+                self?.observers.modify { observers in
+                    observers.remove(for: key)
+                }
             }
-        }
-    }
-}
-
-extension Dispatcher {
-    /// A unique key for unsubscribe dispatch functions.
-    struct Key: Equatable {
-        private let value: UInt64
-        
-        /// Construct a first key
-        static var first: Key {
-            return .init(value: 0)
-        }
-        
-        /// Construct a next key
-        var next: Key {
-            return .init(value: value &+ 1)
-        }
-        
-        private init(value: UInt64) {
-            self.value = value
-        }
-        
-        /// Compare whether two keys are equal.
-        ///
-        /// - Parameters:
-        ///   - lhs: A key to compare.
-        ///   - rhs: Another key to compare.
-        ///
-        /// - Returns: A Bool value indicating whether two keys are equal.
-        static func == (lhs: Key, rhs: Key) -> Bool {
-            return lhs.value == rhs.value
         }
     }
 }

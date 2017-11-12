@@ -27,11 +27,11 @@ final class DispatcherTests: XCTestCase {
         
         var value = 0
         
-        let key = dispatcher.subscribe(executor: .immediate) {
+        let subscription = dispatcher.subscribe(executor: .immediate) {
             value += 1
         }
         
-        dispatcher.unsubscribe(for: key)
+        subscription.unsubscribe()
         
         XCTAssertEqual(value, 0)
         
@@ -42,24 +42,6 @@ final class DispatcherTests: XCTestCase {
         _ = dispatcher.subscribe(executor: .immediate) {
             value += 1
         }
-        
-        dispatcher.dispatch(action: ())
-        
-        XCTAssertEqual(value, 1)
-    }
-    
-    func testUnsubscribeWithInvalidKey() {
-        let dispatcher = Dispatcher<TestState>()
-        
-        var value = 0
-        
-        _ = dispatcher.subscribe(executor: .immediate) {
-            value += 1
-        }
-        
-        let invalidKey = Dispatcher<TestState>.Key.first.next
-        
-        dispatcher.unsubscribe(for: invalidKey)
         
         dispatcher.dispatch(action: ())
         
