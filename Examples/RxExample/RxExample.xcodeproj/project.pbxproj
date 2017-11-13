@@ -73,8 +73,8 @@
 				6B3FF8291FBA1D08001FD166 /* Assets.xcassets */,
 				6B3FF82A1FBA1D08001FD166 /* CounterActions.swift */,
 				6B3FF82B1FBA1D08001FD166 /* CounterState.swift */,
-				6B3FF82C1FBA1D08001FD166 /* CounterViewController.storyboard */,
 				6B3FF82D1FBA1D08001FD166 /* CounterViewController.swift */,
+				6B3FF82C1FBA1D08001FD166 /* CounterViewController.storyboard */,
 				6B3FF82E1FBA1D08001FD166 /* Info.plist */,
 			);
 			path = Sources;
