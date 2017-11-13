@@ -110,17 +110,13 @@ final class VueFluxTests: XCTestCase {
         var object: Object? = .init()
         let store = Store<TestState>(state: .init(), mutations: .init(), executor: .immediate)
         
-        store
-            .subscribe { store, _ in
-                value1 = store.computed.value
-            }
-            .unsubscribed(byScopeOf: object!)
+        store.subscribe(scope: object!) { store, _ in
+            value1 = store.computed.value
+        }
         
-        store
-            .subscribe { store, _ in
-                value2 = store.computed.value * 10
-            }
-            .unsubscribed(byScopeOf: object!)
+        store.subscribe(scope: object!) { store, _ in
+            value2 = store.computed.value * 10
+        }
         
         store.actions.check()
         

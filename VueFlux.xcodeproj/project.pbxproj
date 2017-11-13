@@ -15,6 +15,7 @@
 		6BA27BD21FB8CEF900809472 /* SubscriptionScopeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA27BCE1FB8CE1A00809472 /* SubscriptionScopeTests.swift */; };
 		6BA27BD51FB8CFED00809472 /* StorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA27BD31FB8CFE600809472 /* StorageTests.swift */; };
 		6BA27BD71FB8D83F00809472 /* SubscriptionScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA27BD61FB8D83E00809472 /* SubscriptionScope.swift */; };
+		6BA27BD91FB9FDD400809472 /* ScopedSubscribe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA27BD81FB9FDD400809472 /* ScopedSubscribe.swift */; };
 		6BE63FE91FB39138007F8B5D /* Atomic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE63FE81FB39138007F8B5D /* Atomic.swift */; };
 		6BE63FEB1FB391F2007F8B5D /* Dispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE63FEA1FB391F2007F8B5D /* Dispatcher.swift */; };
 		6BE63FED1FB392A5007F8B5D /* DispatcherContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE63FEC1FB392A5007F8B5D /* DispatcherContext.swift */; };
@@ -47,6 +48,7 @@
 		6BA27BD01FB8CECC00809472 /* Subscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscription.swift; sourceTree = "<group>"; };
 		6BA27BD31FB8CFE600809472 /* StorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageTests.swift; sourceTree = "<group>"; };
 		6BA27BD61FB8D83E00809472 /* SubscriptionScope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionScope.swift; sourceTree = "<group>"; };
+		6BA27BD81FB9FDD400809472 /* ScopedSubscribe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScopedSubscribe.swift; sourceTree = "<group>"; };
 		6BE63FE81FB39138007F8B5D /* Atomic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Atomic.swift; sourceTree = "<group>"; };
 		6BE63FEA1FB391F2007F8B5D /* Dispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dispatcher.swift; sourceTree = "<group>"; };
 		6BE63FEC1FB392A5007F8B5D /* DispatcherContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatcherContext.swift; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				6B9E329D1FA63AEE000B24D4 /* VueFlux.swift */,
+				6BA27BD81FB9FDD400809472 /* ScopedSubscribe.swift */,
 				6BA27BD01FB8CECC00809472 /* Subscription.swift */,
 				6BA27BD61FB8D83E00809472 /* SubscriptionScope.swift */,
 				6BE63FE71FB3912E007F8B5D /* Internal */,
@@ -242,6 +245,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6BA27BD91FB9FDD400809472 /* ScopedSubscribe.swift in Sources */,
 				6BE63FE91FB39138007F8B5D /* Atomic.swift in Sources */,
 				6BA27BD71FB8D83F00809472 /* SubscriptionScope.swift in Sources */,
 				6BA27BCA1FB8C50F00809472 /* Storage.swift in Sources */,

@@ -41,9 +41,10 @@ open class Store<State: VueFlux.State> {
     /// Subscribe the observer function to be receive on state change.
     ///
     /// - Prameters:
-    ///   - observer: An function to be received a store and action on state change.
+    ///   - observer: A function to be received a store and action on state change.
     ///
     /// - Returns: A subscription to unsubscribe given observer.
+    @discardableResult
     public func subscribe(_ observer: @escaping (Store, State.Action) -> Void) -> Subscription {
         return observers.modify { observers in
             let key = observers.append(observer)
