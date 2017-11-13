@@ -8,6 +8,6 @@
       location = "group:../../VueFlux.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:../ExampleCounterView/ExampleCounterView.xcodeproj">
+      location = "group:../GenericComponents/GenericComponents.xcodeproj">
    </FileRef>
 </Workspace>

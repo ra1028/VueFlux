@@ -1,6 +1,6 @@
 import UIKit
 import VueFlux
-import ExampleCounterView
+import GenericComponents
 import RxSwift
 import RxCocoa
 

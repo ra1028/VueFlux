@@ -9,27 +9,27 @@
 /* Begin PBXBuildFile section */
 		6B1685511FA6489500FCDC62 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B16854F1FA6489400FCDC62 /* RxSwift.framework */; };
 		6B1685521FA6489500FCDC62 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B1685501FA6489500FCDC62 /* RxCocoa.framework */; };
-		6B9E32B51FA63CE3000B24D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B9E32B41FA63CE3000B24D4 /* Assets.xcassets */; };
-		6B9E32C41FA63D4E000B24D4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9E32C01FA63D4E000B24D4 /* AppDelegate.swift */; };
-		6B9E32D01FA6400B000B24D4 /* CounterViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B9E32CF1FA64006000B24D4 /* CounterViewController.storyboard */; };
-		6B9E32D61FA64305000B24D4 /* CounterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9E32D31FA64305000B24D4 /* CounterViewController.swift */; };
-		6B9E32D71FA64305000B24D4 /* CounterState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9E32D41FA64305000B24D4 /* CounterState.swift */; };
-		6B9E32D81FA64305000B24D4 /* CounterActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9E32D51FA64305000B24D4 /* CounterActions.swift */; };
-		6BF9DE761FBA178300C4BCFD /* VueFlux.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BF9DE751FBA178300C4BCFD /* VueFlux.framework */; };
-		6BF9DE771FBA178300C4BCFD /* VueFlux.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6BF9DE751FBA178300C4BCFD /* VueFlux.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		6BF9DE791FBA178300C4BCFD /* ExampleCounterView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BF9DE781FBA178300C4BCFD /* ExampleCounterView.framework */; };
-		6BF9DE7A1FBA178300C4BCFD /* ExampleCounterView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6BF9DE781FBA178300C4BCFD /* ExampleCounterView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6B3FF8351FBA1D6E001FD166 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3FF8281FBA1D08001FD166 /* AppDelegate.swift */; };
+		6B3FF8361FBA1D6E001FD166 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B3FF8291FBA1D08001FD166 /* Assets.xcassets */; };
+		6B3FF8371FBA1D6E001FD166 /* CounterActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3FF82A1FBA1D08001FD166 /* CounterActions.swift */; };
+		6B3FF8381FBA1D6E001FD166 /* CounterState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3FF82B1FBA1D08001FD166 /* CounterState.swift */; };
+		6B3FF8391FBA1D6E001FD166 /* CounterViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B3FF82C1FBA1D08001FD166 /* CounterViewController.storyboard */; };
+		6B3FF83A1FBA1D6E001FD166 /* CounterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3FF82D1FBA1D08001FD166 /* CounterViewController.swift */; };
+		6BEDA6111FBA205100F03699 /* VueFlux.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BEDA6101FBA205100F03699 /* VueFlux.framework */; };
+		6BEDA6121FBA205100F03699 /* VueFlux.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6BEDA6101FBA205100F03699 /* VueFlux.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6BEDA6141FBA205100F03699 /* GenericComponents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BEDA6131FBA205100F03699 /* GenericComponents.framework */; };
+		6BEDA6151FBA205100F03699 /* GenericComponents.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6BEDA6131FBA205100F03699 /* GenericComponents.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		6BF9DE7B1FBA178300C4BCFD /* Embed Frameworks */ = {
+		6BEDA60F1FBA202900F03699 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				6BF9DE771FBA178300C4BCFD /* VueFlux.framework in Embed Frameworks */,
-				6BF9DE7A1FBA178300C4BCFD /* ExampleCounterView.framework in Embed Frameworks */,
+				6BEDA6151FBA205100F03699 /* GenericComponents.framework in Embed Frameworks */,
+				6BEDA6121FBA205100F03699 /* VueFlux.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -39,16 +39,16 @@
 /* Begin PBXFileReference section */
 		6B16854F1FA6489400FCDC62 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Carthage/Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
 		6B1685501FA6489500FCDC62 /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxCocoa.framework; path = Carthage/Build/iOS/RxCocoa.framework; sourceTree = "<group>"; };
+		6B3FF8281FBA1D08001FD166 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		6B3FF8291FBA1D08001FD166 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6B3FF82A1FBA1D08001FD166 /* CounterActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterActions.swift; sourceTree = "<group>"; };
+		6B3FF82B1FBA1D08001FD166 /* CounterState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterState.swift; sourceTree = "<group>"; };
+		6B3FF82C1FBA1D08001FD166 /* CounterViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CounterViewController.storyboard; sourceTree = "<group>"; };
+		6B3FF82D1FBA1D08001FD166 /* CounterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterViewController.swift; sourceTree = "<group>"; };
+		6B3FF82E1FBA1D08001FD166 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6B9E32AA1FA63CE3000B24D4 /* RxExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RxExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		6B9E32B41FA63CE3000B24D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		6B9E32B91FA63CE3000B24D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6B9E32C01FA63D4E000B24D4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		6B9E32CF1FA64006000B24D4 /* CounterViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CounterViewController.storyboard; sourceTree = "<group>"; };
-		6B9E32D31FA64305000B24D4 /* CounterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterViewController.swift; sourceTree = "<group>"; };
-		6B9E32D41FA64305000B24D4 /* CounterState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterState.swift; sourceTree = "<group>"; };
-		6B9E32D51FA64305000B24D4 /* CounterActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterActions.swift; sourceTree = "<group>"; };
-		6BF9DE751FBA178300C4BCFD /* VueFlux.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = VueFlux.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6BF9DE781FBA178300C4BCFD /* ExampleCounterView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ExampleCounterView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6BEDA6101FBA205100F03699 /* VueFlux.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = VueFlux.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6BEDA6131FBA205100F03699 /* GenericComponents.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = GenericComponents.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,8 +56,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6BF9DE761FBA178300C4BCFD /* VueFlux.framework in Frameworks */,
-				6BF9DE791FBA178300C4BCFD /* ExampleCounterView.framework in Frameworks */,
+				6BEDA6141FBA205100F03699 /* GenericComponents.framework in Frameworks */,
+				6BEDA6111FBA205100F03699 /* VueFlux.framework in Frameworks */,
 				6B1685511FA6489500FCDC62 /* RxSwift.framework in Frameworks */,
 				6B1685521FA6489500FCDC62 /* RxCocoa.framework in Frameworks */,
 			);
@@ -66,14 +66,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6B3FF8271FBA1D08001FD166 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				6B3FF8281FBA1D08001FD166 /* AppDelegate.swift */,
+				6B3FF8291FBA1D08001FD166 /* Assets.xcassets */,
+				6B3FF82A1FBA1D08001FD166 /* CounterActions.swift */,
+				6B3FF82B1FBA1D08001FD166 /* CounterState.swift */,
+				6B3FF82C1FBA1D08001FD166 /* CounterViewController.storyboard */,
+				6B3FF82D1FBA1D08001FD166 /* CounterViewController.swift */,
+				6B3FF82E1FBA1D08001FD166 /* Info.plist */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
 		6B9E32A11FA63CE3000B24D4 = {
 			isa = PBXGroup;
 			children = (
-				6B9E32AC1FA63CE3000B24D4 /* RxExample */,
+				6B3FF8271FBA1D08001FD166 /* Sources */,
 				6B9E32C71FA63DD8000B24D4 /* Frameworks */,
 				6B9E32AB1FA63CE3000B24D4 /* Products */,
-				6BF9DE781FBA178300C4BCFD /* ExampleCounterView.framework */,
-				6BF9DE751FBA178300C4BCFD /* VueFlux.framework */,
+				6BEDA6131FBA205100F03699 /* GenericComponents.framework */,
+				6BEDA6101FBA205100F03699 /* VueFlux.framework */,
 			);
 			sourceTree = "<group>";
 		};
@@ -83,20 +97,6 @@
 				6B9E32AA1FA63CE3000B24D4 /* RxExample.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		6B9E32AC1FA63CE3000B24D4 /* RxExample */ = {
-			isa = PBXGroup;
-			children = (
-				6B9E32D51FA64305000B24D4 /* CounterActions.swift */,
-				6B9E32D31FA64305000B24D4 /* CounterViewController.swift */,
-				6B9E32CF1FA64006000B24D4 /* CounterViewController.storyboard */,
-				6B9E32D41FA64305000B24D4 /* CounterState.swift */,
-				6B9E32C01FA63D4E000B24D4 /* AppDelegate.swift */,
-				6B9E32B41FA63CE3000B24D4 /* Assets.xcassets */,
-				6B9E32B91FA63CE3000B24D4 /* Info.plist */,
-			);
-			path = RxExample;
 			sourceTree = "<group>";
 		};
 		6B9E32C71FA63DD8000B24D4 /* Frameworks */ = {
@@ -119,7 +119,7 @@
 				6B9E32A71FA63CE3000B24D4 /* Frameworks */,
 				6B9E32A81FA63CE3000B24D4 /* Resources */,
 				6B9E32CC1FA63DE8000B24D4 /* Carthage */,
-				6BF9DE7B1FBA178300C4BCFD /* Embed Frameworks */,
+				6BEDA60F1FBA202900F03699 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -143,7 +143,7 @@
 					6B9E32A91FA63CE3000B24D4 = {
 						CreatedOnToolsVersion = 9.0;
 						LastSwiftMigration = 0900;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -170,8 +170,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6B9E32D01FA6400B000B24D4 /* CounterViewController.storyboard in Resources */,
-				6B9E32B51FA63CE3000B24D4 /* Assets.xcassets in Resources */,
+				6B3FF8391FBA1D6E001FD166 /* CounterViewController.storyboard in Resources */,
+				6B3FF8361FBA1D6E001FD166 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -201,10 +201,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6B9E32D81FA64305000B24D4 /* CounterActions.swift in Sources */,
-				6B9E32C41FA63D4E000B24D4 /* AppDelegate.swift in Sources */,
-				6B9E32D61FA64305000B24D4 /* CounterViewController.swift in Sources */,
-				6B9E32D71FA64305000B24D4 /* CounterState.swift in Sources */,
+				6B3FF8381FBA1D6E001FD166 /* CounterState.swift in Sources */,
+				6B3FF83A1FBA1D6E001FD166 /* CounterViewController.swift in Sources */,
+				6B3FF8371FBA1D6E001FD166 /* CounterActions.swift in Sources */,
+				6B3FF8351FBA1D6E001FD166 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -323,13 +323,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/Carthage/Build/iOS";
-				INFOPLIST_FILE = RxExample/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ryo.RxExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -341,13 +343,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/Carthage/Build/iOS";
-				INFOPLIST_FILE = RxExample/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ryo.RxExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

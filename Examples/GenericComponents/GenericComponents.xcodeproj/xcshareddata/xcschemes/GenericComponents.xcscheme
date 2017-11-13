@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6BA27C051FBA116C00809472"
-               BuildableName = "ExampleCounterView.framework"
-               BlueprintName = "ExampleCounterView"
-               ReferencedContainer = "container:ExampleCounterView.xcodeproj">
+               BlueprintIdentifier = "6BF9DEEE1FBA1BCA00C4BCFD"
+               BuildableName = "GenericComponents.framework"
+               BlueprintName = "GenericComponents"
+               ReferencedContainer = "container:GenericComponents.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,10 +47,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6BA27C051FBA116C00809472"
-            BuildableName = "ExampleCounterView.framework"
-            BlueprintName = "ExampleCounterView"
-            ReferencedContainer = "container:ExampleCounterView.xcodeproj">
+            BlueprintIdentifier = "6BF9DEEE1FBA1BCA00C4BCFD"
+            BuildableName = "GenericComponents.framework"
+            BlueprintName = "GenericComponents"
+            ReferencedContainer = "container:GenericComponents.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -65,10 +65,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6BA27C051FBA116C00809472"
-            BuildableName = "ExampleCounterView.framework"
-            BlueprintName = "ExampleCounterView"
-            ReferencedContainer = "container:ExampleCounterView.xcodeproj">
+            BlueprintIdentifier = "6BF9DEEE1FBA1BCA00C4BCFD"
+            BuildableName = "GenericComponents.framework"
+            BlueprintName = "GenericComponents"
+            ReferencedContainer = "container:GenericComponents.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
