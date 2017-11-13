@@ -6,7 +6,7 @@ final class CounterViewController: UIViewController {
     @IBOutlet private weak var counterView: CounterView!
     private var interval: TimeInterval = 0
     
-    private let store = Store<CounterState>(state: .init(max: 1000), mutations: .init(), executor: .mainThread)
+    private let store = Store<CounterState>(state: .init(max: 1000), mutations: .init(), executor: .queue(.global()))
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -31,6 +31,8 @@ private extension CounterViewController {
                 self.counterView.counterLabel.text = .init(store.computed.count)
             }
         }
+        
+        store.actions.resetAcync()
     }
     
     @objc func increment(_ button: UIButton) {

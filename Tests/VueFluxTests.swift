@@ -102,6 +102,40 @@ final class VueFluxTests: XCTestCase {
         XCTAssertEqual(value, 1)
     }
     
+    func testSubscribeOnTargetThread() {
+        let expectation1 = self.expectation(description: "subscribe on main thread")
+        
+        let store1 = Store<TestState>(state: .init(), mutations: .init(), executor: .immediate)
+        store1.subscribe(executor: .mainThread) { _, _  in
+            XCTAssertTrue(Thread.isMainThread)
+            expectation1.fulfill()
+        }
+        
+        DispatchQueue.globalQueue().async {
+            store1.actions.check()
+        }
+        
+        waitForExpectations(timeout: 1) { _ in
+            XCTAssertEqual(store1.computed.value, 1)
+        }
+        
+        let expectation2 = self.expectation(description: "subscribe on global queue")
+        
+        let store2 = Store<TestState>(state: .init(), mutations: .init(), executor: .immediate)
+        store2.subscribe(executor: .queue(.globalQueue())) { _, _ in
+            XCTAssertFalse(Thread.isMainThread)
+            expectation2.fulfill()
+        }
+        
+        DispatchQueue.main.async {
+            store2.actions.check()
+        }
+        
+        waitForExpectations(timeout: 1) { _ in
+            XCTAssertEqual(store2.computed.value, 1)
+        }
+    }
+    
     func testUnsubscribeOnDeinitObject() {
         final class Object {}
         

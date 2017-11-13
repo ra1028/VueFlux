@@ -4,7 +4,7 @@ import Foundation
 open class Store<State: VueFlux.State> {
     private let state: State
     private let mutations: State.Mutations
-    private let observers = Atomic(Storage<(Store, State.Action) -> Void>())
+    private let storage = Atomic(Storage<(executor: Executor, observer: (Store, State.Action) -> Void)>())
     private let dispatcher = Dispatcher<State>()
     private let subscriptionScope = SubscriptionScope()
     
@@ -41,17 +41,18 @@ open class Store<State: VueFlux.State> {
     /// Subscribe the observer function to be receive on state change.
     ///
     /// - Prameters:
+    ///   - executor: An executor to receive store and action on.
     ///   - observer: A function to be received a store and action on state change.
     ///
     /// - Returns: A subscription to unsubscribe given observer.
     @discardableResult
-    public func subscribe(_ observer: @escaping (Store, State.Action) -> Void) -> Subscription {
-        return observers.modify { observers in
-            let key = observers.append(observer)
+    public func subscribe(executor: Executor = .mainThread, observer: @escaping (Store, State.Action) -> Void) -> Subscription {
+        return storage.modify { storage in
+            let key = storage.append((executor: executor, observer: observer))
             
             return .init { [weak self] in
-                self?.observers.modify { observers in
-                    observers.remove(for: key)
+                self?.storage.modify { storage in
+                    storage.remove(for: key)
                 }
             }
         }
@@ -62,10 +63,16 @@ open class Store<State: VueFlux.State> {
     /// - Parameters:
     ///   - action: An action to change state.
     fileprivate func commit(action: State.Action) {
-        observers.synchronized { observers in
+        storage.synchronized { storage in
             mutations.commit(action: action, state: state)
-            observers.forEach { observer in
-                observer(self, action)
+            
+            storage.forEach { storage in
+                let observer = storage.observer
+                
+                storage.executor.execute { [weak self] in
+                    guard let `self` = self else { return }
+                    observer(self, action)
+                }
             }
         }
     }
