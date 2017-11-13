@@ -102,7 +102,7 @@ final class VueFluxTests: XCTestCase {
         XCTAssertEqual(value, 1)
     }
     
-    func testUnsubscribeAtDeinitObject() {
+    func testUnsubscribeOnDeinitObject() {
         final class Object {}
         
         var value1 = 0

@@ -32,14 +32,14 @@ struct Storage<Element> {
     /// - Parameters:
     ///   - body: A function that takes an element of the collection as a parameter.
     func forEach(_ body: (Element) -> Void) {
-        for pair in buffer {
-            body(pair.element)
+        for (_, element) in buffer {
+            body(element)
         }
     }
 }
 
 extension Storage {
-    /// A unique key for remove element.
+    /// An unique key for remove element.
     struct Key: Equatable {
         private let value: UInt64
         
