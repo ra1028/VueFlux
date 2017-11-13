@@ -17,6 +17,8 @@
 		6B9E32D61FA64305000B24D4 /* CounterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9E32D31FA64305000B24D4 /* CounterViewController.swift */; };
 		6B9E32D71FA64305000B24D4 /* CounterState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9E32D41FA64305000B24D4 /* CounterState.swift */; };
 		6B9E32D81FA64305000B24D4 /* CounterActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9E32D51FA64305000B24D4 /* CounterActions.swift */; };
+		6BA27BDB1FBA065200809472 /* CounterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA27BDA1FBA065200809472 /* CounterView.swift */; };
+		6BA27BDD1FBA066200809472 /* CounterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BA27BDC1FBA066200809472 /* CounterView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -45,6 +47,8 @@
 		6B9E32D31FA64305000B24D4 /* CounterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterViewController.swift; sourceTree = "<group>"; };
 		6B9E32D41FA64305000B24D4 /* CounterState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterState.swift; sourceTree = "<group>"; };
 		6B9E32D51FA64305000B24D4 /* CounterActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterActions.swift; sourceTree = "<group>"; };
+		6BA27BDA1FBA065200809472 /* CounterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterView.swift; sourceTree = "<group>"; };
+		6BA27BDC1FBA066200809472 /* CounterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CounterView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,10 +87,12 @@
 			isa = PBXGroup;
 			children = (
 				6B9E32D51FA64305000B24D4 /* CounterActions.swift */,
+				6BA27BDA1FBA065200809472 /* CounterView.swift */,
+				6BA27BDC1FBA066200809472 /* CounterView.xib */,
 				6B9E32D31FA64305000B24D4 /* CounterViewController.swift */,
+				6B9E32CF1FA64006000B24D4 /* CounterViewController.storyboard */,
 				6B9E32D41FA64305000B24D4 /* CounterState.swift */,
 				6B9E32C01FA63D4E000B24D4 /* AppDelegate.swift */,
-				6B9E32CF1FA64006000B24D4 /* CounterViewController.storyboard */,
 				6B9E32B41FA63CE3000B24D4 /* Assets.xcassets */,
 				6B9E32B91FA63CE3000B24D4 /* Info.plist */,
 			);
@@ -164,6 +170,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6BA27BDD1FBA066200809472 /* CounterView.xib in Resources */,
 				6B9E32D01FA6400B000B24D4 /* CounterViewController.storyboard in Resources */,
 				6B9E32B51FA63CE3000B24D4 /* Assets.xcassets in Resources */,
 			);
@@ -199,6 +206,7 @@
 				6B9E32C41FA63D4E000B24D4 /* AppDelegate.swift in Sources */,
 				6B9E32D61FA64305000B24D4 /* CounterViewController.swift in Sources */,
 				6B9E32D71FA64305000B24D4 /* CounterState.swift in Sources */,
+				6BA27BDB1FBA065200809472 /* CounterView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
