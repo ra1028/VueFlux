@@ -1,19 +1,19 @@
 import UIKit
 
-final class CounterView: UIView {
-    @IBOutlet private(set) weak var contentView: UIView!
-    @IBOutlet private(set) weak var counterLabel: UILabel!
-    @IBOutlet private(set) weak var intervalLabel: UILabel!
-    @IBOutlet private(set) weak var intervalSlider: UISlider!
-    @IBOutlet private(set) weak var incrementButton: UIButton!
-    @IBOutlet private(set) weak var decrementButton: UIButton!
-    @IBOutlet private(set) weak var resetButton: UIButton!
+public final class CounterView: UIView {
+    @IBOutlet public private(set) weak var contentView: UIView!
+    @IBOutlet public private(set) weak var counterLabel: UILabel!
+    @IBOutlet public private(set) weak var intervalLabel: UILabel!
+    @IBOutlet public private(set) weak var intervalSlider: UISlider!
+    @IBOutlet public private(set) weak var incrementButton: UIButton!
+    @IBOutlet public private(set) weak var decrementButton: UIButton!
+    @IBOutlet public private(set) weak var resetButton: UIButton!
     
-    @IBInspectable var startColor: UIColor? {
+    @IBInspectable public var startColor: UIColor? {
         didSet { updateColors() }
     }
     
-    @IBInspectable var endColor: UIColor? {
+    @IBInspectable public var endColor: UIColor? {
         didSet { updateColors() }
     }
     
@@ -22,12 +22,12 @@ final class CounterView: UIView {
         configure()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         configure()
     }
     
-    override static var layerClass: AnyClass {
+    override public static var layerClass: AnyClass {
         return CAGradientLayer.self
     }
     

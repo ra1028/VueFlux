@@ -1,6 +1,5 @@
 import Foundation
 import VueFlux
-import RxSwift
 
 enum CounterAction {
     case increment

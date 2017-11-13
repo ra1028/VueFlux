@@ -5,6 +5,9 @@
       location = "container:RxExample.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:../VueFlux.xcodeproj">
+      location = "group:../../VueFlux.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:../ExampleCounterView/ExampleCounterView.xcodeproj">
    </FileRef>
 </Workspace>
