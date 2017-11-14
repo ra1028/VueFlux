@@ -4,7 +4,7 @@ import Foundation
 open class Store<State: VueFlux.State> {
     private let state: State
     private let mutations: State.Mutations
-    private let storage = Atomic(Storage<(executor: Executor, observer: (Store, State.Action) -> Void)>())
+    private let storage = Atomic(Storage<(executor: Executor, observer: (State.Action, Store) -> Void)>())
     private let dispatcher = Dispatcher<State>()
     private let subscriptionScope = SubscriptionScope()
     
@@ -38,15 +38,15 @@ open class Store<State: VueFlux.State> {
         self.subscriptionScope += Dispatcher<State>.shared.subscribe(executor: executor, dispatch: dispatch)
     }
     
-    /// Subscribe the observer function to be received the Store and Action after mutated state.
+    /// Subscribe the observer function to be received the store and action after mutated state.
     ///
     /// - Prameters:
-    ///   - executor: An executor to receive store and action on.
-    ///   - observer: A function to be received the Store and Action after mutated a state.
+    ///   - executor: An executor to receive action adn store on.
+    ///   - observer: A function to be received the action and store after mutated a state.
     ///
     /// - Returns: A subscription to unsubscribe given observer.
     @discardableResult
-    public func subscribe(executor: Executor = .mainThread, observer: @escaping (Store, State.Action) -> Void) -> Subscription {
+    public func subscribe(executor: Executor = .mainThread, observer: @escaping (State.Action, Store) -> Void) -> Subscription {
         return storage.modify { storage in
             let key = storage.append((executor: executor, observer: observer))
             
@@ -71,7 +71,7 @@ open class Store<State: VueFlux.State> {
                 
                 storage.executor.execute { [weak self] in
                     guard let `self` = self else { return }
-                    observer(self, action)
+                    observer(action, self)
                 }
             }
         }

@@ -25,7 +25,7 @@ private extension CounterViewController {
         counterView.resetButton.addTarget(self, action: #selector(reset(_:)), for: .touchUpInside)
         counterView.intervalSlider.addTarget(self, action: #selector(updateInterval(_:)), for: .valueChanged)
         
-        store.subscribe(scope: self) { [unowned self] store, action in
+        store.subscribe(scope: self) { [unowned self] action, store in
             switch action {
             case .increment, .decrement, .reset:
                 self.counterView.counterLabel.text = .init(store.computed.count)
