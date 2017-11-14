@@ -24,7 +24,7 @@ open class Store<State: VueFlux.State> {
     ///
     /// - Parameters:
     ///   - state: A state to be managed in `self`.
-    ///   - mutations: A mutations for change the state.
+    ///   - mutations: A mutations for mutate the state.
     ///   - executor: An executor to dispatch actions on.
     public init(state: State, mutations: State.Mutations, executor: Executor) {
         self.state = state
@@ -38,11 +38,11 @@ open class Store<State: VueFlux.State> {
         self.subscriptionScope += Dispatcher<State>.shared.subscribe(executor: executor, dispatch: dispatch)
     }
     
-    /// Subscribe the observer function to be receive on state change.
+    /// Subscribe the observer function to be received the Store and Action after mutated state.
     ///
     /// - Prameters:
     ///   - executor: An executor to receive store and action on.
-    ///   - observer: A function to be received a store and action on state change.
+    ///   - observer: A function to be received the Store and Action after mutated a state.
     ///
     /// - Returns: A subscription to unsubscribe given observer.
     @discardableResult
@@ -61,7 +61,7 @@ open class Store<State: VueFlux.State> {
     /// Commit action to mutations.
     ///
     /// - Parameters:
-    ///   - action: An action to change state.
+    ///   - action: An action to mutate state.
     fileprivate func commit(action: State.Action) {
         storage.synchronized { storage in
             mutations.commit(action: action, state: state)
@@ -84,12 +84,12 @@ public protocol State: class {
     associatedtype Mutations: VueFlux.Mutations where Mutations.State == Self
 }
 
-/// Represents a container for function to change a `State`.
+/// Represents a proxy for function to mutate a `State`.
 public protocol Mutations {
     associatedtype State: VueFlux.State
     
-    /// Change a state by given action.
-    /// The only way to actually change state in a Store.
+    /// Mutate a state by given action.
+    /// The only way to actually mutate state in a Store.
     func commit(action: State.Action, state: State)
 }
 
