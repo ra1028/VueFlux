@@ -6,7 +6,10 @@ matrix:
     - os: osx
       language: objective-c
       osx_image: xcode9
+      install:
+        - ./install_swiftlint.sh
       script:
+        - swiftlint
         - set -o pipefail
         - xcodebuild build-for-testing test-without-building -scheme VueFlux -configuration Release ENABLE_TESTABILITY=YES | xcpretty -c
         - xcodebuild build-for-testing test-without-building -scheme VueFlux -configuration Release -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 8' ENABLE_TESTABILITY=YES | xcpretty - c
