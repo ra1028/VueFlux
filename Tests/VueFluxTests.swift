@@ -88,7 +88,7 @@ final class VueFluxTests: XCTestCase {
         var value = 0
         let store = Store<TestState>(state: .init(), mutations: .init(), executor: .immediate)
         
-        let subscription = store.subscribe { store, _ in
+        let subscription = store.subscribe { _, store in
             value = store.computed.value
         }
         
@@ -144,11 +144,11 @@ final class VueFluxTests: XCTestCase {
         var object: Object? = .init()
         let store = Store<TestState>(state: .init(), mutations: .init(), executor: .immediate)
         
-        store.subscribe(scope: object!) { store, _ in
+        store.subscribe(scope: object!) { _, store in
             value1 = store.computed.value
         }
         
-        store.subscribe(scope: object!) { store, _ in
+        store.subscribe(scope: object!) { _, store in
             value2 = store.computed.value * 10
         }
         
