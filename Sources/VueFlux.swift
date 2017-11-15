@@ -127,21 +127,21 @@ public struct Computed<State: VueFlux.State> {
     }
 }
 
-/// Execute arbitrary function by given behavior.
+/// Executes arbitrary function by given behavior.
 public struct Executor {
-    /// Given function will execute immediately.
+    /// Executes function immediately and synchronously.
     public static var immediate: Executor {
         return .init { function in function() }
     }
     
-    /// Given function will execute on main-thread.
-    /// If called on main-thread, function is not enqueue and execute immediately.
+    /// Exxecutes function on main-thread.
+    /// If called execute on main-thread, function is not enqueue and execute immediately.
     public static var mainThread: Executor {
         let innerExecutor = MainThreadInnerExecutor()
         return .init(innerExecutor.execute(_:))
     }
     
-    /// Given function will all enqueue to arbitrary DispatchQueue.
+    /// All the executions are enqueued to given qeueue.
     public static func queue(_ dispatchQueue: DispatchQueue) -> Executor {
         return .init { function in dispatchQueue.async(execute: function) }
     }

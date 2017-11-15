@@ -124,7 +124,6 @@ The `Store` manages the state, and also can be manage shared state in an applica
 `Computed` and `Actions` can only be accessed via this. Changing the state is the same as well.  
 
 An `Action` dispatched from the `actions` of the instance member changes only the designated store's state. On the other hand, an `Action` dispatched from the `actions` of the static member will affects all stores' states that constrained by same `State`.  
-So this is also serves as __global event bus__.  
 
 `Store` implementation in a ViewController is like as follows:  
 
@@ -157,6 +156,105 @@ final class CounterViewController: UIViewController {
 }
 ```
 
+---
+
+## Advanced concepts
+
+### Executor
+Executor determines the execution behavior of function such as execute on main-thread, on a global queue and so on.  
+
+It has implements some behavior by default.  
+- immediate  
+  Executes function immediately and synchronously.  
+
+- mainThread  
+  Executes immediately and synchronously if execution thread is main-thread. Otherwise enqueue to main-queue.  
+
+- queue(_ dispatchQueue: DispatchQueue)  
+  All the functions are enqueue to given dispatch queue.  
+
+In the cases of below, the store commits actions to mutations through the global queue.  
+```swift
+let store = Store<CounterState>(state: .init(), mutations: .init(), executor: .queue(.global()))
+```
+
+Also, if you subscribe like this, the observer function is executed on the main thread.  
+The argument default is `mainThread`  
+```swift
+store.subscribe(executor: .mainThread) { action, store in
+    // Executed on the main thread
+}
+```
+
+### Subscription
+Subscribing to the store, returns `Subscription`.  
+
+`Subscription` has a function `unsubscribe`. Can removing an observer function that subscribe to the store by executing `unsubscribe.  
+
+```swift
+let subscription = store.subscribe { action, store in
+    // NOT executed after unsubscribed.
+}
+
+subscription.unsubscribe()
+```
+
+### SubscriptionScope
+`SubscriptionScope` serves as resource manager of subscription.  
+
+This will be unsubscribe all the added subscriptions on `deinit`.  
+
+Unsubscribe when the ViewController is closed by retaining this as a property of ViewController.  
+
+```swift
+var subscriptionsScope: SubscriptionScope? = SubscriptionScope()
+
+subscriptionScope += store.subscribe { action, store in
+    // NOT executed after subscriptionsScope had deinitialized.
+}
+
+subscriptionsScope = nil // Be unsubscribed
+```
+
+### Scoped Subscribe
+When subscribing, you can pass `AnyObject` as the parameter `scope`.  
+An observer function subscribed to the store will be unsubscribe when deinitializes its object.  
+
+```swift
+store.subscribe(scope: self) { [unowned self] action, store in
+    // NOT executed after `self` had deinitialized.
+}
+```
+
+## Shared Store
+Should make a shared instance of `Store` in order to manages a state shared in application.  
+
+Although you may as well defined as a global variable, an elegant way is override the `Store` and define a static member `shared`.  
+
+```
+final class CounterStore: Store<CounterState> {
+    static let shared = CounterStore()
+
+    private init() {
+        super.init(state: .init(), mutations: .init())
+    }
+}
+```
+
+## Global Event Bus
+VueFlux is also serves as a global event bus.  
+
+If you call a function from `actions' that a static member of the Store, it affects all the states managed by the instances of that Store type.  
+
+```Swift
+let store = Store<CounterState>(state: .init(), mutations: .init(), executor: .immediate)
+
+print(store.computed.count)  // 0
+
+Store<CounterState>.actions.increment()
+
+print(store.computed.count)  // 1
+```
 ---
 
 ## Requirements
@@ -198,14 +296,14 @@ carthage update
 ---
 
 ## Contribution
-Welcome to fork and submit pull requests.
+Welcome to fork and submit pull requests.  
 
-Before submitting pull request, please ensure you have passed the included tests.
-If your pull request including new function, please write test cases for it.
+Before submitting pull request, please ensure you have passed the included tests.  
+If your pull request including new function, please write test cases for it.  
 
 ---
 
 ## License
-VueFlux is released under the MIT License.
+VueFlux is released under the MIT License.  
 
 ---
