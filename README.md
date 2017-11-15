@@ -1,5 +1,5 @@
 <H1 align="center">VueFlux</H1>
-<H4 align="center">Unidirectional Data Flow State Management Architecture for Swift - Inspired by Vuex and Flux</H4>
+<H4 align="center">Unidirectional Data Flow State Management Architecture for Swift - Inspired by [Vuex](https://github.com/vuejs/vuex) and [Flux](https://github.com/facebook/flux)</H4>
 </br>
 
 <p align="center">
@@ -17,21 +17,21 @@
 ## About VueFlux
 VueFlux is the architecture to manage state with unidirectional data flow for Swift, inspired by [Vuex](https://github.com/vuejs/vuex) and [Flux](https://github.com/facebook/flux).  
 
-It serves as a multi store so that all ViewControllers have designated stores, with rules ensuring that the state can only be mutated in a predictable fashion.  
+It serves multi store, so that all ViewControllers have designated stores, with rules ensuring that the states can only be mutated in a predictable fashion.  
 
-The Store also can receives an action dispatched globally, it helps to resolve dependencies between ViewControllers. And, can be manage a shared state in application by making a shared instance of store.  
+The stores also can receives an action dispatched globally. That makes ViewControllers be freed from dependencies among them. And, a shared state in an application is also supported by making a shared instance of the store.  
 
-Although VueFlux keeps your project's good productivity and readable codes, it also comes with the cost of more concepts and boilerplate.  
+Although VueFlux makes your projects more productive and codes more readable, it also comes with the cost of more concepts and boilerplates.  
 If your project is small-scale, you will most likely be fine without VueFlux.  
-However, as the scale of your project gets larger, VueFlux will be the best choice to handle the complicated data flow.  
+However, as the scale of your project becomes larger, VueFlux will be the best choice to handle the complicated data flow.  
 
 VueFlux is recommended to be used with arbitrary Reactive programming libraries(e.g. [RxSwift](https://github.com/ReactiveX/RxSwift), [ReactiveSwift](https://github.com/ReactiveCocoa/ReactiveSwift) and [ReactiveKit](https://github.com/ReactiveKit/ReactiveKit)), but even VueFlux alone works awesome.  
 
 ---
 
 ## Core Concepts
-VueFlux is Constituted by following core concepts.  
-For actual implementation please see [Examples](./Examples).  
+VueFlux is constituted of following core concepts.  
+You can see actual implementation [here](./Examples).  
 
 - [State](#state)
 - [Actions](#actions)
@@ -40,11 +40,11 @@ For actual implementation please see [Examples](./Examples).
 - [Store](#store)
 
 ### State
-This is the protocol that only just constrain the type of `Action` and `Mutations`, represents the state managed by the `Store`.
+This is the protocol that only just for constraining the type of `Action` and `Mutations`, represents the state managed by the `Store`.  
 
-Implement some detailed state property to the state, and keeps as readonly by `fileprivate` access level.   
+Implement some properties of the state, and keeps them readonly by fileprivate access control, like below.   
 
-Will be mutated only by Mutations, and property will be publish only by `Computed`.  
+Will be mutated only by Mutations, and the properties will be published only by `Computed`.  
 
 ```swift
 final class CounterState: State {
@@ -58,9 +58,9 @@ final class CounterState: State {
 ### Actions
 This is the proxy for functions of dispatching `Action`.  
 
-Proxied functions can contain arbitrary asynchronous operations such as request to backend API.  
+They can have arbitrary operations asynchronous such as request to backend API.  
 
-The type of `Action` dispatched from `Actions` proxied functions is constrained by `State`.  
+The type of `Action` dispatched from `Actions`' proxied functions is determined by `State`.  
 
 ```swift
 enum CounterAction {
@@ -81,13 +81,13 @@ extension Actions where State == CounterState {
 ```
 
 ### Mutations
-This is the protocol that represents proxy for `commit` function that to be mutate the state.  
+This is the protocol that represents `commit` function that mutate the state.  
 
-Be able to change the fileprivate property of State by implementing it in the same file.  
+Be able to change the fileprivate properties of the state by implementing it in the same file.  
 
-The only way to actually change `State` in a `Store` is by committing a `Action` through `Mutations`.  
+The only way to actually change `State` in a `Store` is committing an `Action` via `Mutations`.  
 
-Changes of `State` are must be `synchronous`.  
+Changes of `State` must be done `synchronously`.  
 
 ```swift
 struct CounterMutations: Mutations {
@@ -104,11 +104,11 @@ struct CounterMutations: Mutations {
 ```
 
 ### Computed
-Proxy for publishing properties of `State` to read-only.  
+This is the proxy for publishing read-only properties of `State`.  
 
-Be able to read and publish the fileprivate property of State by implementing it in the same file.  
+Be able to access and publish the fileprivate properties of state by implementing it in the same file.  
 
-Properties of State in the Store can only be read through this.  
+Properties of State in the Store can only be accessed via this.  
 
 ```swift
 extension Computed where State == CounterState {
@@ -119,14 +119,14 @@ extension Computed where State == CounterState {
 ```
 
 ### Store
-The `Store` is manages the state, and also can be manage a shared state in application by making a shared instance.  
+The `Store` manages the state, and also can be manage shared state in an application by shared store instance.  
 
-`Computed` and `Actions` are only be access through this, also the same of change the state.  
+`Computed` and `Actions` can only be accessed via this. Changing the state is the same as well.  
 
-An `action` dispatched from the `store.actions` of the instance member changes only the designated store's state. On the other hand, an `action` dispatched from the `Store<State>.actions` of the static member will affect all store that constrained by same `State`  
+An `Action` dispatched from the `actions` of the instance member changes only the designated store's state. On the other hand, an `Action` dispatched from the `actions` of the static member will affects all stores' states that constrained by same `State`.  
 So this is also serves as __global event bus__.  
 
-`Store` implement on a ViewController like so follows:  
+`Store` implementation in a ViewController is like as follows:  
 
 ```swift
 final class CounterViewController: UIViewController {
