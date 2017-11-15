@@ -1,5 +1,7 @@
 <H1 align="center">VueFlux</H1>
-<H4 align="center">Unidirectional Data Flow State Management Architecture for Swift - Inspired by [Vuex](https://github.com/vuejs/vuex) and [Flux](https://github.com/facebook/flux)</H4>
+<H4 align="center">
+Unidirectional Data Flow State Management Architecture for Swift - Inspired by <a href="https://github.com/vuejs/vuex">Vuex</a> and <a href="https://github.com/facebook/flux">Flux</a>
+</H4>
 </br>
 
 <p align="center">
@@ -179,7 +181,7 @@ let store = Store<CounterState>(state: .init(), mutations: .init(), executor: .q
 ```
 
 Also, if you subscribe like this, the observer function is executed on the main thread.  
-The argument default is `mainThread`  
+The argument default is `mainThread`.  
 ```swift
 store.subscribe(executor: .mainThread) { action, store in
     // Executed on the main thread
@@ -221,7 +223,7 @@ When subscribing, you can pass `AnyObject` as the parameter `scope`.
 An observer function subscribed to the store will be unsubscribe when deinitializes its object.  
 
 ```swift
-store.subscribe(scope: self) { [unowned self] action, store in
+store.subscribe(scope: self) { action, store in
     // NOT executed after `self` had deinitialized.
 }
 ```
@@ -231,7 +233,7 @@ Should make a shared instance of `Store` in order to manages a state shared in a
 
 Although you may as well defined as a global variable, an elegant way is override the `Store` and define a static member `shared`.  
 
-```
+```swift
 final class CounterStore: Store<CounterState> {
     static let shared = CounterStore()
 
@@ -244,9 +246,9 @@ final class CounterStore: Store<CounterState> {
 ## Global Event Bus
 VueFlux is also serves as a global event bus.  
 
-If you call a function from `actions' that a static member of the Store, it affects all the states managed by the instances of that Store type.  
+If you call a function from `actions` that a static member of the Store, it affects all the states managed by the instances of that `Store` type.  
 
-```Swift
+```swift
 let store = Store<CounterState>(state: .init(), mutations: .init(), executor: .immediate)
 
 print(store.computed.count)  // 0
