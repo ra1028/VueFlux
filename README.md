@@ -191,7 +191,7 @@ store.subscribe(executor: .mainThread) { action, store in
 ### Subscription
 Subscribing to the store, returns `Subscription`.  
 
-`Subscription` has a function `unsubscribe`. Can removing an observer function that subscribe to the store by executing `unsubscribe.  
+`Subscription` has a function `unsubscribe`. Can removing an observer function that subscribe to the store by executing `unsubscribe`.  
 
 ```swift
 let subscription = store.subscribe { action, store in

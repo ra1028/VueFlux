@@ -6,7 +6,7 @@ matrix:
     - os: osx
       language: objective-c
       osx_image: xcode9
-      install:
+      before_install:
         - ./install_swiftlint.sh
       script:
         - swiftlint
