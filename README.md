@@ -27,7 +27,7 @@ Although VueFlux makes your projects more productive and codes more readable, it
 If your project is small-scale, you will most likely be fine without VueFlux.  
 However, as the scale of your project becomes larger, VueFlux will be the best choice to handle the complicated data flow.  
 
-VueFlux is recommended to be used with arbitrary Reactive programming libraries(e.g. [RxSwift](https://github.com/ReactiveX/RxSwift), [ReactiveSwift](https://github.com/ReactiveCocoa/ReactiveSwift) and [ReactiveKit](https://github.com/ReactiveKit/ReactiveKit)), but even VueFlux alone works awesome.  
+VueFlux is recommended to be used with arbitrary reactive programming libraries(e.g. [RxSwift](https://github.com/ReactiveX/RxSwift), [ReactiveSwift](https://github.com/ReactiveCocoa/ReactiveSwift) and [ReactiveKit](https://github.com/ReactiveKit/ReactiveKit)), but even VueFlux alone works awesome.  
 
 ---
 
@@ -125,7 +125,7 @@ The `Store` manages the state, and also can be manage shared state in an applica
 
 `Computed` and `Actions` can only be accessed via this. Changing the state is the same as well.  
 
-An `Action` dispatched from the `actions` of the instance member changes only the designated store's state. On the other hand, an `Action` dispatched from the `actions` of the static member will affects all stores' states that constrained by same `State`.  
+An `Action` dispatched from the `actions` of the instance member changes only the designated store's state. On the other hand, an `Action` dispatched from the `actions` of the static member will affects all stores' states that constrained by same `State` type.  
 
 `Store` implementation in a ViewController is like as follows:  
 
@@ -165,7 +165,7 @@ final class CounterViewController: UIViewController {
 ### Executor
 Executor determines the execution behavior of function such as execute on main-thread, on a global queue and so on.  
 
-It has implements some behavior by default.  
+It has some behavior by default.  
 - immediate  
   Executes function immediately and synchronously.  
 
@@ -173,14 +173,14 @@ It has implements some behavior by default.
   Executes immediately and synchronously if execution thread is main-thread. Otherwise enqueue to main-queue.  
 
 - queue(_ dispatchQueue: DispatchQueue)  
-  All the functions are enqueue to given dispatch queue.  
+  All functions are enqueued to given dispatch queue.  
 
-In the cases of below, the store commits actions to mutations through the global queue.  
+In the following case, the store commits actions to mutations through the global queue.  
 ```swift
 let store = Store<CounterState>(state: .init(), mutations: .init(), executor: .queue(.global()))
 ```
 
-Also, if you subscribe like this, the observer function is executed on the main thread.  
+If you subscribe like below, the observer function is executed on the main thread.  
 The argument default is `mainThread`.  
 ```swift
 store.subscribe(executor: .mainThread) { action, store in
@@ -189,9 +189,9 @@ store.subscribe(executor: .mainThread) { action, store in
 ```
 
 ### Subscription
-Subscribing to the store, returns `Subscription`.  
+Subscribing to the store returns `Subscription`.  
 
-`Subscription` has a function `unsubscribe`. Can removing an observer function that subscribe to the store by executing `unsubscribe`.  
+`Subscription` has `unsubscribe` function which can remove an observer function that is subscribing to the store.  
 
 ```swift
 let subscription = store.subscribe { action, store in
@@ -204,9 +204,9 @@ subscription.unsubscribe()
 ### SubscriptionScope
 `SubscriptionScope` serves as resource manager of subscription.  
 
-This will be unsubscribe all the added subscriptions on `deinit`.  
+This will terminate all added subscriptions on deinitialization.  
 
-Unsubscribe when the ViewController is closed by retaining this as a property of ViewController.  
+For example, when the ViewController which has a property of SubscriptionScope is dismissed, all subscriptions are terminated.  
 
 ```swift
 var subscriptionsScope: SubscriptionScope? = SubscriptionScope()
@@ -219,8 +219,8 @@ subscriptionsScope = nil // Be unsubscribed
 ```
 
 ### Scoped Subscribe
-When subscribing, you can pass `AnyObject` as the parameter `scope`.  
-An observer function subscribed to the store will be unsubscribe when deinitializes its object.  
+In subscribing, you can pass `AnyObject` as the parameter of `scope`.  
+An observer function which is subscribed to the store will be unsubscribe when deinitializes its object.  
 
 ```swift
 store.subscribe(scope: self) { action, store in
@@ -229,9 +229,9 @@ store.subscribe(scope: self) { action, store in
 ```
 
 ## Shared Store
-Should make a shared instance of `Store` in order to manages a state shared in application.  
+You should make a shared instance of `Store` in order to manages a state shared in application.  
 
-Although you may as well defined as a global variable, an elegant way is override the `Store` and define a static member `shared`.  
+Although you may define it as a global variable, an elegant way is overriding the `Store` and defining a static member `shared`.  
 
 ```swift
 final class CounterStore: Store<CounterState> {
@@ -246,7 +246,7 @@ final class CounterStore: Store<CounterState> {
 ## Global Event Bus
 VueFlux is also serves as a global event bus.  
 
-If you call a function from `actions` that a static member of the Store, it affects all the states managed by the instances of that `Store` type.  
+If you call a function from `actions` that a static member of `Store`, all the states managed in the store constrained by same `State`-type are affected.  
 
 ```swift
 let store = Store<CounterState>(state: .init(), mutations: .init(), executor: .immediate)
