@@ -44,11 +44,11 @@ You can see actual implementation [here](./Examples).
 - [Store](#store)
 
 ### State
-This is the protocol that only just for constraining the type of `Action` and `Mutations`, represents the state managed by the `Store`.  
+This is the protocol that only just for constraining the type of Action and Mutations, represents the state managed by the Store.  
 
 Implement some properties of the state, and keeps them readonly by fileprivate access control, like below.   
 
-Will be mutated only by Mutations, and the properties will be published only by `Computed`.  
+Will be mutated only by Mutations, and the properties will be published only by Computed.  
 
 ```swift
 final class CounterState: State {
@@ -60,11 +60,11 @@ final class CounterState: State {
 ```
 
 ### Actions
-This is the proxy for functions of dispatching `Action`.  
+This is the proxy for functions of dispatching Action.  
 
 They can have arbitrary operations asynchronous such as request to backend API.  
 
-The type of `Action` dispatched from `Actions`' proxied functions is determined by `State`.  
+The type of Action dispatched from Actions' proxied functions is determined by State.  
 
 ```swift
 enum CounterAction {
@@ -89,9 +89,9 @@ This is the protocol that represents `commit` function that mutate the state.
 
 Be able to change the fileprivate properties of the state by implementing it in the same file.  
 
-The only way to actually change `State` in a `Store` is committing an `Action` via `Mutations`.  
+The only way to actually change State in a Store is committing an Action via Mutations.  
 
-Changes of `State` must be done `synchronously`.  
+Changes of State must be done `synchronously`.  
 
 ```swift
 struct CounterMutations: Mutations {
@@ -108,7 +108,7 @@ struct CounterMutations: Mutations {
 ```
 
 ### Computed
-This is the proxy for publishing read-only properties of `State`.  
+This is the proxy for publishing read-only properties of State.  
 
 Be able to access and publish the fileprivate properties of state by implementing it in the same file.  
 
@@ -123,13 +123,13 @@ extension Computed where State == CounterState {
 ```
 
 ### Store
-The `Store` manages the state, and also can be manage shared state in an application by shared store instance.  
+The Store manages the state, and also can be manage shared state in an application by shared store instance.  
 
-`Computed` and `Actions` can only be accessed via this. Changing the state is the same as well.  
+Computed and Actions can only be accessed via this. Changing the state is the same as well.  
 
-An `Action` dispatched from the `actions` of the instance member changes only the designated store's state. On the other hand, an `Action` dispatched from the `actions` of the static member will affects all stores' states that constrained by same `State` type.  
+An Action dispatched from the `actions` of the instance member changes only the designated store's state. On the other hand, an Action dispatched from the `actions` of the static member will affects all stores' states that constrained by same State type.  
 
-`Store` implementation in a ViewController is like as follows:  
+Store implementation in a ViewController is like as follows:  
 
 ```swift
 final class CounterViewController: UIViewController {
@@ -191,9 +191,9 @@ store.subscribe(executor: .mainThread) { action, store in
 ```
 
 ### Subscription
-Subscribing to the store returns `Subscription`.  
+Subscribing to the store returns Subscription.  
 
-`Subscription` has `unsubscribe` function which can remove an observer function that is subscribing to the store.  
+Subscription has `unsubscribe` function which can remove an observer function that is subscribing to the store.  
 
 ```swift
 let subscription = store.subscribe { action, store in
@@ -204,7 +204,7 @@ subscription.unsubscribe()
 ```
 
 ### SubscriptionScope
-`SubscriptionScope` serves as resource manager of subscription.  
+SubscriptionScope serves as resource manager of subscription.  
 
 This will terminate all added subscriptions on deinitialization.  
 
@@ -231,9 +231,9 @@ store.subscribe(scope: self) { action, store in
 ```
 
 ## Shared Store
-You should make a shared instance of `Store` in order to manages a state shared in application.  
+You should make a shared instance of Store in order to manages a state shared in application.  
 
-Although you may define it as a global variable, an elegant way is overriding the `Store` and defining a static member `shared`.  
+Although you may define it as a global variable, an elegant way is overriding the Store and defining a static member `shared`.  
 
 ```swift
 final class CounterStore: Store<CounterState> {
@@ -248,7 +248,7 @@ final class CounterStore: Store<CounterState> {
 ## Global Event Bus
 VueFlux is also serves as a global event bus.  
 
-If you call a function from `actions` that a static member of `Store`, all the states managed in the store constrained by same `State`-type are affected.  
+If you call a function from `actions` that a static member of Store, all the states managed in the store constrained by same State-type are affected.  
 
 ```swift
 let store = Store<CounterState>(state: .init(), mutations: .init(), executor: .immediate)
