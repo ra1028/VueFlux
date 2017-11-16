@@ -29,6 +29,8 @@ However, as the scale of your project becomes larger, VueFlux will be the best c
 
 VueFlux is recommended to be used with arbitrary reactive programming libraries(e.g. [RxSwift](https://github.com/ReactiveX/RxSwift), [ReactiveSwift](https://github.com/ReactiveCocoa/ReactiveSwift) and [ReactiveKit](https://github.com/ReactiveKit/ReactiveKit)), but even VueFlux alone works awesome.  
 
+![](./Assets/VueFlux.png)
+
 ---
 
 ## Core Concepts
