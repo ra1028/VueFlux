@@ -127,7 +127,7 @@ The Store manages the state, and also can be manage shared state in an applicati
 
 Computed and Actions can only be accessed via this. Changing the state is the same as well.  
 
-An Action dispatched from the `actions` of the instance member changes only the designated store's state. On the other hand, an Action dispatched from the `actions` of the static member will affects all stores' states that constrained by same State type.  
+An Action dispatched from the `actions` of the instance member is mutates only the designated store's state. On the other hand, an Action dispatched from the `actions` of the static member will mutates all the states managed in the stores which have same generic type of State in common.  
 
 Store implementation in a ViewController is like as follows:  
 
@@ -151,11 +151,11 @@ final class CounterViewController: UIViewController {
     }
 
     @IBAction func incrementButtonTapped(sender: UIButton) {
-        store.actions.increment()
+        store.actions.increment()  // Store<CounterState>.actions.increment()
     }
 
     @IBAction func decrementButtonTapped(sender: UIButton) {
-        store.actions.decrement()
+        store.actions.decrement()  // Store<CounterState>.actions.decrement()
     }
 }
 ```
@@ -217,7 +217,7 @@ subscriptionScope += store.subscribe { action, store in
     // NOT executed after subscriptionsScope had deinitialized.
 }
 
-subscriptionsScope = nil // Be unsubscribed
+subscriptionsScope = nil  // Be unsubscribed
 ```
 
 ### Scoped Subscribe
@@ -246,9 +246,9 @@ final class CounterStore: Store<CounterState> {
 ```
 
 ## Global Event Bus
-VueFlux is also serves as a global event bus.  
+VueFlux can also serve as a global event bus.  
 
-If you call a function from `actions` that a static member of Store, all the states managed in the store constrained by same State-type are affected.  
+If you call a function from `actions` that is a static member of Store, all the states managed in the stores which have same generic type of State in common are affected.  
 
 ```swift
 let store = Store<CounterState>(state: .init(), mutations: .init(), executor: .immediate)
@@ -267,7 +267,6 @@ print(store.computed.count)  // 1
 - iOS 9.0 or later
 - watchOS 2.0 or later
 - tvOS 9.0 or later
-- Linux
 
 ---
 
