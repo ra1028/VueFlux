@@ -19,6 +19,30 @@
 		6BEDA61A1FBA219700F03699 /* GenericComponents.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6BEDA6181FBA219700F03699 /* GenericComponents.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		6B9F51D41FBF2F3800252804 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6B9F51D01FBF2F3800252804 /* GenericComponents.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6BF9DEEF1FBA1BCA00C4BCFD;
+			remoteInfo = GenericComponents;
+		};
+		6B9F51E11FBF2F4F00252804 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6B9F51DC1FBF2F4F00252804 /* VueFlux.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6B9E32811FA639DF000B24D4;
+			remoteInfo = VueFlux;
+		};
+		6B9F51E31FBF2F4F00252804 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6B9F51DC1FBF2F4F00252804 /* VueFlux.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6B9E328A1FA639DF000B24D4;
+			remoteInfo = VueFluxTests;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		6BEDA6021FBA1EFD00F03699 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -35,6 +59,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6B9F51D01FBF2F3800252804 /* GenericComponents.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GenericComponents.xcodeproj; path = ../GenericComponents/GenericComponents.xcodeproj; sourceTree = "<group>"; };
+		6B9F51DC1FBF2F4F00252804 /* VueFlux.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = VueFlux.xcodeproj; path = ../../VueFlux.xcodeproj; sourceTree = "<group>"; };
 		6BEDA5E21FBA1DFE00F03699 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BEDA5F81FBA1E2700F03699 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6BEDA5F91FBA1E2700F03699 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -60,9 +86,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6B9F51D11FBF2F3800252804 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6B9F51D51FBF2F3800252804 /* GenericComponents.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6B9F51DD1FBF2F4F00252804 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6B9F51E21FBF2F4F00252804 /* VueFlux.framework */,
+				6B9F51E41FBF2F4F00252804 /* VueFluxTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		6BEDA5D91FBA1DFE00F03699 = {
 			isa = PBXGroup;
 			children = (
+				6B9F51DC1FBF2F4F00252804 /* VueFlux.xcodeproj */,
+				6B9F51D01FBF2F3800252804 /* GenericComponents.xcodeproj */,
 				6BEDA5F71FBA1E2700F03699 /* Sources */,
 				6BEDA5E31FBA1DFE00F03699 /* Products */,
 				6BEDA6181FBA219700F03699 /* GenericComponents.framework */,
@@ -140,12 +185,46 @@
 			mainGroup = 6BEDA5D91FBA1DFE00F03699;
 			productRefGroup = 6BEDA5E31FBA1DFE00F03699 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 6B9F51D11FBF2F3800252804 /* Products */;
+					ProjectRef = 6B9F51D01FBF2F3800252804 /* GenericComponents.xcodeproj */;
+				},
+				{
+					ProductGroup = 6B9F51DD1FBF2F4F00252804 /* Products */;
+					ProjectRef = 6B9F51DC1FBF2F4F00252804 /* VueFlux.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				6BEDA5E11FBA1DFE00F03699 /* Example */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		6B9F51D51FBF2F3800252804 /* GenericComponents.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = GenericComponents.framework;
+			remoteRef = 6B9F51D41FBF2F3800252804 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6B9F51E21FBF2F4F00252804 /* VueFlux.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = VueFlux.framework;
+			remoteRef = 6B9F51E11FBF2F4F00252804 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6B9F51E41FBF2F4F00252804 /* VueFluxTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = VueFluxTests.xctest;
+			remoteRef = 6B9F51E31FBF2F4F00252804 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		6BEDA5E01FBA1DFE00F03699 /* Resources */ = {
