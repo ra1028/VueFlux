@@ -16,5 +16,3 @@ DerivedData
 *.hmap
 *.xccheckout
 *.xcuserstate
-
-Carthage/*

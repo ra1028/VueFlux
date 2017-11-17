@@ -1,0 +1,8 @@
+excluded:
+  - Tests
+  - Examples/RxExample/Carthage
+
+trailing_whitespace:
+  ignores_empty_lines: true
+
+line_length: 160
