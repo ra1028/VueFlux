@@ -230,7 +230,7 @@ store.subscribe(scope: self) { action, store in
 }
 ```
 
-## Shared Store
+### Shared Store
 You should make a shared instance of Store in order to manages a state shared in application.  
 
 Although you may define it as a global variable, an elegant way is overriding the Store and defining a static member `shared`.  
@@ -245,7 +245,7 @@ final class CounterStore: Store<CounterState> {
 }
 ```
 
-## Global Event Bus
+### Global Event Bus
 VueFlux can also serve as a global event bus.  
 
 If you call a function from `actions` that is a static member of Store, all the states managed in the stores which have same generic type of State in common are affected.  

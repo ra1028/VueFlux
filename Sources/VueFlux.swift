@@ -9,7 +9,7 @@ open class Store<State: VueFlux.State> {
     private let subscriptionScope = SubscriptionScope()
     
     /// An actions proxy via shared dispatcher.
-    /// Action is dispatched to all Store instances constrained as same `State` type.
+    /// Action is dispatched to all stores which have same generic type of State.
     public static var actions: Actions<State> {
         return .init(dispatcher: Dispatcher<State>.shared)
     }
