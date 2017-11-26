@@ -29,7 +29,7 @@ final class SubjectTests: XCTestCase {
         
         let expectation = self.expectation(description: "subscribe to subject on global queue")
         
-        subject.subscribe(executor: .queue(.globalQueue())) { int in
+        subject.subscribe(executor: .queue(.globalDefault())) { int in
             XCTAssertFalse(Thread.isMainThread)
             value = int
             expectation.fulfill()

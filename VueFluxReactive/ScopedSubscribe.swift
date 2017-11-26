@@ -3,21 +3,6 @@ import VueFlux
 
 private let subscriptionScopeKey = UnsafeRawPointer(UnsafeMutablePointer<UInt8>.allocate(capacity: 1))
 
-/// Represents an class with have subscribe function.
-public protocol Subscribable: class {
-    associatedtype Value
-    
-    /// Subscribe the observer function to be received the value.
-    ///
-    /// - Prameters:
-    ///   - executor: An executor to receive value on.
-    ///   - observer: A function to be received the value.
-    ///
-    /// - Returns: A subscription to unsubscribe given observer.
-    @discardableResult
-    func subscribe(executor: Executor, observer: @escaping (Value) -> Void) -> Subscription
-}
-
 public extension Subscribable {
     /// Subscribe the observer function to be receive on state change.
     /// Unsubscribed by deallocating the given object.

@@ -37,7 +37,7 @@ final class SignalTests: XCTestCase {
         
         let expectation = self.expectation(description: "subscribe to signal on global queue")
         
-        signal.subscribe(executor: .queue(.globalQueue())) { int in
+        signal.subscribe(executor: .queue(.globalDefault())) { int in
             XCTAssertFalse(Thread.isMainThread)
             value = int
             expectation.fulfill()

@@ -32,6 +32,7 @@
 		6B9EB25B1FCB333E009F0659 /* Immutable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB25A1FCB333E009F0659 /* Immutable.swift */; };
 		6B9EB25D1FCB3D81009F0659 /* MutableTexts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB25C1FCB3D81009F0659 /* MutableTexts.swift */; };
 		6B9EB25F1FCB40AC009F0659 /* Subscribable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB25E1FCB40AC009F0659 /* Subscribable.swift */; };
+		6B9EB2631FCB434E009F0659 /* SubscribableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB2621FCB434E009F0659 /* SubscribableTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +81,7 @@
 		6B9EB25A1FCB333E009F0659 /* Immutable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Immutable.swift; sourceTree = "<group>"; };
 		6B9EB25C1FCB3D81009F0659 /* MutableTexts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutableTexts.swift; sourceTree = "<group>"; };
 		6B9EB25E1FCB40AC009F0659 /* Subscribable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscribable.swift; sourceTree = "<group>"; };
+		6B9EB2621FCB434E009F0659 /* SubscribableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscribableTests.swift; sourceTree = "<group>"; };
 		6BA27BCB1FB8CD3100809472 /* SubscriptionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionTests.swift; sourceTree = "<group>"; };
 		6BA27BCE1FB8CE1A00809472 /* SubscriptionScopeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionScopeTests.swift; sourceTree = "<group>"; };
 		6BA27BD31FB8CFE600809472 /* StorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageTests.swift; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 				6B9EB25C1FCB3D81009F0659 /* MutableTexts.swift */,
 				6BA27BCB1FB8CD3100809472 /* SubscriptionTests.swift */,
 				6BA27BCE1FB8CE1A00809472 /* SubscriptionScopeTests.swift */,
+				6B9EB2621FCB434E009F0659 /* SubscribableTests.swift */,
 				6B9E329F1FA63B07000B24D4 /* Info.plist */,
 			);
 			path = Tests;
@@ -380,6 +383,7 @@
 			files = (
 				6B9EB2441FCB203B009F0659 /* VueFluxTests.swift in Sources */,
 				6B9EB2451FCB203B009F0659 /* ExecutorTests.swift in Sources */,
+				6B9EB2631FCB434E009F0659 /* SubscribableTests.swift in Sources */,
 				6B9EB2531FCB2B82009F0659 /* SubjectTests.swift in Sources */,
 				6B9EB2571FCB2FEE009F0659 /* SignalTests.swift in Sources */,
 				6B9EB2461FCB203B009F0659 /* SubscriptionTests.swift in Sources */,

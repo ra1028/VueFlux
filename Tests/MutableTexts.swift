@@ -29,7 +29,7 @@ final class MutableTests: XCTestCase {
         
         let expectation = self.expectation(description: "subscribe to mutable on global queue")
         
-        mutable.subscribe(executor: .queue(.globalQueue())) { int in
+        mutable.subscribe(executor: .queue(.globalDefault())) { int in
             XCTAssertFalse(Thread.isMainThread)
             value = int
             expectation.fulfill()

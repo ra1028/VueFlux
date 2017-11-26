@@ -81,7 +81,7 @@ final class ThreadSafeTests: XCTestCase {
             sleep(1)
         }
         
-        DispatchQueue.globalQueue().asyncAfter(deadline: .now() + 0.5) {
+        DispatchQueue.globalDefault().asyncAfter(deadline: .now() + 0.5) {
             XCTAssertEqual(threadSafe.synchronized { $0 }, 1)
             
             threadSafe.modify { value in

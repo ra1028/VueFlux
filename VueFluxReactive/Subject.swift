@@ -1,11 +1,10 @@
 import VueFlux
 
 public final class Subject<Value>: Subscribable {
-    /// A signal for subject
+    /// A signal for subject.
     public private(set) lazy var signal = Signal(self)
     
-    private var unsafeObservers = Storage<(Value) -> Void>()
-    private lazy var observers = ThreadSafe(unsafeObservers)
+    private lazy var observers = ThreadSafe(Storage<(Value) -> Void>())
     
     /// Subscribe the observer function to be received the value.
     ///
@@ -16,7 +15,7 @@ public final class Subject<Value>: Subscribable {
     /// - Returns: A subscription to unsubscribe given observer.
     @discardableResult
     public func subscribe(executor: Executor = .mainThread, observer: @escaping (Value) -> Void) -> Subscription {
-        return subscribe(executor: executor, observer: observer, inserted: nil)
+        return subscribe(executor: executor, observer: observer, appended: nil)
     }
     
     /// Send given value to all subscribed observers.
@@ -39,12 +38,12 @@ extension Subject {
     ///
     /// - Returns: A subscription to unsubscribe given observer.
     @discardableResult
-    func subscribe(executor: Executor = .mainThread, observer: @escaping (Value) -> Void, inserted: (() -> Void)?) -> Subscription {
+    func subscribe(executor: Executor = .mainThread, observer: @escaping (Value) -> Void, appended: (() -> Void)?) -> Subscription {
         return observers.modify { observers in
             let key = observers.append { value in
                 executor.execute { observer(value) }
             }
-            inserted?()
+            appended?()
             
             return .init { [weak self] in
                 self?.observers.modify { observers in
