@@ -8,17 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		6B9E328B1FA639DF000B24D4 /* VueFlux.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B9E32811FA639DF000B24D4 /* VueFlux.framework */; };
-		6B9E32A01FA63B9E000B24D4 /* VueFlux.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9E329D1FA63AEE000B24D4 /* VueFlux.swift */; };
-		6BA27BCA1FB8C50F00809472 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA27BC91FB8C50F00809472 /* Storage.swift */; };
+		6B9EB21D1FCB14ED009F0659 /* Dispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB2151FCB14BF009F0659 /* Dispatcher.swift */; };
+		6B9EB21E1FCB14ED009F0659 /* DispatcherContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB2161FCB14BF009F0659 /* DispatcherContext.swift */; };
+		6B9EB21F1FCB14ED009F0659 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB2171FCB14BF009F0659 /* Storage.swift */; };
+		6B9EB2201FCB14ED009F0659 /* ThreadSafe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB2181FCB14BF009F0659 /* ThreadSafe.swift */; };
+		6B9EB2211FCB14ED009F0659 /* ScopedSubscribe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB2191FCB14BF009F0659 /* ScopedSubscribe.swift */; };
+		6B9EB2221FCB14ED009F0659 /* Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB21A1FCB14BF009F0659 /* Subscription.swift */; };
+		6B9EB2231FCB14ED009F0659 /* SubscriptionScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB21B1FCB14BF009F0659 /* SubscriptionScope.swift */; };
+		6B9EB2241FCB14ED009F0659 /* VueFlux.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB21C1FCB14BF009F0659 /* VueFlux.swift */; };
 		6BA27BCD1FB8CD9600809472 /* SubscriptionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA27BCB1FB8CD3100809472 /* SubscriptionTests.swift */; };
-		6BA27BD11FB8CECC00809472 /* Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA27BD01FB8CECC00809472 /* Subscription.swift */; };
 		6BA27BD21FB8CEF900809472 /* SubscriptionScopeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA27BCE1FB8CE1A00809472 /* SubscriptionScopeTests.swift */; };
 		6BA27BD51FB8CFED00809472 /* StorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA27BD31FB8CFE600809472 /* StorageTests.swift */; };
-		6BA27BD71FB8D83F00809472 /* SubscriptionScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA27BD61FB8D83E00809472 /* SubscriptionScope.swift */; };
-		6BA27BD91FB9FDD400809472 /* ScopedSubscribe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA27BD81FB9FDD400809472 /* ScopedSubscribe.swift */; };
-		6BE63FE91FB39138007F8B5D /* ThreadSafe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE63FE81FB39138007F8B5D /* ThreadSafe.swift */; };
-		6BE63FEB1FB391F2007F8B5D /* Dispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE63FEA1FB391F2007F8B5D /* Dispatcher.swift */; };
-		6BE63FED1FB392A5007F8B5D /* DispatcherContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE63FEC1FB392A5007F8B5D /* DispatcherContext.swift */; };
 		6BE63FF21FB39457007F8B5D /* ThreadSafeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE63FF01FB39446007F8B5D /* ThreadSafeTests.swift */; };
 		6BE63FF51FB39A51007F8B5D /* DispatcherContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE63FF31FB39A3C007F8B5D /* DispatcherContextTests.swift */; };
 		6BE63FF81FB39CF2007F8B5D /* DispatcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE63FF61FB39CDD007F8B5D /* DispatcherTests.swift */; };
@@ -39,19 +39,19 @@
 /* Begin PBXFileReference section */
 		6B9E32811FA639DF000B24D4 /* VueFlux.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VueFlux.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B9E328A1FA639DF000B24D4 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		6B9E329C1FA63AEE000B24D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6B9E329D1FA63AEE000B24D4 /* VueFlux.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VueFlux.swift; sourceTree = "<group>"; };
 		6B9E329F1FA63B07000B24D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6BA27BC91FB8C50F00809472 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		6B9EB2131FCB14BF009F0659 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6B9EB2151FCB14BF009F0659 /* Dispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dispatcher.swift; sourceTree = "<group>"; };
+		6B9EB2161FCB14BF009F0659 /* DispatcherContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatcherContext.swift; sourceTree = "<group>"; };
+		6B9EB2171FCB14BF009F0659 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		6B9EB2181FCB14BF009F0659 /* ThreadSafe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadSafe.swift; sourceTree = "<group>"; };
+		6B9EB2191FCB14BF009F0659 /* ScopedSubscribe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScopedSubscribe.swift; sourceTree = "<group>"; };
+		6B9EB21A1FCB14BF009F0659 /* Subscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscription.swift; sourceTree = "<group>"; };
+		6B9EB21B1FCB14BF009F0659 /* SubscriptionScope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionScope.swift; sourceTree = "<group>"; };
+		6B9EB21C1FCB14BF009F0659 /* VueFlux.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VueFlux.swift; sourceTree = "<group>"; };
 		6BA27BCB1FB8CD3100809472 /* SubscriptionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionTests.swift; sourceTree = "<group>"; };
 		6BA27BCE1FB8CE1A00809472 /* SubscriptionScopeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionScopeTests.swift; sourceTree = "<group>"; };
-		6BA27BD01FB8CECC00809472 /* Subscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscription.swift; sourceTree = "<group>"; };
 		6BA27BD31FB8CFE600809472 /* StorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageTests.swift; sourceTree = "<group>"; };
-		6BA27BD61FB8D83E00809472 /* SubscriptionScope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionScope.swift; sourceTree = "<group>"; };
-		6BA27BD81FB9FDD400809472 /* ScopedSubscribe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScopedSubscribe.swift; sourceTree = "<group>"; };
-		6BE63FE81FB39138007F8B5D /* ThreadSafe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadSafe.swift; sourceTree = "<group>"; };
-		6BE63FEA1FB391F2007F8B5D /* Dispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dispatcher.swift; sourceTree = "<group>"; };
-		6BE63FEC1FB392A5007F8B5D /* DispatcherContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatcherContext.swift; sourceTree = "<group>"; };
 		6BE63FF01FB39446007F8B5D /* ThreadSafeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadSafeTests.swift; sourceTree = "<group>"; };
 		6BE63FF31FB39A3C007F8B5D /* DispatcherContextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatcherContextTests.swift; sourceTree = "<group>"; };
 		6BE63FF61FB39CDD007F8B5D /* DispatcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatcherTests.swift; sourceTree = "<group>"; };
@@ -81,7 +81,7 @@
 		6B9E32771FA639DF000B24D4 = {
 			isa = PBXGroup;
 			children = (
-				6B9E329B1FA63AEE000B24D4 /* Sources */,
+				6B9EB2121FCB14BF009F0659 /* VueFlux */,
 				6B9E329E1FA63B07000B24D4 /* Tests */,
 				6B9E32821FA639DF000B24D4 /* Products */,
 			);
@@ -94,19 +94,6 @@
 				6B9E328A1FA639DF000B24D4 /* Tests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		6B9E329B1FA63AEE000B24D4 /* Sources */ = {
-			isa = PBXGroup;
-			children = (
-				6B9E329D1FA63AEE000B24D4 /* VueFlux.swift */,
-				6BA27BD81FB9FDD400809472 /* ScopedSubscribe.swift */,
-				6BA27BD01FB8CECC00809472 /* Subscription.swift */,
-				6BA27BD61FB8D83E00809472 /* SubscriptionScope.swift */,
-				6BE63FE71FB3912E007F8B5D /* Internal */,
-				6B9E329C1FA63AEE000B24D4 /* Info.plist */,
-			);
-			path = Sources;
 			sourceTree = "<group>";
 		};
 		6B9E329E1FA63B07000B24D4 /* Tests */ = {
@@ -125,13 +112,26 @@
 			path = Tests;
 			sourceTree = "<group>";
 		};
-		6BE63FE71FB3912E007F8B5D /* Internal */ = {
+		6B9EB2121FCB14BF009F0659 /* VueFlux */ = {
 			isa = PBXGroup;
 			children = (
-				6BE63FEA1FB391F2007F8B5D /* Dispatcher.swift */,
-				6BE63FEC1FB392A5007F8B5D /* DispatcherContext.swift */,
-				6BA27BC91FB8C50F00809472 /* Storage.swift */,
-				6BE63FE81FB39138007F8B5D /* ThreadSafe.swift */,
+				6B9EB2131FCB14BF009F0659 /* Info.plist */,
+				6B9EB2141FCB14BF009F0659 /* Internal */,
+				6B9EB2191FCB14BF009F0659 /* ScopedSubscribe.swift */,
+				6B9EB21A1FCB14BF009F0659 /* Subscription.swift */,
+				6B9EB21B1FCB14BF009F0659 /* SubscriptionScope.swift */,
+				6B9EB21C1FCB14BF009F0659 /* VueFlux.swift */,
+			);
+			path = VueFlux;
+			sourceTree = "<group>";
+		};
+		6B9EB2141FCB14BF009F0659 /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				6B9EB2151FCB14BF009F0659 /* Dispatcher.swift */,
+				6B9EB2161FCB14BF009F0659 /* DispatcherContext.swift */,
+				6B9EB2171FCB14BF009F0659 /* Storage.swift */,
+				6B9EB2181FCB14BF009F0659 /* ThreadSafe.swift */,
 			);
 			path = Internal;
 			sourceTree = "<group>";
@@ -263,14 +263,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6BA27BD91FB9FDD400809472 /* ScopedSubscribe.swift in Sources */,
-				6BE63FE91FB39138007F8B5D /* ThreadSafe.swift in Sources */,
-				6BA27BD71FB8D83F00809472 /* SubscriptionScope.swift in Sources */,
-				6BA27BCA1FB8C50F00809472 /* Storage.swift in Sources */,
-				6B9E32A01FA63B9E000B24D4 /* VueFlux.swift in Sources */,
-				6BE63FED1FB392A5007F8B5D /* DispatcherContext.swift in Sources */,
-				6BE63FEB1FB391F2007F8B5D /* Dispatcher.swift in Sources */,
-				6BA27BD11FB8CECC00809472 /* Subscription.swift in Sources */,
+				6B9EB21D1FCB14ED009F0659 /* Dispatcher.swift in Sources */,
+				6B9EB21E1FCB14ED009F0659 /* DispatcherContext.swift in Sources */,
+				6B9EB21F1FCB14ED009F0659 /* Storage.swift in Sources */,
+				6B9EB2201FCB14ED009F0659 /* ThreadSafe.swift in Sources */,
+				6B9EB2211FCB14ED009F0659 /* ScopedSubscribe.swift in Sources */,
+				6B9EB2221FCB14ED009F0659 /* Subscription.swift in Sources */,
+				6B9EB2231FCB14ED009F0659 /* SubscriptionScope.swift in Sources */,
+				6B9EB2241FCB14ED009F0659 /* VueFlux.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,7 +435,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/VueFlux/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks @loader_path/../Frameworks";
@@ -465,7 +465,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/VueFlux/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks @loader_path/../Frameworks";

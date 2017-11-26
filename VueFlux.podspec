@@ -6,7 +6,7 @@ Pod::Spec.new do |spec|
   spec.summary = 'Unidirectional Data Flow State Management for Swift - Inspired by Vuex and Flux'
   spec.source = { :git => 'https://github.com/ra1028/VueFlux.git', :tag => spec.version.to_s }
   spec.license = { :type => 'MIT', :file => 'LICENSE' }
-  spec.source_files = 'Sources/**/*.swift'
+  spec.source_files = 'VueFlux/**/*.swift'
   spec.requires_arc = true
   spec.osx.deployment_target = '10.9'
   spec.ios.deployment_target = '9.0'
