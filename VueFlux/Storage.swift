@@ -3,6 +3,9 @@ public struct Storage<Element> {
     private var buffer = ContiguousArray<(key: Key, element: Element)>()
     private var nextKey = Key.first
     
+    /// Construct the storage.
+    public init() {}
+    
     /// Append a new element.
     ///
     /// - Parameters:

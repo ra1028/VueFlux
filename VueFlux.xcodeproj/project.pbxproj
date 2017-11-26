@@ -24,6 +24,10 @@
 		6B9EB24B1FCB203B009F0659 /* ThreadSafeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE63FF01FB39446007F8B5D /* ThreadSafeTests.swift */; };
 		6B9EB24C1FCB2078009F0659 /* Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB23A1FCB1C87009F0659 /* Subscription.swift */; };
 		6B9EB24D1FCB2078009F0659 /* SubscriptionScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB23B1FCB1C88009F0659 /* SubscriptionScope.swift */; };
+		6B9EB2511FCB27EA009F0659 /* Subject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB2501FCB27EA009F0659 /* Subject.swift */; };
+		6B9EB2531FCB2B82009F0659 /* SubjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB2521FCB2B82009F0659 /* SubjectTests.swift */; };
+		6B9EB2551FCB2E64009F0659 /* Signal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB2541FCB2E64009F0659 /* Signal.swift */; };
+		6B9EB2571FCB2FEE009F0659 /* SignalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB2561FCB2FEE009F0659 /* SignalTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +68,10 @@
 		6B9EB23B1FCB1C88009F0659 /* SubscriptionScope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionScope.swift; sourceTree = "<group>"; };
 		6B9EB23C1FCB1CFB009F0659 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		6B9EB23D1FCB1CFB009F0659 /* ThreadSafe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadSafe.swift; sourceTree = "<group>"; };
+		6B9EB2501FCB27EA009F0659 /* Subject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subject.swift; sourceTree = "<group>"; };
+		6B9EB2521FCB2B82009F0659 /* SubjectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectTests.swift; sourceTree = "<group>"; };
+		6B9EB2541FCB2E64009F0659 /* Signal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Signal.swift; sourceTree = "<group>"; };
+		6B9EB2561FCB2FEE009F0659 /* SignalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalTests.swift; sourceTree = "<group>"; };
 		6BA27BCB1FB8CD3100809472 /* SubscriptionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionTests.swift; sourceTree = "<group>"; };
 		6BA27BCE1FB8CE1A00809472 /* SubscriptionScopeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionScopeTests.swift; sourceTree = "<group>"; };
 		6BA27BD31FB8CFE600809472 /* StorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageTests.swift; sourceTree = "<group>"; };
@@ -133,6 +141,8 @@
 				6BE63FF01FB39446007F8B5D /* ThreadSafeTests.swift */,
 				6BA27BCB1FB8CD3100809472 /* SubscriptionTests.swift */,
 				6BA27BCE1FB8CE1A00809472 /* SubscriptionScopeTests.swift */,
+				6B9EB2521FCB2B82009F0659 /* SubjectTests.swift */,
+				6B9EB2561FCB2FEE009F0659 /* SignalTests.swift */,
 				6B9E329F1FA63B07000B24D4 /* Info.plist */,
 			);
 			path = Tests;
@@ -162,6 +172,8 @@
 		6B9EB2381FCB1611009F0659 /* VueFluxReactive */ = {
 			isa = PBXGroup;
 			children = (
+				6B9EB2501FCB27EA009F0659 /* Subject.swift */,
+				6B9EB2541FCB2E64009F0659 /* Signal.swift */,
 				6B9EB23A1FCB1C87009F0659 /* Subscription.swift */,
 				6B9EB23B1FCB1C88009F0659 /* SubscriptionScope.swift */,
 				6B9EB2391FCB1611009F0659 /* VueFluxReactive.plist */,
@@ -356,6 +368,8 @@
 			files = (
 				6B9EB2441FCB203B009F0659 /* VueFluxTests.swift in Sources */,
 				6B9EB2451FCB203B009F0659 /* ExecutorTests.swift in Sources */,
+				6B9EB2531FCB2B82009F0659 /* SubjectTests.swift in Sources */,
+				6B9EB2571FCB2FEE009F0659 /* SignalTests.swift in Sources */,
 				6B9EB2461FCB203B009F0659 /* SubscriptionTests.swift in Sources */,
 				6B9EB2471FCB203B009F0659 /* DispatcherTests.swift in Sources */,
 				6B9EB2481FCB203B009F0659 /* DispatcherContextTests.swift in Sources */,
@@ -370,6 +384,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B9EB24C1FCB2078009F0659 /* Subscription.swift in Sources */,
+				6B9EB2551FCB2E64009F0659 /* Signal.swift in Sources */,
+				6B9EB2511FCB27EA009F0659 /* Subject.swift in Sources */,
 				6B9EB24D1FCB2078009F0659 /* SubscriptionScope.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
