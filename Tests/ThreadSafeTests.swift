@@ -1,13 +1,13 @@
 import XCTest
 @testable import VueFlux
 
-final class AtomicTests: XCTestCase {
+final class ThreadSafeTests: XCTestCase {
     func testSynchronized() {
-        let atomic = Atomic(0)
+        let threadSafe = ThreadSafe(0)
         
         var targetValue = 1
         
-        atomic.synchronized { value in
+        threadSafe.synchronized { value in
             targetValue = value
         }
         
@@ -15,9 +15,9 @@ final class AtomicTests: XCTestCase {
     }
     
     func testSynchronizedResult() {
-        let atomic = Atomic(0)
+        let threadSafe = ThreadSafe(0)
         
-        let result = atomic.synchronized { value in
+        let result = threadSafe.synchronized { value in
             "\(value)"
         }
         
@@ -25,21 +25,21 @@ final class AtomicTests: XCTestCase {
     }
     
     func testModify() {
-        let atomic = Atomic(0)
+        let threadSafe = ThreadSafe(0)
         
         let expectedValue = 1
         
-        atomic.modify { value in
+        threadSafe.modify { value in
             value = expectedValue
         }
         
-        XCTAssertEqual(atomic.synchronized { $0 }, expectedValue)
+        XCTAssertEqual(threadSafe.synchronized { $0 }, expectedValue)
     }
     
     func testModifyResult() {
-        let atomic = Atomic(0)
+        let threadSafe = ThreadSafe(0)
         
-        let result: String = atomic.modify { value in
+        let result: String = threadSafe.modify { value in
             value = 1
             return "\(value)"
         }
@@ -48,12 +48,12 @@ final class AtomicTests: XCTestCase {
     }
     
     func testValueGetterAndSetter() {
-        let atomic = Atomic(0)
+        let threadSafe = ThreadSafe(0)
         
         let expectedValue = 1
         
-        atomic.value = expectedValue
-        let resultValue = atomic.value
+        threadSafe.value = expectedValue
+        let resultValue = threadSafe.value
         
         XCTAssertEqual(resultValue, expectedValue)
     }
@@ -62,35 +62,35 @@ final class AtomicTests: XCTestCase {
         let initialValue = 0
         let expectedValue = 1
         
-        let atomic = Atomic(initialValue)
+        let threadSafe = ThreadSafe(initialValue)
 
-        let oldValue = atomic.swap(expectedValue)
-        let newValue = atomic.value
+        let oldValue = threadSafe.swap(expectedValue)
+        let newValue = threadSafe.value
         
         XCTAssertEqual(oldValue, initialValue)
         XCTAssertEqual(newValue, expectedValue)
     }
     
     func testAsync() {
-        let atomic = Atomic(0)
+        let threadSafe = ThreadSafe(0)
         
         let expectation = self.expectation(description: "async modify")
         
-        atomic.modify { value in
+        threadSafe.modify { value in
             value = 1
             sleep(1)
         }
         
         DispatchQueue.globalQueue().asyncAfter(deadline: .now() + 0.5) {
-            XCTAssertEqual(atomic.synchronized { $0 }, 1)
+            XCTAssertEqual(threadSafe.synchronized { $0 }, 1)
             
-            atomic.modify { value in
+            threadSafe.modify { value in
                 value += 1
             }
             
-            XCTAssertEqual(atomic.synchronized { $0 }, 2)
+            XCTAssertEqual(threadSafe.synchronized { $0 }, 2)
             
-            atomic.modify { value in
+            threadSafe.modify { value in
                 value += 1
             }
             
@@ -98,7 +98,7 @@ final class AtomicTests: XCTestCase {
         }
         
         waitForExpectations(timeout: 2) { _ in
-            XCTAssertEqual(atomic.synchronized { $0 }, 3)
+            XCTAssertEqual(threadSafe.synchronized { $0 }, 3)
         }
     }
 }

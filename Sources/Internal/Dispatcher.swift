@@ -5,7 +5,7 @@ final class Dispatcher<State: VueFlux.State> {
         return DispatcherContext.shared.dispatcher(for: State.self)
     }
     
-    private let observers = Atomic(Storage<(State.Action) -> Void>())
+    private let observers = ThreadSafe(Storage<(State.Action) -> Void>())
     
     /// Construct a Dispatcher
     init() {}

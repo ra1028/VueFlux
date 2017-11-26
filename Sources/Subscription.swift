@@ -5,7 +5,7 @@ public struct Subscription {
         case unsubscribed
     }
     
-    private let state: Atomic<State>
+    private let state: ThreadSafe<State>
     
     /// A Bool value indicating whether a subscription is unsubscribed.
     public var isUnsubscribed: Bool {

@@ -1,7 +1,7 @@
 import Foundation
 
 /// An thread-safe value wrapper.
-final class Atomic<Value> {
+final class ThreadSafe<Value> {
     private var _value: Value
     private let lock: NSLocking = {
         if #available(*, iOS 10.0, macOS 10.12, tvOS 10.0, watchOS 3.0) {
@@ -66,7 +66,7 @@ final class Atomic<Value> {
     }
 }
 
-private extension Atomic {
+private extension ThreadSafe {
     /// Fast non-recursive thread lock.
     /// Use in supported OS version only.
     @available(iOS 10.0, *)

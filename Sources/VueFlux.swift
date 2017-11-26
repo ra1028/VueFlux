@@ -4,7 +4,7 @@ import Foundation
 open class Store<State: VueFlux.State> {
     private let state: State
     private let mutations: State.Mutations
-    private let storage = Atomic(Storage<(executor: Executor, observer: (State.Action, Store) -> Void)>())
+    private let storage = ThreadSafe(Storage<(executor: Executor, observer: (State.Action, Store) -> Void)>())
     private let dispatcher = Dispatcher<State>()
     private let subscriptionScope = SubscriptionScope()
     
