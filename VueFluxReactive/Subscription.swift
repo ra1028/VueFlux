@@ -1,3 +1,5 @@
+import VueFlux
+
 /// An Unsubscribe function wrapper.
 public struct Subscription {
     private enum State {

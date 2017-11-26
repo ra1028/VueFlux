@@ -63,7 +63,7 @@ final class VueFluxTests: XCTestCase {
         XCTAssertEqual(store2.computed.value, 1)
     }
     
-    func testUnsubscribeStoreOnDeinit() {
+    func testStoreDeinit() {
         var store: Store<TestState>? = .init(state: .init(), mutations: .init(), executor: .immediate)
         let computed = store!.computed
         
@@ -82,85 +82,6 @@ final class VueFluxTests: XCTestCase {
         Store<TestState>.actions.check()
         
         XCTAssertEqual(computed.value, 2)
-    }
-    
-    func testSubscribe() {
-        var value = 0
-        let store = Store<TestState>(state: .init(), mutations: .init(), executor: .immediate)
-        
-        let subscription = store.subscribe { _, store in
-            value = store.computed.value
-        }
-        
-        store.actions.check()
-        
-        XCTAssertEqual(value, 1)
-        
-        subscription.unsubscribe()
-        store.actions.check()
-        
-        XCTAssertEqual(value, 1)
-    }
-    
-    func testSubscribeOnTargetThread() {
-        let expectation1 = self.expectation(description: "subscribe on main thread")
-        
-        let store1 = Store<TestState>(state: .init(), mutations: .init(), executor: .immediate)
-        store1.subscribe(executor: .mainThread) { _, _  in
-            XCTAssertTrue(Thread.isMainThread)
-            expectation1.fulfill()
-        }
-        
-        DispatchQueue.globalQueue().async {
-            store1.actions.check()
-        }
-        
-        waitForExpectations(timeout: 1) { _ in
-            XCTAssertEqual(store1.computed.value, 1)
-        }
-        
-        let expectation2 = self.expectation(description: "subscribe on global queue")
-        
-        let store2 = Store<TestState>(state: .init(), mutations: .init(), executor: .immediate)
-        store2.subscribe(executor: .queue(.globalQueue())) { _, _ in
-            XCTAssertFalse(Thread.isMainThread)
-            expectation2.fulfill()
-        }
-        
-        DispatchQueue.main.async {
-            store2.actions.check()
-        }
-        
-        waitForExpectations(timeout: 1) { _ in
-            XCTAssertEqual(store2.computed.value, 1)
-        }
-    }
-    
-    func testUnsubscribeOnDeinitObject() {
-        final class Object {}
-        
-        var value1 = 0
-        var value2 = 0
-        var object: Object? = .init()
-        let store = Store<TestState>(state: .init(), mutations: .init(), executor: .immediate)
-        
-        store.subscribe(scope: object!) { _, store in
-            value1 = store.computed.value
-        }
-        
-        store.subscribe(scope: object!) { _, store in
-            value2 = store.computed.value * 10
-        }
-        
-        store.actions.check()
-        
-        XCTAssertEqual(value1, 1)
-        XCTAssertEqual(value2, 10)
-        
-        object = nil
-        
-        XCTAssertEqual(value1, 1)
-        XCTAssertEqual(value2, 10)
     }
 }
 

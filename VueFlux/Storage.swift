@@ -1,5 +1,5 @@
 /// An collection of values of type `Element` that to be able to remove value by key.
-struct Storage<Element> {
+public struct Storage<Element> {
     private var buffer = ContiguousArray<(key: Key, element: Element)>()
     private var nextKey = Key.first
     
@@ -9,7 +9,7 @@ struct Storage<Element> {
     ///   - element: An element to be append.
     ///
     /// - Returns: A key for remove given element.
-    mutating func append(_ element: Element) -> Key {
+    public mutating func append(_ element: Element) -> Key {
         let key = nextKey
         nextKey = key.next
         buffer.append((key: key, element: element))
@@ -20,10 +20,9 @@ struct Storage<Element> {
     ///
     /// - Parameters:
     ///   - key: A key for remove element.
-    mutating func remove(for key: Key) {
-        for index in buffer.startIndex..<buffer.endIndex where buffer[index].key == key {
+    public mutating func remove(for key: Key) {
+        if let index = buffer.index(where: { $0.key == key }) {
             buffer.remove(at: index)
-            break
         }
     }
     
@@ -31,25 +30,25 @@ struct Storage<Element> {
     ///
     /// - Parameters:
     ///   - body: A function that takes an element of the collection as a parameter.
-    func forEach(_ body: (Element) -> Void) {
+    public func forEach(_ body: (Element) -> Void) {
         for (_, element) in buffer {
             body(element)
         }
     }
 }
 
-extension Storage {
+public extension Storage {
     /// An unique key for remove element.
-    struct Key: Equatable {
+    public struct Key: Equatable {
         private let value: UInt64
         
         /// Construct a first key
-        static var first: Key {
+        fileprivate static var first: Key {
             return .init(value: 0)
         }
         
         /// Construct a next key
-        var next: Key {
+        fileprivate var next: Key {
             return .init(value: value &+ 1)
         }
         
@@ -64,7 +63,7 @@ extension Storage {
         ///   - rhs: Another key to compare.
         ///
         /// - Returns: A Bool value indicating whether two keys are equal.
-        static func == (lhs: Key, rhs: Key) -> Bool {
+        public static func == (lhs: Key, rhs: Key) -> Bool {
             return lhs.value == rhs.value
         }
     }

@@ -1,5 +1,5 @@
 import XCTest
-@testable import VueFlux
+@testable import VueFluxReactive
 
 final class SubscriptionScopeTests: XCTestCase {
     func testUnsubscribeAllOnDeinit() {

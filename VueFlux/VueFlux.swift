@@ -4,9 +4,9 @@ import Foundation
 open class Store<State: VueFlux.State> {
     private let state: State
     private let mutations: State.Mutations
-    private let storage = ThreadSafe(Storage<(executor: Executor, observer: (State.Action, Store) -> Void)>())
     private let dispatcher = Dispatcher<State>()
-    private let subscriptionScope = SubscriptionScope()
+    private let sharedDispatcher = Dispatcher<State>.shared
+    private var sharedDispatcherKey: Dispatcher<State>.Observers.Key?
     
     /// An actions proxy via shared dispatcher.
     /// Action is dispatched to all stores which have same generic type of State.
@@ -34,27 +34,13 @@ open class Store<State: VueFlux.State> {
             self?.commit(action: action)
         }
         
-        self.subscriptionScope += dispatcher.subscribe(executor: executor, dispatch: dispatch)
-        self.subscriptionScope += Dispatcher<State>.shared.subscribe(executor: executor, dispatch: dispatch)
+        dispatcher.subscribe(executor: executor, dispatch: dispatch)
+        sharedDispatcherKey = sharedDispatcher.subscribe(executor: executor, dispatch: dispatch)
     }
     
-    /// Subscribe the observer function to be received the store and action after mutated state.
-    ///
-    /// - Prameters:
-    ///   - executor: An executor to receive action adn store on.
-    ///   - observer: A function to be received the action and store after mutated a state.
-    ///
-    /// - Returns: A subscription to unsubscribe given observer.
-    @discardableResult
-    public func subscribe(executor: Executor = .mainThread, observer: @escaping (State.Action, Store) -> Void) -> Subscription {
-        return storage.modify { storage in
-            let key = storage.append((executor: executor, observer: observer))
-            
-            return .init { [weak self] in
-                self?.storage.modify { storage in
-                    storage.remove(for: key)
-                }
-            }
+    deinit {
+        if let key = sharedDispatcherKey {
+            sharedDispatcher.unsubscribe(for: key)
         }
     }
     
@@ -63,18 +49,7 @@ open class Store<State: VueFlux.State> {
     /// - Parameters:
     ///   - action: An action to mutate state.
     fileprivate func commit(action: State.Action) {
-        storage.synchronized { storage in
-            mutations.commit(action: action, state: state)
-            
-            storage.forEach { storage in
-                let observer = storage.observer
-                
-                storage.executor.execute { [weak self] in
-                    guard let `self` = self else { return }
-                    observer(action, self)
-                }
-            }
-        }
+        mutations.commit(action: action, state: state)
     }
 }
 

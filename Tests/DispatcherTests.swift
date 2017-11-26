@@ -27,11 +27,11 @@ final class DispatcherTests: XCTestCase {
         
         var value = 0
         
-        let subscription = dispatcher.subscribe(executor: .immediate) {
+        let key = dispatcher.subscribe(executor: .immediate) {
             value += 1
         }
         
-        subscription.unsubscribe()
+        dispatcher.unsubscribe(for: key)
         
         XCTAssertEqual(value, 0)
         

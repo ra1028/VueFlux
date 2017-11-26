@@ -10,24 +10,38 @@
 		6B9E328B1FA639DF000B24D4 /* VueFlux.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B9E32811FA639DF000B24D4 /* VueFlux.framework */; };
 		6B9EB21D1FCB14ED009F0659 /* Dispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB2151FCB14BF009F0659 /* Dispatcher.swift */; };
 		6B9EB21E1FCB14ED009F0659 /* DispatcherContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB2161FCB14BF009F0659 /* DispatcherContext.swift */; };
-		6B9EB21F1FCB14ED009F0659 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB2171FCB14BF009F0659 /* Storage.swift */; };
-		6B9EB2201FCB14ED009F0659 /* ThreadSafe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB2181FCB14BF009F0659 /* ThreadSafe.swift */; };
-		6B9EB2211FCB14ED009F0659 /* ScopedSubscribe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB2191FCB14BF009F0659 /* ScopedSubscribe.swift */; };
-		6B9EB2221FCB14ED009F0659 /* Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB21A1FCB14BF009F0659 /* Subscription.swift */; };
-		6B9EB2231FCB14ED009F0659 /* SubscriptionScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB21B1FCB14BF009F0659 /* SubscriptionScope.swift */; };
 		6B9EB2241FCB14ED009F0659 /* VueFlux.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB21C1FCB14BF009F0659 /* VueFlux.swift */; };
-		6BA27BCD1FB8CD9600809472 /* SubscriptionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA27BCB1FB8CD3100809472 /* SubscriptionTests.swift */; };
-		6BA27BD21FB8CEF900809472 /* SubscriptionScopeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA27BCE1FB8CE1A00809472 /* SubscriptionScopeTests.swift */; };
-		6BA27BD51FB8CFED00809472 /* StorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA27BD31FB8CFE600809472 /* StorageTests.swift */; };
-		6BE63FF21FB39457007F8B5D /* ThreadSafeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE63FF01FB39446007F8B5D /* ThreadSafeTests.swift */; };
-		6BE63FF51FB39A51007F8B5D /* DispatcherContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE63FF31FB39A3C007F8B5D /* DispatcherContextTests.swift */; };
-		6BE63FF81FB39CF2007F8B5D /* DispatcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE63FF61FB39CDD007F8B5D /* DispatcherTests.swift */; };
-		6BE63FFD1FB39F83007F8B5D /* ExecutorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE63FF91FB39EA6007F8B5D /* ExecutorTests.swift */; };
-		6BE640001FB3A6F9007F8B5D /* VueFluxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE63FFE1FB3A6D8007F8B5D /* VueFluxTests.swift */; };
+		6B9EB23E1FCB1CFB009F0659 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB23C1FCB1CFB009F0659 /* Storage.swift */; };
+		6B9EB23F1FCB1CFB009F0659 /* ThreadSafe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB23D1FCB1CFB009F0659 /* ThreadSafe.swift */; };
+		6B9EB2431FCB1FF8009F0659 /* VueFluxReactive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B9EB2361FCB157C009F0659 /* VueFluxReactive.framework */; };
+		6B9EB2441FCB203B009F0659 /* VueFluxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE63FFE1FB3A6D8007F8B5D /* VueFluxTests.swift */; };
+		6B9EB2451FCB203B009F0659 /* ExecutorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE63FF91FB39EA6007F8B5D /* ExecutorTests.swift */; };
+		6B9EB2461FCB203B009F0659 /* SubscriptionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA27BCB1FB8CD3100809472 /* SubscriptionTests.swift */; };
+		6B9EB2471FCB203B009F0659 /* DispatcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE63FF61FB39CDD007F8B5D /* DispatcherTests.swift */; };
+		6B9EB2481FCB203B009F0659 /* DispatcherContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE63FF31FB39A3C007F8B5D /* DispatcherContextTests.swift */; };
+		6B9EB2491FCB203B009F0659 /* SubscriptionScopeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA27BCE1FB8CE1A00809472 /* SubscriptionScopeTests.swift */; };
+		6B9EB24A1FCB203B009F0659 /* StorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA27BD31FB8CFE600809472 /* StorageTests.swift */; };
+		6B9EB24B1FCB203B009F0659 /* ThreadSafeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE63FF01FB39446007F8B5D /* ThreadSafeTests.swift */; };
+		6B9EB24C1FCB2078009F0659 /* Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB23A1FCB1C87009F0659 /* Subscription.swift */; };
+		6B9EB24D1FCB2078009F0659 /* SubscriptionScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB23B1FCB1C88009F0659 /* SubscriptionScope.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		6B9E328C1FA639DF000B24D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6B9E32781FA639DF000B24D4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6B9E32801FA639DF000B24D4;
+			remoteInfo = VueFlux;
+		};
+		6B9EB2401FCB1FE2009F0659 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6B9E32781FA639DF000B24D4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6B9EB2251FCB157C009F0659;
+			remoteInfo = VueFluxReactive;
+		};
+		6B9EB24E1FCB2105009F0659 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6B9E32781FA639DF000B24D4 /* Project object */;
 			proxyType = 1;
@@ -43,14 +57,13 @@
 		6B9EB2131FCB14BF009F0659 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6B9EB2151FCB14BF009F0659 /* Dispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dispatcher.swift; sourceTree = "<group>"; };
 		6B9EB2161FCB14BF009F0659 /* DispatcherContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatcherContext.swift; sourceTree = "<group>"; };
-		6B9EB2171FCB14BF009F0659 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
-		6B9EB2181FCB14BF009F0659 /* ThreadSafe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadSafe.swift; sourceTree = "<group>"; };
-		6B9EB2191FCB14BF009F0659 /* ScopedSubscribe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScopedSubscribe.swift; sourceTree = "<group>"; };
-		6B9EB21A1FCB14BF009F0659 /* Subscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscription.swift; sourceTree = "<group>"; };
-		6B9EB21B1FCB14BF009F0659 /* SubscriptionScope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionScope.swift; sourceTree = "<group>"; };
 		6B9EB21C1FCB14BF009F0659 /* VueFlux.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VueFlux.swift; sourceTree = "<group>"; };
 		6B9EB2361FCB157C009F0659 /* VueFluxReactive.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VueFluxReactive.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B9EB2391FCB1611009F0659 /* VueFluxReactive.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = VueFluxReactive.plist; sourceTree = "<group>"; };
+		6B9EB23A1FCB1C87009F0659 /* Subscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscription.swift; sourceTree = "<group>"; };
+		6B9EB23B1FCB1C88009F0659 /* SubscriptionScope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionScope.swift; sourceTree = "<group>"; };
+		6B9EB23C1FCB1CFB009F0659 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		6B9EB23D1FCB1CFB009F0659 /* ThreadSafe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadSafe.swift; sourceTree = "<group>"; };
 		6BA27BCB1FB8CD3100809472 /* SubscriptionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionTests.swift; sourceTree = "<group>"; };
 		6BA27BCE1FB8CE1A00809472 /* SubscriptionScopeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionScopeTests.swift; sourceTree = "<group>"; };
 		6BA27BD31FB8CFE600809472 /* StorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageTests.swift; sourceTree = "<group>"; };
@@ -73,6 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B9EB2431FCB1FF8009F0659 /* VueFluxReactive.framework in Frameworks */,
 				6B9E328B1FA639DF000B24D4 /* VueFlux.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -94,6 +108,7 @@
 				6B9EB2381FCB1611009F0659 /* VueFluxReactive */,
 				6B9E329E1FA63B07000B24D4 /* Tests */,
 				6B9E32821FA639DF000B24D4 /* Products */,
+				6B9EB2421FCB1FF8009F0659 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -112,12 +127,12 @@
 			children = (
 				6BE63FFE1FB3A6D8007F8B5D /* VueFluxTests.swift */,
 				6BE63FF91FB39EA6007F8B5D /* ExecutorTests.swift */,
-				6BA27BCB1FB8CD3100809472 /* SubscriptionTests.swift */,
 				6BE63FF61FB39CDD007F8B5D /* DispatcherTests.swift */,
 				6BE63FF31FB39A3C007F8B5D /* DispatcherContextTests.swift */,
-				6BA27BCE1FB8CE1A00809472 /* SubscriptionScopeTests.swift */,
 				6BA27BD31FB8CFE600809472 /* StorageTests.swift */,
 				6BE63FF01FB39446007F8B5D /* ThreadSafeTests.swift */,
+				6BA27BCB1FB8CD3100809472 /* SubscriptionTests.swift */,
+				6BA27BCE1FB8CE1A00809472 /* SubscriptionScopeTests.swift */,
 				6B9E329F1FA63B07000B24D4 /* Info.plist */,
 			);
 			path = Tests;
@@ -127,9 +142,8 @@
 			isa = PBXGroup;
 			children = (
 				6B9EB21C1FCB14BF009F0659 /* VueFlux.swift */,
-				6B9EB21A1FCB14BF009F0659 /* Subscription.swift */,
-				6B9EB21B1FCB14BF009F0659 /* SubscriptionScope.swift */,
-				6B9EB2191FCB14BF009F0659 /* ScopedSubscribe.swift */,
+				6B9EB23C1FCB1CFB009F0659 /* Storage.swift */,
+				6B9EB23D1FCB1CFB009F0659 /* ThreadSafe.swift */,
 				6B9EB2141FCB14BF009F0659 /* Internal */,
 				6B9EB2131FCB14BF009F0659 /* Info.plist */,
 			);
@@ -141,8 +155,6 @@
 			children = (
 				6B9EB2151FCB14BF009F0659 /* Dispatcher.swift */,
 				6B9EB2161FCB14BF009F0659 /* DispatcherContext.swift */,
-				6B9EB2171FCB14BF009F0659 /* Storage.swift */,
-				6B9EB2181FCB14BF009F0659 /* ThreadSafe.swift */,
 			);
 			path = Internal;
 			sourceTree = "<group>";
@@ -150,9 +162,18 @@
 		6B9EB2381FCB1611009F0659 /* VueFluxReactive */ = {
 			isa = PBXGroup;
 			children = (
+				6B9EB23A1FCB1C87009F0659 /* Subscription.swift */,
+				6B9EB23B1FCB1C88009F0659 /* SubscriptionScope.swift */,
 				6B9EB2391FCB1611009F0659 /* VueFluxReactive.plist */,
 			);
 			path = VueFluxReactive;
+			sourceTree = "<group>";
+		};
+		6B9EB2421FCB1FF8009F0659 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -205,6 +226,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				6B9EB2411FCB1FE2009F0659 /* PBXTargetDependency */,
 				6B9E328D1FA639DF000B24D4 /* PBXTargetDependency */,
 			);
 			name = Tests;
@@ -220,11 +242,11 @@
 				6B9EB22F1FCB157C009F0659 /* Frameworks */,
 				6B9EB2301FCB157C009F0659 /* Headers */,
 				6B9EB2311FCB157C009F0659 /* Resources */,
-				6B9EB2321FCB157C009F0659 /* SwiftLint */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				6B9EB24F1FCB2105009F0659 /* PBXTargetDependency */,
 			);
 			name = VueFluxReactive;
 			productName = VueFlux;
@@ -250,6 +272,7 @@
 						ProvisioningStyle = Manual;
 					};
 					6B9EB2251FCB157C009F0659 = {
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Manual;
 					};
 				};
@@ -312,20 +335,6 @@
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nfi";
 		};
-		6B9EB2321FCB157C009F0659 /* SwiftLint */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = SwiftLint;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nfi";
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -335,12 +344,9 @@
 			files = (
 				6B9EB21D1FCB14ED009F0659 /* Dispatcher.swift in Sources */,
 				6B9EB21E1FCB14ED009F0659 /* DispatcherContext.swift in Sources */,
-				6B9EB21F1FCB14ED009F0659 /* Storage.swift in Sources */,
-				6B9EB2201FCB14ED009F0659 /* ThreadSafe.swift in Sources */,
-				6B9EB2211FCB14ED009F0659 /* ScopedSubscribe.swift in Sources */,
-				6B9EB2221FCB14ED009F0659 /* Subscription.swift in Sources */,
-				6B9EB2231FCB14ED009F0659 /* SubscriptionScope.swift in Sources */,
 				6B9EB2241FCB14ED009F0659 /* VueFlux.swift in Sources */,
+				6B9EB23F1FCB1CFB009F0659 /* ThreadSafe.swift in Sources */,
+				6B9EB23E1FCB1CFB009F0659 /* Storage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -348,14 +354,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6BE63FF51FB39A51007F8B5D /* DispatcherContextTests.swift in Sources */,
-				6BA27BD21FB8CEF900809472 /* SubscriptionScopeTests.swift in Sources */,
-				6BE63FF21FB39457007F8B5D /* ThreadSafeTests.swift in Sources */,
-				6BE640001FB3A6F9007F8B5D /* VueFluxTests.swift in Sources */,
-				6BE63FFD1FB39F83007F8B5D /* ExecutorTests.swift in Sources */,
-				6BA27BD51FB8CFED00809472 /* StorageTests.swift in Sources */,
-				6BA27BCD1FB8CD9600809472 /* SubscriptionTests.swift in Sources */,
-				6BE63FF81FB39CF2007F8B5D /* DispatcherTests.swift in Sources */,
+				6B9EB2441FCB203B009F0659 /* VueFluxTests.swift in Sources */,
+				6B9EB2451FCB203B009F0659 /* ExecutorTests.swift in Sources */,
+				6B9EB2461FCB203B009F0659 /* SubscriptionTests.swift in Sources */,
+				6B9EB2471FCB203B009F0659 /* DispatcherTests.swift in Sources */,
+				6B9EB2481FCB203B009F0659 /* DispatcherContextTests.swift in Sources */,
+				6B9EB2491FCB203B009F0659 /* SubscriptionScopeTests.swift in Sources */,
+				6B9EB24A1FCB203B009F0659 /* StorageTests.swift in Sources */,
+				6B9EB24B1FCB203B009F0659 /* ThreadSafeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -363,6 +369,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B9EB24C1FCB2078009F0659 /* Subscription.swift in Sources */,
+				6B9EB24D1FCB2078009F0659 /* SubscriptionScope.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,6 +381,16 @@
 			isa = PBXTargetDependency;
 			target = 6B9E32801FA639DF000B24D4 /* VueFlux */;
 			targetProxy = 6B9E328C1FA639DF000B24D4 /* PBXContainerItemProxy */;
+		};
+		6B9EB2411FCB1FE2009F0659 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6B9EB2251FCB157C009F0659 /* VueFluxReactive */;
+			targetProxy = 6B9EB2401FCB1FE2009F0659 /* PBXContainerItemProxy */;
+		};
+		6B9EB24F1FCB2105009F0659 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6B9E32801FA639DF000B24D4 /* VueFlux */;
+			targetProxy = 6B9EB24E1FCB2105009F0659 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -615,6 +633,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
@@ -645,6 +664,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;

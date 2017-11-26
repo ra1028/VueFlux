@@ -1,7 +1,7 @@
 import Foundation
 
 /// An thread-safe value wrapper.
-final class ThreadSafe<Value> {
+public final class ThreadSafe<Value> {
     private var _value: Value
     private let lock: NSLocking = {
         if #available(*, iOS 10.0, macOS 10.12, tvOS 10.0, watchOS 3.0) {
@@ -11,7 +11,7 @@ final class ThreadSafe<Value> {
     }()
     
     /// Synchronized value getter and setter
-    var value: Value {
+    public var value: Value {
         get { return synchronized { $0 } }
         set { modify { $0 = newValue } }
     }
@@ -20,7 +20,7 @@ final class ThreadSafe<Value> {
     ///
     /// - Parameters:
     ///   - value: Initial value.
-    init(_ value: Value) {
+    public init(_ value: Value) {
         _value = value
     }
     
@@ -31,7 +31,7 @@ final class ThreadSafe<Value> {
     ///
     /// - Returns: Result value of action.
     @discardableResult
-    func synchronized<Result>(_ function: (Value) throws -> Result) rethrows -> Result {
+    public func synchronized<Result>(_ function: (Value) throws -> Result) rethrows -> Result {
         lock.lock()
         defer { lock.unlock() }
         return try function(_value)
@@ -44,7 +44,7 @@ final class ThreadSafe<Value> {
     ///
     /// - Returns: Result value of modification action.
     @discardableResult
-    func modify<Result>(_ function: (inout Value) throws -> Result) rethrows -> Result {
+    public func modify<Result>(_ function: (inout Value) throws -> Result) rethrows -> Result {
         lock.lock()
         defer { lock.unlock() }
         return try function(&_value)

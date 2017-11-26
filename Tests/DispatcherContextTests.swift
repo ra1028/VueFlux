@@ -3,9 +3,26 @@ import XCTest
 
 final class DispatcherContextTests: XCTestCase {
     func testDispacherInstance() {
+        var value = 0
+        
         let dispatcher1 = DispatcherContext.shared.dispatcher(for: TestState.self)
+        
+        dispatcher1.subscribe(executor: .immediate) {
+            value += 1
+        }
+        
         let dispatcher2 = DispatcherContext.shared.dispatcher(for: TestState.self)
         
-        XCTAssertEqual(ObjectIdentifier(dispatcher1), ObjectIdentifier(dispatcher2))
+        dispatcher2.dispatch(action: ())
+        
+        XCTAssertEqual(value, 1)
+        
+        dispatcher2.subscribe(executor: .immediate) {
+            value += 1
+        }
+        
+        dispatcher1.dispatch(action: ())
+        
+        XCTAssertEqual(value, 3)
     }
 }
