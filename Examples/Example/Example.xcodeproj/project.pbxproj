@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		6B052E0D1FCB4DF4008B3731 /* VueFluxReactive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B052E0C1FCB4DEF008B3731 /* VueFluxReactive.framework */; };
 		6B052E0E1FCB4DF4008B3731 /* VueFluxReactive.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6B052E0C1FCB4DEF008B3731 /* VueFluxReactive.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6BDD91ED1FCB767E009E2482 /* VueFlux.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B9F51E21FBF2F4F00252804 /* VueFlux.framework */; };
+		6BDD91EE1FCB767E009E2482 /* VueFlux.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6B9F51E21FBF2F4F00252804 /* VueFlux.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6BEDA6031FBA1F0800F03699 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDA5F81FBA1E2700F03699 /* AppDelegate.swift */; };
 		6BEDA6041FBA1F0800F03699 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6BEDA5F91FBA1E2700F03699 /* Assets.xcassets */; };
 		6BEDA6051FBA1F0800F03699 /* CounterActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEDA5FA1FBA1E2700F03699 /* CounterActions.swift */; };
@@ -55,6 +57,13 @@
 			remoteGlobalIDString = 6B9E328A1FA639DF000B24D4;
 			remoteInfo = VueFluxTests;
 		};
+		6BDD91EF1FCB767E009E2482 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6B9F51DC1FBF2F4F00252804 /* VueFlux.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 6B9E32801FA639DF000B24D4;
+			remoteInfo = VueFlux;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -64,6 +73,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				6BDD91EE1FCB767E009E2482 /* VueFlux.framework in Embed Frameworks */,
 				6BEDA61A1FBA219700F03699 /* GenericComponents.framework in Embed Frameworks */,
 				6B052E0E1FCB4DF4008B3731 /* VueFluxReactive.framework in Embed Frameworks */,
 			);
@@ -92,6 +102,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6BDD91ED1FCB767E009E2482 /* VueFlux.framework in Frameworks */,
 				6BEDA6191FBA219700F03699 /* GenericComponents.framework in Frameworks */,
 				6B052E0D1FCB4DF4008B3731 /* VueFluxReactive.framework in Frameworks */,
 			);
@@ -168,6 +179,7 @@
 			);
 			dependencies = (
 				6B052E101FCB4DF4008B3731 /* PBXTargetDependency */,
+				6BDD91F01FCB767E009E2482 /* PBXTargetDependency */,
 			);
 			name = Example;
 			productName = Example;
@@ -280,6 +292,11 @@
 			isa = PBXTargetDependency;
 			name = VueFluxReactive;
 			targetProxy = 6B052E0F1FCB4DF4008B3731 /* PBXContainerItemProxy */;
+		};
+		6BDD91F01FCB767E009E2482 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = VueFlux;
+			targetProxy = 6BDD91EF1FCB767E009E2482 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
