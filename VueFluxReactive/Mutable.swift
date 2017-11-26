@@ -1,0 +1,52 @@
+import VueFlux
+
+public final class Mutable<Value>: Subscribable {
+    /// A signal that will send the value changes.
+    public var signal: Signal<Value> {
+        return subject.signal
+    }
+    
+    /// A immutable which reflects the `self`.
+    public var immutable: Immutable<Value> {
+        return .init(self)
+    }
+    
+    private let subject = Subject<Value>()
+    private let _value: ThreadSafe<Value>
+    
+    /// Initialze with a initial value.
+    public init(value: Value) {
+        self._value = .init(value)
+    }
+    
+    /// The current value.
+    /// Setting this to a new value will send to all observers.
+    public var value: Value {
+        get {
+            return _value.value
+        }
+        set {
+            _value.modify { value in
+                value = newValue
+                subject.send(value: value)
+            }
+        }
+    }
+    
+    /// Subscribe the observer function to be received the value.
+    ///
+    /// - Prameters:
+    ///   - executor: An executor to receive value on.
+    ///   - observer: A function to be received the value.
+    ///
+    /// - Returns: A subscription to unsubscribe given observer.
+    @discardableResult
+    public func subscribe(executor: Executor = .mainThread, observer: @escaping (Value) -> Void) -> Subscription {
+        return subject.subscribe(executor: executor, observer: observer) { [weak self] in
+            executor.execute {
+                guard let `self` = self else { return }
+                observer(self.value)
+            }
+        }
+    }
+}

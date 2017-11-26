@@ -1,6 +1,6 @@
 import VueFlux
 
-public final class Signal<Value> {
+public final class Signal<Value>: Subscribable {
     private let subject: Subject<Value>
     
     /// Subscribe the observer function to be received the value.
@@ -15,6 +15,7 @@ public final class Signal<Value> {
         return subject.subscribe(executor: executor, observer: observer)
     }
     
+    /// Initialize with subject.
     public init(_ subject: Subject<Value>) {
         self.subject = subject
     }
