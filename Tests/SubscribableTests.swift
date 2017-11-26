@@ -2,7 +2,9 @@ import XCTest
 @testable import VueFluxReactive
 
 final class SubscribableTests: XCTestCase {
-    private final class Object {}
+    private final class Object {
+        var value = 0
+    }
     
     func testScopedSubscribe() {
         var value1 = 0
@@ -76,5 +78,55 @@ final class SubscribableTests: XCTestCase {
         subject.send(value: 1)
         
         XCTAssertEqual(value, 1)
+    }
+    
+    func testBindWithBinder() {
+        var scope: Object? = .init()
+        let object = Object()
+        
+        let subject = Subject<Int>()
+        
+        subject.bind(scope: scope!, to: .init(target: object, \.value))
+        
+        subject.send(value: 1)
+        
+        XCTAssertEqual(object.value, 1)
+        
+        scope = nil
+        
+        subject.send(value: 2)
+        
+        XCTAssertEqual(object.value, 1)
+        
+        subject.bind(to: .init(target: object, \.value))
+        
+        subject.send(value: 3)
+        
+        XCTAssertEqual(object.value, 3)
+    }
+    
+    func testBindWithTargetObject() {
+        var scope: Object? = .init()
+        let object = Object()
+        
+        let subject = Subject<Int>()
+        
+        subject.bind(scope: scope!, to: object, \.value)
+        
+        subject.send(value: 1)
+        
+        XCTAssertEqual(object.value, 1)
+        
+        scope = nil
+        
+        subject.send(value: 2)
+        
+        XCTAssertEqual(object.value, 1)
+        
+        subject.bind(to: object, \.value)
+        
+        subject.send(value: 3)
+        
+        XCTAssertEqual(object.value, 3)
     }
 }

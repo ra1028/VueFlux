@@ -240,7 +240,7 @@ final class CounterStore: Store<CounterState> {
     static let shared = CounterStore()
 
     private init() {
-        super.init(state: .init(), mutations: .init())
+        super.init(state: .init(), mutations: .init(), executor: .queue(.default))
     }
 }
 ```

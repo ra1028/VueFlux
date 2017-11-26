@@ -5,4 +5,4 @@ excluded:
 trailing_whitespace:
   ignores_empty_lines: true
 
-line_length: 160
+line_length: 180
