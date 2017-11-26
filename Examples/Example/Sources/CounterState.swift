@@ -1,8 +1,9 @@
 import VueFlux
+import VueFluxReactive
 
 extension Computed where State == CounterState {
-    var count: Int {
-        return state.count
+    var count: Immutable<Int> {
+        return state.count.immutable
     }
 }
 
@@ -11,7 +12,7 @@ final class CounterState: State {
     typealias Mutations = CounterMutations
     
     fileprivate let max: Int
-    fileprivate var count = 0
+    fileprivate let count = Mutable(value: 0)
     
     init(max: Int) {
         self.max = max
@@ -22,13 +23,13 @@ struct CounterMutations: Mutations {
     func commit(action: CounterAction, state: CounterState) {
         switch action {
         case .increment:
-            state.count = min(state.count + 1, state.max)
+            state.count.value = min(state.count.value + 1, state.max)
 
         case .decrement:
-            state.count = max(state.count - 1, 0)
+            state.count.value = max(state.count.value - 1, 0)
             
         case .reset:
-            state.count = 0
+            state.count.value = 0
         }
     }
 }

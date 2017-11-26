@@ -4,7 +4,6 @@ import GenericComponents
 
 final class CounterViewController: UIViewController {
     @IBOutlet private weak var counterView: CounterView!
-    private var interval: TimeInterval = 0
     
     private let store = Store<CounterState>(state: .init(max: 1000), mutations: .init(), executor: .queue(.global()))
     
@@ -23,32 +22,19 @@ private extension CounterViewController {
         counterView.incrementButton.addTarget(self, action: #selector(increment(_:)), for: .touchUpInside)
         counterView.decrementButton.addTarget(self, action: #selector(decrement(_:)), for: .touchUpInside)
         counterView.resetButton.addTarget(self, action: #selector(reset(_:)), for: .touchUpInside)
-        counterView.intervalSlider.addTarget(self, action: #selector(updateInterval(_:)), for: .valueChanged)
         
-        store.subscribe(scope: self) { [unowned self] action, store in
-            switch action {
-            case .increment, .decrement, .reset:
-                self.counterView.counterLabel.text = .init(store.computed.count)
-            }
-        }
-        
-        store.actions.resetAcync()
+        store.computed.count.bind(to: counterView, \.count)
     }
     
     @objc func increment(_ button: UIButton) {
-        store.actions.incrementAcync(after: interval)
+        store.actions.incrementAcync(after: counterView.interval)
     }
     
     @objc func decrement(_ button: UIButton) {
-        store.actions.decrementAcync(after: interval)
+        store.actions.decrementAcync(after: counterView.interval)
     }
     
     @objc func reset(_ button: UIButton) {
-        store.actions.resetAcync(after: interval)
-    }
-    
-    @objc func updateInterval(_ slider: UISlider) {
-        interval = .init(slider.value)
-        counterView.intervalLabel.text = "Count after: \(round(interval * 10) / 10)"
+        store.actions.resetAcync(after: counterView.interval)
     }
 }

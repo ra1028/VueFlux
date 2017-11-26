@@ -22,38 +22,28 @@ final class CounterViewController: UIViewController {
 
 private extension CounterViewController {
     func configure() {
-        let interval = BehaviorRelay<TimeInterval>(value: 0)
-        
-        counterView.intervalSlider.rx.value
-            .map(TimeInterval.init(_:))
-            .subscribe(onNext: interval.accept(_:))
-            .disposed(by: disposeBag)
-        
-        interval
-            .map { "Count after: \(round($0 * 10) / 10)" }
-            .bind(to: counterView.intervalLabel.rx.text)
-            .disposed(by: disposeBag)
-        
-        store.computed.count
-            .map(String.init(_:))
-            .bind(to: counterView.counterLabel.rx.text)
-            .disposed(by: disposeBag)
-        
         counterView.incrementButton.rx.controlEvent(.touchUpInside)
             .subscribe(onNext: { [unowned self] _ in
-                self.store.actions.incrementAcync(after: interval.value)
+                self.store.actions.incrementAcync(after: self.counterView.interval)
             })
             .disposed(by: disposeBag)
         
         counterView.decrementButton.rx.controlEvent(.touchUpInside)
             .subscribe(onNext: { [unowned self] _ in
-                self.store.actions.decrementAcync(after: interval.value)
+                self.store.actions.decrementAcync(after: self.counterView.interval)
             })
             .disposed(by: disposeBag)
         
         counterView.resetButton.rx.controlEvent(.touchUpInside)
             .subscribe(onNext: { [unowned self] _ in
-                self.store.actions.resetAcync(after: interval.value)
+                self.store.actions.resetAcync(after: self.counterView.interval)
+            })
+            .disposed(by: disposeBag)
+        
+        store.computed.count
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] count in
+                self.counterView.count = count
             })
             .disposed(by: disposeBag)
     }
