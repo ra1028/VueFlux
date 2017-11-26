@@ -34,8 +34,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6B9E32891FA639DF000B24D4"
-               BuildableName = "VueFluxTests.xctest"
-               BlueprintName = "VueFluxTests"
+               BuildableName = "Tests.xctest"
+               BlueprintName = "Tests"
                ReferencedContainer = "container:VueFlux.xcodeproj">
             </BuildableReference>
          </TestableReference>

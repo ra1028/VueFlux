@@ -38,7 +38,7 @@
 
 /* Begin PBXFileReference section */
 		6B9E32811FA639DF000B24D4 /* VueFlux.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VueFlux.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6B9E328A1FA639DF000B24D4 /* VueFluxTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VueFluxTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B9E328A1FA639DF000B24D4 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B9E329C1FA63AEE000B24D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6B9E329D1FA63AEE000B24D4 /* VueFlux.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VueFlux.swift; sourceTree = "<group>"; };
 		6B9E329F1FA63B07000B24D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -91,7 +91,7 @@
 			isa = PBXGroup;
 			children = (
 				6B9E32811FA639DF000B24D4 /* VueFlux.framework */,
-				6B9E328A1FA639DF000B24D4 /* VueFluxTests.xctest */,
+				6B9E328A1FA639DF000B24D4 /* Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -168,9 +168,9 @@
 			productReference = 6B9E32811FA639DF000B24D4 /* VueFlux.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		6B9E32891FA639DF000B24D4 /* VueFluxTests */ = {
+		6B9E32891FA639DF000B24D4 /* Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6B9E32981FA639DF000B24D4 /* Build configuration list for PBXNativeTarget "VueFluxTests" */;
+			buildConfigurationList = 6B9E32981FA639DF000B24D4 /* Build configuration list for PBXNativeTarget "Tests" */;
 			buildPhases = (
 				6B9E32861FA639DF000B24D4 /* Sources */,
 				6B9E32871FA639DF000B24D4 /* Frameworks */,
@@ -181,9 +181,9 @@
 			dependencies = (
 				6B9E328D1FA639DF000B24D4 /* PBXTargetDependency */,
 			);
-			name = VueFluxTests;
+			name = Tests;
 			productName = VueFluxTests;
-			productReference = 6B9E328A1FA639DF000B24D4 /* VueFluxTests.xctest */;
+			productReference = 6B9E328A1FA639DF000B24D4 /* Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -219,7 +219,7 @@
 			projectRoot = "";
 			targets = (
 				6B9E32801FA639DF000B24D4 /* VueFlux */,
-				6B9E32891FA639DF000B24D4 /* VueFluxTests */,
+				6B9E32891FA639DF000B24D4 /* Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -555,7 +555,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6B9E32981FA639DF000B24D4 /* Build configuration list for PBXNativeTarget "VueFluxTests" */ = {
+		6B9E32981FA639DF000B24D4 /* Build configuration list for PBXNativeTarget "Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6B9E32991FA639DF000B24D4 /* Debug */,
