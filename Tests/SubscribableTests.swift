@@ -44,7 +44,7 @@ final class SubscribableTests: XCTestCase {
         
         let subject = Subject<Int>()
         
-        for _ in (1...100000) {
+        for _ in (1...100) {
             group.enter()
             
             queue.async {
@@ -81,22 +81,9 @@ final class SubscribableTests: XCTestCase {
     }
     
     func testBindWithBinder() {
-        var scope: Object? = .init()
         let object = Object()
         
         let subject = Subject<Int>()
-        
-        subject.bind(scope: scope!, to: .init(target: object, \.value))
-        
-        subject.send(value: 1)
-        
-        XCTAssertEqual(object.value, 1)
-        
-        scope = nil
-        
-        subject.send(value: 2)
-        
-        XCTAssertEqual(object.value, 1)
         
         subject.bind(to: .init(target: object, \.value))
         
@@ -106,27 +93,14 @@ final class SubscribableTests: XCTestCase {
     }
     
     func testBindWithTargetObject() {
-        var scope: Object? = .init()
         let object = Object()
         
         let subject = Subject<Int>()
-        
-        subject.bind(scope: scope!, to: object, \.value)
-        
-        subject.send(value: 1)
-        
-        XCTAssertEqual(object.value, 1)
-        
-        scope = nil
-        
-        subject.send(value: 2)
-        
-        XCTAssertEqual(object.value, 1)
         
         subject.bind(to: object, \.value)
         
         subject.send(value: 3)
         
         XCTAssertEqual(object.value, 3)
-    }
+    }    
 }

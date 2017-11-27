@@ -8,27 +8,23 @@ public struct Binder<Value> {
     /// Construct the target.
     ///
     /// - Parameters:
-    ///   - executor: An executor to bind values on.
     ///   - target: Target object.
     ///   - binding: A function to bind values.
-    public init<Target: AnyObject>(executor: Executor = .mainThread, target: Target, binding: @escaping (Target, Value) -> Void) {
+    public init<Target: AnyObject>(target: Target, binding: @escaping (Target, Value) -> Void) {
         self.subscriptionScope = .ratained(by: target)
         self.binding = { [weak target] value in
-            executor.execute {
-                guard let target = target else { return }
-                binding(target, value)
-            }
+            guard let target = target else { return }
+            binding(target, value)
         }
     }
     
     /// Construct the target.
     ///
     /// - Parameters:
-    ///   - executor: An executor to bind values on.
     ///   - target: Target object.
     ///   - keyPath: A function to bind values.
-    public init<Target: AnyObject>(executor: Executor = .mainThread, target: Target, _ keyPath: ReferenceWritableKeyPath<Target, Value>) {
-        self.init(executor: executor, target: target) { target, value in
+    public init<Target: AnyObject>(target: Target, _ keyPath: ReferenceWritableKeyPath<Target, Value>) {
+        self.init(target: target) { target, value in
             target[keyPath: keyPath] = value
         }
     }

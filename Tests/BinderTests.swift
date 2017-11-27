@@ -16,23 +16,6 @@ final class BinderTests: XCTestCase {
         XCTAssertEqual(object.value, 1)
     }
     
-    func testBindWithExercutor() {
-        let object = Object()
-        
-        let expectation = self.expectation(description: "bind on global queue")
-        
-        let binder = Binder<Int>(executor: .queue(.globalDefault()), target: object) {
-            $0.value = $1
-            expectation.fulfill()
-        }
-        
-        binder.bind(value: 1)
-        
-        waitForExpectations(timeout: 1) { _ in
-            XCTAssertEqual(object.value, 1)
-        }
-    }
-    
     func testBindWithKeyPath() {
         let object = Object()
         
