@@ -5,6 +5,7 @@ enum CounterAction {
     case increment
     case decrement
     case reset
+    case update(interval: TimeInterval)
 }
 
 extension Actions where State == CounterState {
@@ -24,5 +25,9 @@ extension Actions where State == CounterState {
         DispatchQueue.global(qos: .default).asyncAfter(deadline: .now() + interval) {
             self.dispatch(action: .reset)
         }
+    }
+    
+    func update(interval: TimeInterval) {
+        dispatch(action: .update(interval: interval))
     }
 }

@@ -51,7 +51,7 @@ extension Subject {
     /// - Returns: A subscription to unsubscribe given observer.
     @inline(__always)
     @discardableResult
-    func subscribe(executor: Executor = .mainThread, initialValue: Value?, observer: @escaping (Value) -> Void) -> Subscription {
+    func subscribe(executor: Executor, initialValue: Value?, observer: @escaping (Value) -> Void) -> Subscription {
         return observers.modify { observers in
             let key = observers.append { value in
                 executor.execute { observer(value) }

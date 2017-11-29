@@ -1,11 +1,12 @@
 import UIKit
 import VueFlux
+import VueFluxReactive
 import GenericComponents
 
 final class CounterViewController: UIViewController {
     @IBOutlet private weak var counterView: CounterView!
     
-    private let store = Store<CounterState>(state: .init(max: 1000), mutations: .init(), executor: .queue(.global()))
+    private let store = Store<CounterState>(state: .init(max: 1000), mutations: .init(), executor: .immediate)
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -22,19 +23,25 @@ private extension CounterViewController {
         counterView.incrementButton.addTarget(self, action: #selector(increment(_:)), for: .touchUpInside)
         counterView.decrementButton.addTarget(self, action: #selector(decrement(_:)), for: .touchUpInside)
         counterView.resetButton.addTarget(self, action: #selector(reset(_:)), for: .touchUpInside)
+        counterView.intervalSlider.addTarget(self, action: #selector(updateInterval(_:)), for: .valueChanged)
         
-        store.computed.count.bind(to: counterView, \.count)
+        store.computed.countText.bind(to: counterView.counterLabel, \.text)
+        store.computed.intervalText.bind(to: counterView.intervalLabel, \.text)
     }
     
     @objc func increment(_ button: UIButton) {
-        store.actions.incrementAcync(after: counterView.interval)
+        store.actions.incrementAcync(after: store.computed.interval)
     }
     
     @objc func decrement(_ button: UIButton) {
-        store.actions.decrementAcync(after: counterView.interval)
+        store.actions.decrementAcync(after: store.computed.interval)
     }
     
     @objc func reset(_ button: UIButton) {
-        store.actions.resetAcync(after: counterView.interval)
+        store.actions.resetAcync(after: store.computed.interval)
+    }
+    
+    @objc func updateInterval(_ slider: UISlider) {
+        store.actions.update(interval: TimeInterval(slider.value))
     }
 }
