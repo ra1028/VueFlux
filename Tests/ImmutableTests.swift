@@ -103,5 +103,28 @@ final class ImmutableTests: XCTestCase {
         
         XCTAssertEqual(value, 1)
     }
+    
+    func testMapValues() {
+        let mutable = Mutable(value: 0)
+        
+        let immutable = mutable.immutable
+        
+        var value: String?
+        
+        let subscription = immutable.map(String.init(_:)).subscribe { string in
+            value = string
+        }
+        
+        XCTAssertEqual(value, "0")
+        
+        mutable.value = 1
+        
+        XCTAssertEqual(value, "1")
+        
+        subscription.unsubscribe()
+        
+        mutable.value = 2
+        
+        XCTAssertEqual(value, "1")
+    }
 }
-

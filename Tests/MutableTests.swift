@@ -95,4 +95,26 @@ final class MutableTests: XCTestCase {
         
         XCTAssertEqual(value, 1)
     }
+    
+    func testMapValues() {
+        let mutable = Mutable(value: 0)
+        
+        var value: String?
+        
+        let subscription = mutable.map(String.init(_:)).subscribe { string in
+            value = string
+        }
+        
+        XCTAssertEqual(value, "0")
+        
+        mutable.value = 1
+        
+        XCTAssertEqual(value, "1")
+        
+        subscription.unsubscribe()
+        
+        mutable.value = 2
+        
+        XCTAssertEqual(value, "1")
+    }
 }

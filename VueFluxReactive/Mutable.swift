@@ -1,6 +1,6 @@
 import VueFlux
 
-public final class Mutable<Value>: Subscribable {
+public final class Mutable<Value>: ReactiveVariable {
     /// A signal that will send the value changes.
     public var signal: Signal<Value> {
         return subject.signal
@@ -29,6 +29,10 @@ public final class Mutable<Value>: Subscribable {
     /// Initialze with a initial value.
     public init(value: Value) {
         self._value = .init(value)
+    }
+    
+    public func map<T>(_ transform: @escaping (Value) -> T) -> Immutable<T> {
+        return immutable.map(transform)
     }
     
     /// Subscribe the observer function to be received the value.

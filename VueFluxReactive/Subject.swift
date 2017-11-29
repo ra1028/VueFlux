@@ -6,6 +6,10 @@ public final class Subject<Value>: Subscribable {
     
     private lazy var observers = ThreadSafe(Storage<(Value) -> Void>())
     
+    public func map<T>(_ transform: @escaping (Value) -> T) -> Signal<T> {
+        return signal.map(transform)
+    }
+    
     /// Subscribe the observer function to be received the value.
     ///
     /// - Prameters:

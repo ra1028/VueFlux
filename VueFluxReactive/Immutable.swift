@@ -1,21 +1,37 @@
 import VueFlux
 
-public final class Immutable<Value>: Subscribable {
-    /// A signal that will send the value changes.
-    public var signal: Signal<Value> {
-        return mutable.signal
-    }
-    
-    private let mutable: Mutable<Value>
+public final class Immutable<Value>: ReactiveVariable {
+    private let _value: () -> Value
+    private let _signal: () -> Signal<Value>
+    private let _subscribe: (Executor, @escaping (Value) -> Void) -> Subscription
     
     /// The current value.
     public var value: Value {
-        return mutable.value
+        return _value()
+    }
+    
+    /// A signal that will send the value changes.
+    public var signal: Signal<Value> {
+        return _signal()
     }
     
     /// Initialize with mutable.
-    public init(_ mutable: Mutable<Value>) {
-        self.mutable = mutable
+    public convenience init(_ mutable: Mutable<Value>) {
+        self.init(mutable) { $0 }
+    }
+    
+    private init<Variable: ReactiveVariable, T>(_ variable: Variable, _ transform: @escaping (T) -> Value) where Variable.Value == T {
+        _value = { transform(variable.value) }
+        _signal = { variable.signal.map(transform) }
+        _subscribe = { executor, observer in
+            variable.subscribe(executor: executor) { value in
+                observer(transform(value))
+            }
+        }
+    }
+    
+    public func map<T>(_ transform: @escaping (Value) -> T) -> Immutable<T> {
+        return .init(self, transform)
     }
     
     /// Subscribe the observer function to be received the value.
@@ -27,6 +43,6 @@ public final class Immutable<Value>: Subscribable {
     /// - Returns: A subscription to unsubscribe given observer.
     @discardableResult
     public func subscribe(executor: Executor = .mainThread, observer: @escaping (Value) -> Void) -> Subscription {
-        return mutable.subscribe(executor: executor, observer: observer)
+        return _subscribe(executor, observer)
     }
 }
