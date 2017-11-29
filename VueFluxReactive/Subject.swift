@@ -15,7 +15,7 @@ public final class Subject<Value>: Subscribable {
     /// - Returns: A subscription to unsubscribe given observer.
     @discardableResult
     public func subscribe(executor: Executor = .mainThread, observer: @escaping (Value) -> Void) -> Subscription {
-        return subscribe(executor: executor, observer: observer, initialValue: nil)
+        return subscribe(executor: executor, initialValue: nil, observer: observer)
     }
     
     /// Send given value to all subscribed observers.
@@ -40,7 +40,7 @@ extension Subject {
     /// - Returns: A subscription to unsubscribe given observer.
     @inline(__always)
     @discardableResult
-    func subscribe(executor: Executor = .mainThread, observer: @escaping (Value) -> Void, initialValue: Value?) -> Subscription {
+    func subscribe(executor: Executor = .mainThread, initialValue: Value?, observer: @escaping (Value) -> Void) -> Subscription {
         return observers.modify { observers in
             let key = observers.append { value in
                 executor.execute { observer(value) }

@@ -14,11 +14,6 @@ public final class Mutable<Value>: Subscribable {
     private let subject = Subject<Value>()
     private let _value: ThreadSafe<Value>
     
-    /// Initialze with a initial value.
-    public init(value: Value) {
-        self._value = .init(value)
-    }
-    
     /// The current value.
     /// Setting this to a new value will send to all observers.
     public var value: Value {
@@ -31,6 +26,11 @@ public final class Mutable<Value>: Subscribable {
         }
     }
     
+    /// Initialze with a initial value.
+    public init(value: Value) {
+        self._value = .init(value)
+    }
+    
     /// Subscribe the observer function to be received the value.
     ///
     /// - Prameters:
@@ -41,7 +41,7 @@ public final class Mutable<Value>: Subscribable {
     @discardableResult
     public func subscribe(executor: Executor = .mainThread, observer: @escaping (Value) -> Void) -> Subscription {
         return _value.synchronized { value in
-            subject.subscribe(executor: executor, observer: observer, initialValue: value)
+            subject.subscribe(executor: executor, initialValue: value, observer: observer)
         }
     }
 }

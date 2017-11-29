@@ -8,14 +8,14 @@ public final class Immutable<Value>: Subscribable {
     
     private let mutable: Mutable<Value>
     
-    /// Initialize with mutable.
-    public init(_ mutable: Mutable<Value>) {
-        self.mutable = mutable
-    }
-    
     /// The current value.
     public var value: Value {
         return mutable.value
+    }
+    
+    /// Initialize with mutable.
+    public init(_ mutable: Mutable<Value>) {
+        self.mutable = mutable
     }
     
     /// Subscribe the observer function to be received the value.
