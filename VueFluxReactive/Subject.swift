@@ -15,7 +15,7 @@ public final class Subject<Value>: Subscribable {
     /// - Returns: A subscription to unsubscribe given observer.
     @discardableResult
     public func subscribe(executor: Executor = .mainThread, observer: @escaping (Value) -> Void) -> Subscription {
-        return subscribe(executor: executor, observer: observer, appended: nil)
+        return subscribe(executor: executor, observer: observer, initialValue: nil)
     }
     
     /// Send given value to all subscribed observers.
@@ -30,20 +30,25 @@ public final class Subject<Value>: Subscribable {
 }
 
 extension Subject {
-    /// Subscribe the observer function non-thread safely.
+    /// Subscribe the observer function to be received the value.
     ///
     /// - Prameters:
     ///   - executor: An executor to receive value on.
     ///   - observer: A function to be received the value.
+    ///   - initialValue: Initial value to be received just on subscribed.
     ///
     /// - Returns: A subscription to unsubscribe given observer.
+    @inline(__always)
     @discardableResult
-    func subscribe(executor: Executor = .mainThread, observer: @escaping (Value) -> Void, appended: (() -> Void)?) -> Subscription {
+    func subscribe(executor: Executor = .mainThread, observer: @escaping (Value) -> Void, initialValue: Value?) -> Subscription {
         return observers.modify { observers in
             let key = observers.append { value in
                 executor.execute { observer(value) }
             }
-            appended?()
+            
+            if let initialValue = initialValue {
+                executor.execute { observer(initialValue) }
+            }
             
             return .init { [weak self] in
                 self?.observers.modify { observers in

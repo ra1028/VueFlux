@@ -15,10 +15,10 @@ open class Store<State: VueFlux.State> {
     }
     
     /// A proxy for actions dispatch via dispatcher retained by `self`.
-    public lazy var actions: Actions<State> = .init(dispatcher: dispatcher)
+    public lazy var actions = Actions<State>(dispatcher: dispatcher)
     
     /// A proxy for computed properties to be published of `State`.
-    public lazy var computed: Computed<State> = .init(state: state)
+    public lazy var computed = Computed<State>(state: state)
     
     /// Initialize and subscribe to Dispachers.
     ///

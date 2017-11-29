@@ -26,10 +26,8 @@ public final class Mutable<Value>: Subscribable {
             return _value.value
         }
         set {
-            _value.modify { value in
-                value = newValue
-                subject.send(value: value)
-            }
+            _value.value = newValue
+            subject.send(value: value)
         }
     }
     
@@ -42,11 +40,8 @@ public final class Mutable<Value>: Subscribable {
     /// - Returns: A subscription to unsubscribe given observer.
     @discardableResult
     public func subscribe(executor: Executor = .mainThread, observer: @escaping (Value) -> Void) -> Subscription {
-        return subject.subscribe(executor: executor, observer: observer) { [weak self] in
-            executor.execute {
-                guard let `self` = self else { return }
-                observer(self.value)
-            }
+        return _value.synchronized { value in
+            subject.subscribe(executor: executor, observer: observer, initialValue: value)
         }
     }
 }
