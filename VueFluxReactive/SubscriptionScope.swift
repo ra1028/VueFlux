@@ -1,58 +1,65 @@
-import ObjectiveC
+import VueFlux
 
 /// A wrapper for automatically unsubscribe added subscriptions.
-public final class SubscriptionScope {
-    private var subscriptions = ContiguousArray<Subscription>()
+public final class SubscriptionScope: Subscription {
+    private enum State {
+        case active
+        case unsubscribed
+    }
+    
+    /// A Bool value indicating whether unsubscribed.
+    public var isUnsubscribed: Bool {
+        guard case .unsubscribed = state.value else { return false }
+        return true
+    }
+    
+    private let state = ThreadSafe<State>(.active)
+    private let subscriptions: ThreadSafe<ContiguousArray<Subscription>>
     
     deinit {
         unsubscribe()
     }
     
-    /// Append a new subscription to a scope.
+    /// Initialize with the given subscriptions.
+    ///
+    /// - Parameters:
+    ///   - subscriptions: Sequence of something conformed to `Subscription`.
+    public init<Sequence: Swift.Sequence>(_ subscriptions: Sequence) where Sequence.Element == Subscription {
+        self.subscriptions = .init(.init(subscriptions))
+    }
+    
+    /// Initialize the empty `SubscriptionScope`.
+    public convenience init() {
+        self.init([])
+    }
+    
+    /// Add a new subscription to a scope.
     ///
     /// - Parameters:
     ///   - subscription: A subscription to be add to scope.
-    public func append(subscription: Subscription) {
-        subscriptions.append(subscription)
+    public func add(subscription: Subscription) {
+        guard !subscription.isUnsubscribed else { return subscription.unsubscribe() }
+        
+        subscriptions.modify { subscriptions in
+            subscriptions.append(subscription)
+        }
+    }
+    
+    /// Unsubscribe all subscriptions if not already been unsubscribed.
+    public func unsubscribe() {
+        guard case .active = state.swap(.unsubscribed) else { return }
+        
+        for subscription in subscriptions.swap([]) {
+            subscription.unsubscribe()
+        }
     }
     
     /// An operator for append a new subscription to a scope.
     ///
     /// - Parameters:
-    ///   - scope: A scope to be add new subscription.
+    ///   - subscriptionScope: A scope to be add new subscription.
     ///   - subscription: A subscription to be add to scope.
-    public static func += (scope: SubscriptionScope, subscription: Subscription) {
-        scope.append(subscription: subscription)
-    }
-    
-    public static func += (scope: SubscriptionScope, otherScope: SubscriptionScope) {
-        scope += Subscription { [weak otherScope] in
-            otherScope?.unsubscribe()
-        }
-    }
-}
-
-private extension SubscriptionScope {
-    func unsubscribe() {
-        for subscription in subscriptions {
-            subscription.unsubscribe()
-        }
-    }
-}
-
-private let subscriptionScopeKey = UnsafeRawPointer(UnsafeMutablePointer<UInt8>.allocate(capacity: 1))
-
-extension SubscriptionScope {
-    static func ratained(by object: AnyObject) -> SubscriptionScope {
-        objc_sync_enter(object)
-        defer { objc_sync_exit(object) }
-        
-        if let subscriptionScope = objc_getAssociatedObject(object, subscriptionScopeKey) as? SubscriptionScope {
-            return subscriptionScope
-        }
-        
-        let subscriptionScope = SubscriptionScope()
-        objc_setAssociatedObject(object, subscriptionScopeKey, subscriptionScope, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        return subscriptionScope
+    public static func += (subscriptionScope: SubscriptionScope, subscription: Subscription) {
+        subscriptionScope.add(subscription: subscription)
     }
 }

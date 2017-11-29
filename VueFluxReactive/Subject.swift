@@ -50,7 +50,7 @@ extension Subject {
                 executor.execute { observer(initialValue) }
             }
             
-            return .init { [weak self] in
+            return AnySubscription { [weak self] in
                 self?.observers.modify { observers in
                     observers.remove(for: key)
                 }

@@ -1,28 +1,8 @@
-import VueFlux
-
-/// An Unsubscribe function wrapper.
-public struct Subscription {
-    private enum State {
-        case subscribing(unsubscribe: () -> Void)
-        case unsubscribed
-    }
+/// Represents something that can be `unsubscribe`.
+public protocol Subscription {
+    /// A Bool value indicating whether unsubscribed.
+    var isUnsubscribed: Bool { get }
     
-    private let state: ThreadSafe<State>
-    
-    /// A Bool value indicating whether a subscription is unsubscribed.
-    public var isUnsubscribed: Bool {
-        guard case .unsubscribed = state.value else { return false }
-        return true
-    }
-    
-    /// Construct with unsubscribe function.
-    init(unsubscribe: @escaping (() -> Void)) {
-        state = .init(.subscribing(unsubscribe: unsubscribe))
-    }
-    
-    /// Execute unsubscribe function if not already been unsubscribed.
-    public func unsubscribe() {
-        guard case .subscribing(let unsubscribe) = state.swap(.unsubscribed) else { return }
-        unsubscribe()
-    }
+    /// Unsubscribe if not already been unsubscribed.
+    func unsubscribe()
 }

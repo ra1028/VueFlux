@@ -92,7 +92,19 @@ final class SubscribableTests: XCTestCase {
         XCTAssertEqual(object.value, 3)
     }
     
-    func testBindWithTargetObject() {
+    func testBindWithTargetAndBinding() {
+        let object = Object()
+        
+        let subject = Subject<Int>()
+
+        subject.bind(to: object) { $0.value = $1 }
+        
+        subject.send(value: 3)
+        
+        XCTAssertEqual(object.value, 3)
+    }
+    
+    func testBindWithTargetAndKeyPath() {
         let object = Object()
         
         let subject = Subject<Int>()
@@ -102,5 +114,5 @@ final class SubscribableTests: XCTestCase {
         subject.send(value: 3)
         
         XCTAssertEqual(object.value, 3)
-    }    
+    }
 }

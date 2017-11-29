@@ -1,7 +1,7 @@
 import VueFlux
 
 public struct Binder<Value> {
-    public let subscriptionScope = SubscriptionScope()
+    let subscriptionScope = SubscriptionScope()
 
     private let binding: (Value) -> Void
 

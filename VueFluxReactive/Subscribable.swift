@@ -49,6 +49,20 @@ public extension Subscribable {
     /// - Prameters:
     ///   - executor: An executor to bind on.
     ///   - target: A binding target object.
+    ///   - binding: A function to bind values.
+    ///
+    /// - Returns: A subscription to unsubscribe given observer.
+    @discardableResult
+    func bind<Target: AnyObject>(executor: Executor = .mainThread, to target: Target, binding: @escaping (Target, Value) -> Void) -> Subscription {
+        return bind(executor: executor, to: .init(target: target, binding: binding))
+    }
+    
+    /// Binds a values to a target, updating the target's value to the latest value.
+    /// Unsubscribed by deallocating the target object.
+    ///
+    /// - Prameters:
+    ///   - executor: An executor to bind on.
+    ///   - target: A binding target object.
     ///   - keyPath: The key path of the object that bind values.
     ///
     /// - Returns: A subscription to unsubscribe given observer.
@@ -59,6 +73,7 @@ public extension Subscribable {
 }
 
 private extension Subscribable {
+    @inline(__always)
     func subscribe(subscriptionScope: SubscriptionScope, executor: Executor, observer: @escaping (Value) -> Void) -> Subscription {
         let subscription = subscribe(executor: executor, observer: observer)
         subscriptionScope += subscription

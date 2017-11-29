@@ -2,10 +2,10 @@ import XCTest
 @testable import VueFluxReactive
 
 final class SubscriptionTests: XCTestCase {
-    func testUnsbscribe() {
+    func testAnySubscription() {
         var value = 0
         
-        let subscription = Subscription {
+        let subscription = AnySubscription {
             value += 1
         }
         
