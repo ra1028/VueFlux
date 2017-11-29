@@ -35,6 +35,7 @@
 		6B9EB25D1FCB3D81009F0659 /* MutableTexts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB25C1FCB3D81009F0659 /* MutableTexts.swift */; };
 		6B9EB25F1FCB40AC009F0659 /* Subscribable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB25E1FCB40AC009F0659 /* Subscribable.swift */; };
 		6B9EB2631FCB434E009F0659 /* SubscribableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB2621FCB434E009F0659 /* SubscribableTests.swift */; };
+		6BEB90131FCF2340001B9BF6 /* ImmutableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEB90121FCF2340001B9BF6 /* ImmutableTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,6 +95,7 @@
 		6BE63FF61FB39CDD007F8B5D /* DispatcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatcherTests.swift; sourceTree = "<group>"; };
 		6BE63FF91FB39EA6007F8B5D /* ExecutorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExecutorTests.swift; sourceTree = "<group>"; };
 		6BE63FFE1FB3A6D8007F8B5D /* VueFluxTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VueFluxTests.swift; sourceTree = "<group>"; };
+		6BEB90121FCF2340001B9BF6 /* ImmutableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImmutableTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,6 +158,7 @@
 				6B9EB2521FCB2B82009F0659 /* SubjectTests.swift */,
 				6B9EB2561FCB2FEE009F0659 /* SignalTests.swift */,
 				6B9EB25C1FCB3D81009F0659 /* MutableTexts.swift */,
+				6BEB90121FCF2340001B9BF6 /* ImmutableTests.swift */,
 				6BA27BCB1FB8CD3100809472 /* SubscriptionTests.swift */,
 				6BA27BCE1FB8CE1A00809472 /* SubscriptionScopeTests.swift */,
 				6B9EB2621FCB434E009F0659 /* SubscribableTests.swift */,
@@ -393,6 +396,7 @@
 				6B9EB2531FCB2B82009F0659 /* SubjectTests.swift in Sources */,
 				6B9EB2571FCB2FEE009F0659 /* SignalTests.swift in Sources */,
 				6B9EB2461FCB203B009F0659 /* SubscriptionTests.swift in Sources */,
+				6BEB90131FCF2340001B9BF6 /* ImmutableTests.swift in Sources */,
 				6B052E161FCB5452008B3731 /* BinderTests.swift in Sources */,
 				6B9EB25D1FCB3D81009F0659 /* MutableTexts.swift in Sources */,
 				6B9EB2471FCB203B009F0659 /* DispatcherTests.swift in Sources */,

@@ -1,8 +1,8 @@
 import VueFlux
 
 public struct Binder<Value> {
-    let subscriptionScope: SubscriptionScope
-    
+    public let subscriptionScope = SubscriptionScope()
+
     private let binding: (Value) -> Void
 
     /// Construct the target.
@@ -11,7 +11,8 @@ public struct Binder<Value> {
     ///   - target: Target object.
     ///   - binding: A function to bind values.
     public init<Target: AnyObject>(target: Target, binding: @escaping (Target, Value) -> Void) {
-        self.subscriptionScope = .ratained(by: target)
+        SubscriptionScope.ratained(by: target) += subscriptionScope
+        
         self.binding = { [weak target] value in
             guard let target = target else { return }
             binding(target, value)

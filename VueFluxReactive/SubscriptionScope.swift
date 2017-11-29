@@ -5,9 +5,7 @@ public final class SubscriptionScope {
     private var subscriptions = ContiguousArray<Subscription>()
     
     deinit {
-        for subscription in subscriptions {
-            subscription.unsubscribe()
-        }
+        unsubscribe()
     }
     
     /// Append a new subscription to a scope.
@@ -25,6 +23,20 @@ public final class SubscriptionScope {
     ///   - subscription: A subscription to be add to scope.
     public static func += (scope: SubscriptionScope, subscription: Subscription) {
         scope.append(subscription: subscription)
+    }
+    
+    public static func += (scope: SubscriptionScope, otherScope: SubscriptionScope) {
+        scope += Subscription { [weak otherScope] in
+            otherScope?.unsubscribe()
+        }
+    }
+}
+
+private extension SubscriptionScope {
+    func unsubscribe() {
+        for subscription in subscriptions {
+            subscription.unsubscribe()
+        }
     }
 }
 

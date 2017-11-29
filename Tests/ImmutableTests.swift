@@ -2,41 +2,45 @@ import XCTest
 import VueFlux
 @testable import VueFluxReactive
 
-final class MutableTests: XCTestCase {
+final class ImmutableTests: XCTestCase {
     func testSubscribe() {
         let mutable = Mutable(value: 0)
         
+        let immutable = mutable.immutable
+        
         var value: Int? = nil
         
-        mutable.subscribe { int in
+        immutable.subscribe { int in
             XCTAssertTrue(Thread.isMainThread)
             value = int
         }
         
-        XCTAssertEqual(mutable.value, 0)
+        XCTAssertEqual(immutable.value, 0)
         XCTAssertEqual(value, 0)
         
         mutable.value = 1
-
-        XCTAssertEqual(mutable.value, 1)
+        
+        XCTAssertEqual(immutable.value, 1)
         XCTAssertEqual(value, 1)
     }
     
     func testSubscribeWithExercutor() {
         let mutable = Mutable(value: 0)
         
+        let immutable = mutable.immutable
+        
         var value: Int? = nil
         
         let expectation = self.expectation(description: "subscribe to mutable on global queue")
         
-        mutable.subscribe(executor: .queue(.globalDefault())) { int in
+        immutable.subscribe(executor: .queue(.globalDefault())) { int in
             XCTAssertFalse(Thread.isMainThread)
             value = int
             expectation.fulfill()
         }
         
         waitForExpectations(timeout: 1) { _ in
-            XCTAssertEqual(mutable.value, 0)
+            XCTAssertEqual(immutable.value, 0)
             XCTAssertEqual(value, 0)
         }
     }
@@ -44,32 +48,34 @@ final class MutableTests: XCTestCase {
     func testUnsubscribe() {
         let mutable = Mutable(value: 0)
         
+        let immutable = mutable.immutable
+        
         var value: Int? = nil
         
-        let subscription = mutable.subscribe { int in
+        let subscription = immutable.subscribe { int in
             value = int
         }
-
-        XCTAssertEqual(mutable.value, 0)
+        
+        XCTAssertEqual(immutable.value, 0)
         XCTAssertEqual(value, 0)
         
         mutable.value = 1
         
-        XCTAssertEqual(mutable.value, 1)
+        XCTAssertEqual(immutable.value, 1)
         XCTAssertEqual(value, 1)
         
         subscription.unsubscribe()
         
         mutable.value = 2
         
-        XCTAssertEqual(mutable.value, 2)
+        XCTAssertEqual(immutable.value, 2)
         XCTAssertEqual(value, 1)
         
-        mutable.subscribe { int in
+        immutable.subscribe { int in
             value = int
         }
         
-        XCTAssertEqual(mutable.value, 2)
+        XCTAssertEqual(immutable.value, 2)
         XCTAssertEqual(value, 2)
     }
     
@@ -78,12 +84,14 @@ final class MutableTests: XCTestCase {
         
         let mutable = Mutable(value: 0)
         
+        let immutable = mutable.immutable
+        
         var value = 0
         var object: Object? = .init()
         
         let binder = Binder(target: object!) { _, int in value = int }
         
-        mutable.bind(to: binder)
+        immutable.bind(to: binder)
         
         mutable.value = 1
         
@@ -96,3 +104,4 @@ final class MutableTests: XCTestCase {
         XCTAssertEqual(value, 1)
     }
 }
+

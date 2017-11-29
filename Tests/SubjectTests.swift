@@ -61,4 +61,28 @@ final class SubjectTests: XCTestCase {
         
         XCTAssertEqual(value, 1)
     }
+    
+    
+    func testUnbindOnTargetDeinit() {
+        final class Object {}
+        
+        let subject = Subject<Int>()
+        
+        var value = 0
+        var object: Object? = .init()
+        
+        let binder = Binder(target: object!) { _, int in value = int }
+        
+        subject.bind(to: binder)
+        
+        subject.send(value: 1)
+        
+        XCTAssertEqual(value, 1)
+        
+        object = nil
+        
+        subject.send(value: 2)
+        
+        XCTAssertEqual(value, 1)
+    }
 }
