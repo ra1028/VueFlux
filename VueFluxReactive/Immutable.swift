@@ -30,6 +30,12 @@ public final class Immutable<Value>: ReactiveVariable {
         }
     }
     
+    /// Map current value and each value to a new value.
+    ///
+    /// - parameters:
+    ///   - transform: A function that transform current value and each value to a new value.
+    ///
+    /// - returns: A Immutable that have transformed value.
     public func map<T>(_ transform: @escaping (Value) -> T) -> Immutable<T> {
         return .init(self, transform)
     }

@@ -12,6 +12,12 @@ public final class Signal<Value>: Subscribable {
         _subscribe = subscribe
     }
     
+    /// Map each value to a new value.
+    ///
+    /// - parameters:
+    ///   - transform: A function that transform each value to a new value.
+    ///
+    /// - returns: A Signal that will send new values.
     public func map<T>(_ transform: @escaping (Value) -> T) -> Signal<T> {
         return .init { executor, observer in
             self.subscribe(executor: executor) { value in

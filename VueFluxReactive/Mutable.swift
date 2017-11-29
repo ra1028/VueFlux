@@ -31,6 +31,13 @@ public final class Mutable<Value>: ReactiveVariable {
         self._value = .init(value)
     }
     
+    /// Map current value and each value to a new value.
+    ///
+    /// - parameters:
+    ///   - transform: A function that transform current value and each value to a new value.
+    ///
+    /// - returns: A Immutable that have transformed value.
+    @inline(__always)
     public func map<T>(_ transform: @escaping (Value) -> T) -> Immutable<T> {
         return immutable.map(transform)
     }

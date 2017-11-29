@@ -6,6 +6,13 @@ public final class Subject<Value>: Subscribable {
     
     private lazy var observers = ThreadSafe(Storage<(Value) -> Void>())
     
+    /// Map each value to a new value.
+    ///
+    /// - parameters:
+    ///   - transform: A function that transform each value to a new value.
+    ///
+    /// - returns: A Signal that will send new values.
+    @inline(__always)
     public func map<T>(_ transform: @escaping (Value) -> T) -> Signal<T> {
         return signal.map(transform)
     }
