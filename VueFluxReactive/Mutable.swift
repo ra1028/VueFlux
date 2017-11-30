@@ -7,12 +7,7 @@ public final class Mutable<Value>: ReactiveVariable {
     }
     
     /// A immutable which reflects the `self`.
-    public var immutable: Immutable<Value> {
-        return .init(self)
-    }
-    
-    private let subject = Subject<Value>()
-    private let _value: ThreadSafe<Value>
+    public private(set) lazy var immutable = Immutable<Value>(self)
     
     /// The current value.
     /// Setting this to a new value will send to all observers.
@@ -25,6 +20,9 @@ public final class Mutable<Value>: ReactiveVariable {
             subject.send(value: value)
         }
     }
+    
+    private let subject = Subject<Value>()
+    private let _value: ThreadSafe<Value>
     
     /// Initialze with a initial value.
     public init(value: Value) {

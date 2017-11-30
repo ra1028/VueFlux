@@ -1,19 +1,17 @@
 import VueFlux
 
 public final class Immutable<Value>: ReactiveVariable {
-    private let _value: () -> Value
-    private let _signal: () -> Signal<Value>
-    private let _subscribe: (Executor, @escaping (Value) -> Void) -> Subscription
-    
     /// The current value.
     public var value: Value {
         return _value()
     }
     
     /// A signal that will send the value changes.
-    public var signal: Signal<Value> {
-        return _signal()
-    }
+    public private(set) lazy var signal = _signal()
+    
+    private let _value: () -> Value
+    private let _signal: () -> Signal<Value>
+    private let _subscribe: (Executor, @escaping (Value) -> Void) -> Subscription
     
     /// Initialize with mutable.
     public convenience init(_ mutable: Mutable<Value>) {
