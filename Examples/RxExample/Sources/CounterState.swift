@@ -3,8 +3,16 @@ import RxSwift
 import RxCocoa
 
 extension Computed where State == CounterState {
-    var count: Observable<Int> {
-        return state.count.asObservable()
+    var countText: Observable<String?> {
+        return state.count.map { String($0) }
+    }
+    
+    var interval: TimeInterval {
+        return state.interval.value
+    }
+    
+    var intervalText: Observable<String?> {
+        return state.interval.map { "Count after: \(($0 * 10).rounded() / 10)" }
     }
 }
 
@@ -14,6 +22,7 @@ final class CounterState: State {
     
     fileprivate let max: Int
     fileprivate let count = BehaviorRelay(value: 0)
+    fileprivate let interval = BehaviorRelay<TimeInterval>(value: 0)
     
     init(max: Int) {
         self.max = max
@@ -31,6 +40,9 @@ struct CounterMutations: Mutations {
             
         case .reset:
             state.count.accept(0)
+            
+        case let .update(interval):
+            state.interval.accept(interval)
         }
     }
 }

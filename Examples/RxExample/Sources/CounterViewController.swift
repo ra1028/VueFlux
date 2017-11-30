@@ -24,26 +24,40 @@ private extension CounterViewController {
     func configure() {
         counterView.incrementButton.rx.controlEvent(.touchUpInside)
             .subscribe(onNext: { [unowned self] _ in
-                self.store.actions.incrementAcync(after: self.counterView.interval)
+                self.store.actions.incrementAcync(after: self.store.computed.interval)
             })
             .disposed(by: disposeBag)
         
         counterView.decrementButton.rx.controlEvent(.touchUpInside)
             .subscribe(onNext: { [unowned self] _ in
-                self.store.actions.decrementAcync(after: self.counterView.interval)
+                self.store.actions.decrementAcync(after: self.store.computed.interval)
             })
             .disposed(by: disposeBag)
         
         counterView.resetButton.rx.controlEvent(.touchUpInside)
             .subscribe(onNext: { [unowned self] _ in
-                self.store.actions.resetAcync(after: self.counterView.interval)
+                self.store.actions.resetAcync(after: self.store.computed.interval)
             })
             .disposed(by: disposeBag)
         
-        store.computed.count
+        counterView.intervalSlider.rx.controlEvent(.valueChanged)
+            .subscribe(onNext: { [unowned self] in
+                let interval = TimeInterval(self.counterView.intervalSlider.value)
+                self.store.actions.update(interval: interval)
+            })
+            .disposed(by: disposeBag)
+        
+        store.computed.countText
             .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { [unowned self] count in
-                self.counterView.count = count
+            .subscribe(onNext: { [unowned self] text in
+                self.counterView.counterLabel.text = text
+            })
+            .disposed(by: disposeBag)
+        
+        store.computed.intervalText
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] text in
+                self.counterView.intervalLabel.text = text
             })
             .disposed(by: disposeBag)
     }
