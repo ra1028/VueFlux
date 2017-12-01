@@ -11,7 +11,7 @@ final class BinderTests: XCTestCase {
         
         let binder = Binder(target: object) { $0.value = $1 }
         
-        binder.bind(value: 1)
+        binder.on(value: 1)
         
         XCTAssertEqual(object.value, 1)
     }
@@ -21,7 +21,7 @@ final class BinderTests: XCTestCase {
         
         let binder = Binder(target: object, \.value)
         
-        binder.bind(value: 1)
+        binder.on(value: 1)
         
         XCTAssertEqual(object.value, 1)
     }

@@ -40,7 +40,7 @@ public extension Subscribable {
     /// - Returns: A subscription to unsubscribe given observer.
     @discardableResult
     func bind(executor: Executor = .mainThread, to binder: Binder<Value>) -> Subscription {
-        return subscribe(subscriptionScope: binder.subscriptionScope, executor: executor, observer: binder.bind(value:))
+        return subscribe(subscriptionScope: binder.subscriptionScope, executor: executor, observer: binder.on(value:))
     }
     
     /// Binds a values to a target, updating the target's value to the latest value.

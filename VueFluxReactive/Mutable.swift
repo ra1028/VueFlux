@@ -1,6 +1,6 @@
 import VueFlux
 
-public final class Mutable<Value>: ReactiveVariable {
+public final class Mutable<Value>: Subscribable {
     /// A signal that will send the value changes.
     public var signal: Signal<Value> {
         return subject.signal

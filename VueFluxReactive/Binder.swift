@@ -30,11 +30,11 @@ public struct Binder<Value> {
         }
     }
     
-    /// Binds given value to target.
+    /// Update target with given value.
     ///
     /// - Parameters:
-    ///   - value: Value to bind to target.
-    public func bind(value: Value) {
+    ///   - value: Value to update target.
+    public func on(value: Value) {
         binding(value)
     }
 }

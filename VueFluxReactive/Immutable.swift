@@ -1,31 +1,33 @@
 import VueFlux
 
-public final class Immutable<Value>: ReactiveVariable {
+public final class Immutable<Value>: Subscribable {
     /// The current value.
     public var value: Value {
         return _value()
     }
     
     /// A signal that will send the value changes.
-    public private(set) lazy var signal = _signal()
+    public let signal: Signal<Value>
     
     private let _value: () -> Value
-    private let _signal: () -> Signal<Value>
     private let _subscribe: (Executor, @escaping (Value) -> Void) -> Subscription
     
     /// Initialize with mutable.
     public convenience init(_ mutable: Mutable<Value>) {
-        self.init(mutable) { $0 }
-    }
-    
-    private init<Variable: ReactiveVariable, T>(_ variable: Variable, _ transform: @escaping (T) -> Value) where Variable.Value == T {
-        _value = { transform(variable.value) }
-        _signal = { variable.signal.map(transform) }
-        _subscribe = { executor, observer in
-            variable.subscribe(executor: executor) { value in
-                observer(transform(value))
+        self.init({ mutable.value }, mutable.signal) { executor, observer in
+            mutable.subscribe(executor: executor) { value in
+                observer(value)
             }
         }
+    }
+    
+    private init(
+        _ value: @escaping () -> Value,
+        _ signal: Signal<Value>,
+        _ subscribe: @escaping (Executor, @escaping (Value) -> Void) -> Subscription) {
+        self.signal = signal
+        _value = value
+        _subscribe = subscribe
     }
     
     /// Map current value and each value to a new value.
@@ -35,7 +37,11 @@ public final class Immutable<Value>: ReactiveVariable {
     ///
     /// - returns: A Immutable that have transformed value.
     public func map<T>(_ transform: @escaping (Value) -> T) -> Immutable<T> {
-        return .init(self, transform)
+        return .init({ transform(self.value) }, signal.map(transform)) { executor, observer in
+            self.subscribe(executor: executor) { value in
+                observer(transform(value))
+            }
+        }
     }
     
     /// Subscribe the observer function to be received the value.
