@@ -3,7 +3,7 @@ import VueFlux
 /// A wrapper for automatically unsubscribe added subscriptions.
 public final class SubscriptionScope: Subscription {
     private enum State {
-        case active
+        case active(subscriptions: ContiguousArray<Subscription>)
         case unsubscribed
     }
     
@@ -13,8 +13,7 @@ public final class SubscriptionScope: Subscription {
         return true
     }
     
-    private let state = ThreadSafe<State>(.active)
-    private let subscriptions: ThreadSafe<ContiguousArray<Subscription>>
+    private let state: ThreadSafe<State>
     
     deinit {
         unsubscribe()
@@ -25,7 +24,7 @@ public final class SubscriptionScope: Subscription {
     /// - Parameters:
     ///   - subscriptions: Sequence of something conformed to `Subscription`.
     public init<Sequence: Swift.Sequence>(_ subscriptions: Sequence) where Sequence.Element == Subscription {
-        self.subscriptions = .init(.init(subscriptions))
+        self.state = .init(.active(subscriptions: .init(subscriptions)))
     }
     
     /// Initialize the empty `SubscriptionScope`.
@@ -38,18 +37,22 @@ public final class SubscriptionScope: Subscription {
     /// - Parameters:
     ///   - subscription: A subscription to be add to scope.
     public func add(subscription: Subscription) {
-        guard !subscription.isUnsubscribed else { return subscription.unsubscribe() }
-        
-        subscriptions.modify { subscriptions in
+        state.modify { state in
+            guard case var .active(subscriptions) = state else {
+                subscription.unsubscribe()
+                return
+            }
+            
             subscriptions.append(subscription)
+            state = .active(subscriptions: subscriptions)
         }
     }
     
     /// Unsubscribe all subscriptions if not already been unsubscribed.
     public func unsubscribe() {
-        guard case .active = state.swap(.unsubscribed) else { return }
+        guard case let .active(subscriptions) = state.swap(.unsubscribed) else { return }
         
-        for subscription in subscriptions.swap([]) {
+        for subscription in subscriptions {
             subscription.unsubscribe()
         }
     }
