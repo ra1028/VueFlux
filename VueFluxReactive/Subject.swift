@@ -49,7 +49,6 @@ extension Subject {
     ///   - initialValue: Initial value to be received just on subscribed.
     ///
     /// - Returns: A subscription to unsubscribe given observer.
-    @inline(__always)
     @discardableResult
     func subscribe(executor: Executor, initialValue: Value?, observer: @escaping (Value) -> Void) -> Subscription {
         return observers.modify { observers in
