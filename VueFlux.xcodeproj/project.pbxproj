@@ -67,6 +67,7 @@
 /* Begin PBXFileReference section */
 		6B052E131FCB4EE2008B3731 /* Binder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binder.swift; sourceTree = "<group>"; };
 		6B052E151FCB5452008B3731 /* BinderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinderTests.swift; sourceTree = "<group>"; };
+		6B120DC81FD5B52D001FEAB4 /* Universal.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Universal.xcconfig; sourceTree = "<group>"; };
 		6B9E32811FA639DF000B24D4 /* VueFlux.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VueFlux.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B9E328A1FA639DF000B24D4 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B9E329F1FA63B07000B24D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -129,9 +130,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6B120DC71FD5B4CB001FEAB4 /* Configurations */ = {
+			isa = PBXGroup;
+			children = (
+				6B120DC81FD5B52D001FEAB4 /* Universal.xcconfig */,
+			);
+			path = Configurations;
+			sourceTree = "<group>";
+		};
 		6B9E32771FA639DF000B24D4 = {
 			isa = PBXGroup;
 			children = (
+				6B120DC71FD5B4CB001FEAB4 /* Configurations */,
 				6B9EB2121FCB14BF009F0659 /* VueFlux */,
 				6B9EB2381FCB1611009F0659 /* VueFluxReactive */,
 				6B9E329E1FA63B07000B24D4 /* Tests */,
@@ -600,60 +610,62 @@
 		};
 		6B9E32961FA639DF000B24D4 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6B120DC81FD5B52D001FEAB4 /* Universal.xcconfig */;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
+				APPLICATION_EXTENSION_API_ONLY = "$(inherited)";
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
-				DEFINES_MODULE = YES;
+				DEFINES_MODULE = "$(inherited)";
 				DEVELOPMENT_TEAM = "";
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				DYLIB_COMPATIBILITY_VERSION = "$(inherited)";
+				DYLIB_CURRENT_VERSION = "$(inherited)";
+				DYLIB_INSTALL_NAME_BASE = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/VueFlux/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				INSTALL_PATH = "$(inherited)";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ryo.VueFlux;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SDKROOT = "";
-				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator watchos watchsimulator appletvos appletvsimulator";
+				SDKROOT = "$(inherited)";
+				SKIP_INSTALL = "$(inherited)";
+				SUPPORTED_PLATFORMS = "$(inherited)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2,3,4";
+				TARGETED_DEVICE_FAMILY = "$(inherited)";
 				TVOS_DEPLOYMENT_TARGET = 9.0;
-				VALID_ARCHS = "i386 x86_64 arm64 armv7 armv7s armv7k";
+				VALID_ARCHS = "$(inherited)";
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
 		};
 		6B9E32971FA639DF000B24D4 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6B120DC81FD5B52D001FEAB4 /* Universal.xcconfig */;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
+				APPLICATION_EXTENSION_API_ONLY = "$(inherited)";
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
-				DEFINES_MODULE = YES;
+				DEFINES_MODULE = "$(inherited)";
 				DEVELOPMENT_TEAM = "";
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				DYLIB_COMPATIBILITY_VERSION = "$(inherited)";
+				DYLIB_CURRENT_VERSION = "$(inherited)";
+				DYLIB_INSTALL_NAME_BASE = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/VueFlux/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				INSTALL_PATH = "$(inherited)";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ryo.VueFlux;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SDKROOT = "";
-				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator watchos watchsimulator appletvos appletvsimulator";
+				SDKROOT = "$(inherited)";
+				SKIP_INSTALL = "$(inherited)";
+				SUPPORTED_PLATFORMS = "$(inherited)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2,3,4";
+				TARGETED_DEVICE_FAMILY = "$(inherited)";
 				TVOS_DEPLOYMENT_TARGET = 9.0;
-				VALID_ARCHS = "i386 x86_64 arm64 armv7 armv7s armv7k";
+				VALID_ARCHS = "$(inherited)";
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
@@ -710,62 +722,62 @@
 		};
 		6B9EB2341FCB157C009F0659 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6B120DC81FD5B52D001FEAB4 /* Universal.xcconfig */;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
-				CLANG_ENABLE_MODULES = YES;
+				APPLICATION_EXTENSION_API_ONLY = "$(inherited)";
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
-				DEFINES_MODULE = YES;
+				DEFINES_MODULE = "$(inherited)";
 				DEVELOPMENT_TEAM = "";
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "$(SRCROOT)/VueFluxReactive/VueFluxReactive.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				DYLIB_COMPATIBILITY_VERSION = "$(inherited)";
+				DYLIB_CURRENT_VERSION = "$(inherited)";
+				DYLIB_INSTALL_NAME_BASE = "$(inherited)";
+				INFOPLIST_FILE = "$(SRCROOT)/VueFlux/Info.plist";
+				INSTALL_PATH = "$(inherited)";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ryo.VueFluxReactive;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ryo.VueFlux;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SDKROOT = "";
-				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator watchos watchsimulator appletvos appletvsimulator";
+				SDKROOT = "$(inherited)";
+				SKIP_INSTALL = "$(inherited)";
+				SUPPORTED_PLATFORMS = "$(inherited)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2,3,4";
+				TARGETED_DEVICE_FAMILY = "$(inherited)";
 				TVOS_DEPLOYMENT_TARGET = 9.0;
-				VALID_ARCHS = "i386 x86_64 arm64 armv7 armv7s armv7k";
+				VALID_ARCHS = "$(inherited)";
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
 		};
 		6B9EB2351FCB157C009F0659 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6B120DC81FD5B52D001FEAB4 /* Universal.xcconfig */;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
-				CLANG_ENABLE_MODULES = YES;
+				APPLICATION_EXTENSION_API_ONLY = "$(inherited)";
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
-				DEFINES_MODULE = YES;
+				DEFINES_MODULE = "$(inherited)";
 				DEVELOPMENT_TEAM = "";
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "$(SRCROOT)/VueFluxReactive/VueFluxReactive.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				DYLIB_COMPATIBILITY_VERSION = "$(inherited)";
+				DYLIB_CURRENT_VERSION = "$(inherited)";
+				DYLIB_INSTALL_NAME_BASE = "$(inherited)";
+				INFOPLIST_FILE = "$(SRCROOT)/VueFlux/Info.plist";
+				INSTALL_PATH = "$(inherited)";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ryo.VueFluxReactive;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ryo.VueFlux;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SDKROOT = "";
-				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator watchos watchsimulator appletvos appletvsimulator";
+				SDKROOT = "$(inherited)";
+				SKIP_INSTALL = "$(inherited)";
+				SUPPORTED_PLATFORMS = "$(inherited)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2,3,4";
+				TARGETED_DEVICE_FAMILY = "$(inherited)";
 				TVOS_DEPLOYMENT_TARGET = 9.0;
-				VALID_ARCHS = "i386 x86_64 arm64 armv7 armv7s armv7k";
+				VALID_ARCHS = "$(inherited)";
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
