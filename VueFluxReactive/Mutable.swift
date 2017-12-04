@@ -16,8 +16,10 @@ public final class Mutable<Value>: Subscribable {
             return _value.value
         }
         set {
-            _value.value = newValue
-            subject.send(value: value)
+            _value.modify { value in
+                value = newValue
+                subject.send(value: value)
+            }
         }
     }
     
