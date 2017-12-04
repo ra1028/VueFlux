@@ -1,27 +1,28 @@
 import VueFlux
 
+/// A stream that able to both sends and receive values.
 public final class Subject<Value>: Subscribable {
     /// A signal for subject.
     public private(set) lazy var signal = Signal(self)
     
     private lazy var observers = ThreadSafe(Storage<(Value) -> Void>())
     
-    /// Map each value to a new value.
+    /// Map each values to a new value.
     ///
-    /// - parameters:
-    ///   - transform: A function that transform each value to a new value.
+    /// - Parameters:
+    ///   - transform: A function that to transform each values to a new value.
     ///
-    /// - returns: A Signal that will send new values.
+    /// - Returns: Signal to be sent new values.
     @inline(__always)
     public func map<T>(_ transform: @escaping (Value) -> T) -> Signal<T> {
         return signal.map(transform)
     }
     
-    /// Subscribe the observer function to be received the value.
+    /// Subscribe the observer function to be received the values.
     ///
     /// - Prameters:
-    ///   - executor: An executor to receive value on.
-    ///   - observer: A function to be received the value.
+    ///   - executor: An executor to receive values on.
+    ///   - observer: A function to be received the values.
     ///
     /// - Returns: A subscription to unsubscribe given observer.
     @discardableResult
@@ -29,7 +30,7 @@ public final class Subject<Value>: Subscribable {
         return subscribe(executor: executor, initialValue: nil, observer: observer)
     }
     
-    /// Send given value to all subscribed observers.
+    /// Send arbitrary value to all subscribed observers.
     ///
     /// - Parameters:
     ///   - value: Value to send to all observers.
@@ -41,11 +42,11 @@ public final class Subject<Value>: Subscribable {
 }
 
 extension Subject {
-    /// Subscribe the observer function to be received the value.
+    /// Subscribe the observer function to be received the values.
     ///
     /// - Prameters:
-    ///   - executor: An executor to receive value on.
-    ///   - observer: A function to be received the value.
+    ///   - executor: An executor to receive values on.
+    ///   - observer: A function to be received the values.
     ///   - initialValue: Initial value to be received just on subscribed.
     ///
     /// - Returns: A subscription to unsubscribe given observer.

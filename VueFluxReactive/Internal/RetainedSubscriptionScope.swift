@@ -3,6 +3,12 @@ import ObjectiveC
 private let subscriptionScopeKey = UnsafeRawPointer(UnsafeMutablePointer<UInt8>.allocate(capacity: 1))
 
 extension SubscriptionScope {
+    /// Take a SubscriptionScope associated by object.
+    ///
+    /// - Prameters:
+    ///   - object: An object that associates SubscriptionScope.
+    ///
+    /// - Returns: A SubscriptionScope associated by given object.
     static func ratained(by object: AnyObject) -> SubscriptionScope {
         objc_sync_enter(object)
         defer { objc_sync_exit(object) }

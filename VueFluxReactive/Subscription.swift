@@ -1,4 +1,4 @@
-/// Represents something that can be `unsubscribe`.
+/// Represents something that can be unsubscribe.
 public protocol Subscription {
     /// A Bool value indicating whether unsubscribed.
     var isUnsubscribed: Bool { get }

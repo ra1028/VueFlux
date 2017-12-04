@@ -50,7 +50,7 @@ public final class ThreadSafe<Value> {
         return try function(&_value)
     }
     
-    /// Set the new value and returns old value.
+    /// Set the new value and Returns old value.
     ///
     /// - Parameters:
     ///   - newValue: A new value.

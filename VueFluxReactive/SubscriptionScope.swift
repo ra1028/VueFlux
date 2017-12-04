@@ -19,7 +19,7 @@ public final class SubscriptionScope: Subscription {
         unsubscribe()
     }
     
-    /// Initialize with the given subscriptions.
+    /// Initialize a new SubscriptionScope with the subscriptions.
     ///
     /// - Parameters:
     ///   - subscriptions: Sequence of something conformed to `Subscription`.
@@ -27,7 +27,7 @@ public final class SubscriptionScope: Subscription {
         self.state = .init(.active(subscriptions: .init(subscriptions)))
     }
     
-    /// Initialize the empty `SubscriptionScope`.
+    /// Initialize a new, empty SubscriptionScope.
     public convenience init() {
         self.init([])
     }
@@ -57,7 +57,7 @@ public final class SubscriptionScope: Subscription {
         }
     }
     
-    /// An operator for append a new subscription to a scope.
+    /// An operator for add a new subscription to a scope.
     ///
     /// - Parameters:
     ///   - subscriptionScope: A scope to be add new subscription.

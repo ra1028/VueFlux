@@ -1,9 +1,10 @@
 import VueFlux
 
+/// A stream that can only receive values.
 public final class Signal<Value>: Subscribable {
     private let _subscribe: (Executor, @escaping (Value) -> Void) -> Subscription
     
-    /// Initialize with subject.
+    /// Initialize a new signal from subject.
     public convenience init(_ subject: Subject<Value>) {
         self.init(subject.subscribe(executor:observer:))
     }
@@ -12,12 +13,12 @@ public final class Signal<Value>: Subscribable {
         _subscribe = subscribe
     }
     
-    /// Map each value to a new value.
+    /// Map each values to a new value.
     ///
-    /// - parameters:
-    ///   - transform: A function that transform each value to a new value.
+    /// - Parameters:
+    ///   - transform: A function that to transform each values to a new value.
     ///
-    /// - returns: A Signal that will send new values.
+    /// - Returns: A Signal that will send new values.
     public func map<T>(_ transform: @escaping (Value) -> T) -> Signal<T> {
         return .init { executor, observer in
             self.subscribe(executor: executor) { value in
@@ -26,11 +27,11 @@ public final class Signal<Value>: Subscribable {
         }
     }
     
-    /// Subscribe the observer function to be received the value.
+    /// Subscribe the observer function to be received the values.
     ///
     /// - Prameters:
-    ///   - executor: An executor to receive value on.
-    ///   - observer: A function to be received the value.
+    ///   - executor: An executor to receive values on.
+    ///   - observer: A function to be received the values.
     ///
     /// - Returns: A subscription to unsubscribe given observer.
     @discardableResult

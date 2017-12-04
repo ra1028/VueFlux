@@ -2,14 +2,14 @@
 struct Dispatcher<State: VueFlux.State> {
     typealias Observers = Storage<(State.Action) -> Void>
     
-    /// Shared instance associated by `State` type.
+    /// Shared instance associated by generic type of State.
     static var shared: Dispatcher<State> {
         return DispatcherContext.shared.dispatcher(for: State.self)
     }
     
     private let observers = ThreadSafe(Observers())
     
-    /// Construct a Dispatcher
+    /// Create a Dispatcher
     init() {}
     
     /// Dispatch an action for all subscribed dispatch functions.

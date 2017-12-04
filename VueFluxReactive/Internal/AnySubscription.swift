@@ -15,7 +15,7 @@ struct AnySubscription: Subscription {
         return true
     }
     
-    /// Construct with unsubscribe function.
+    /// Create with unsubscribe function.
     init(unsubscribe: @escaping (() -> Void)) {
         state = .init(.subscribing(unsubscribe: unsubscribe))
     }

@@ -31,7 +31,7 @@ private extension DispatcherContext {
     struct Identifier: Hashable {
         let hashValue: Int
         
-        /// Construct with arbitrary State protocol conformed type.
+        /// Create with arbitrary State protocol conformed type.
         init<State: VueFlux.State>(for stateType: State.Type) {
             hashValue = String(reflecting: stateType).hashValue
         }

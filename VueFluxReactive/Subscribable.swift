@@ -1,14 +1,14 @@
 import VueFlux
 
-/// Represents an class with have subscribe function.
+/// Represents an object wich have subscribe function.
 public protocol Subscribable: class {
     associatedtype Value
     
-    /// Subscribe the observer function to be received the value.
+    /// Subscribe the observer function to be received the values.
     ///
     /// - Prameters:
-    ///   - executor: An executor to receive value on.
-    ///   - observer: A function to be received the value.
+    ///   - executor: An executor to receive values on.
+    ///   - observer: A function to be received the values.
     ///
     /// - Returns: A subscription to unsubscribe given observer.
     @discardableResult
@@ -16,13 +16,13 @@ public protocol Subscribable: class {
 }
 
 public extension Subscribable {
-    /// Subscribe the observer function to be received the value.
+    /// Subscribe the observer function to be received the values.
     /// Unsubscribed by deallocating the given scope object.
     ///
     /// - Prameters:
     ///   - scope: An object that will unsubscribe given observer function by being deallocate.
-    ///   - executor: An executor to receive value on.
-    ///   - observer: A function to be received the value.
+    ///   - executor: An executor to receive values on.
+    ///   - observer: A function to be received the values.
     ///
     /// - Returns: A subscription to unsubscribe given observer.
     @discardableResult
@@ -30,7 +30,7 @@ public extension Subscribable {
         return subscribe(subscriptionScope: .ratained(by: object), executor: executor, observer: observer)
     }
     
-    /// Binds a values to a binder, updating the binder target's value to the latest value.
+    /// Binds the values to a binder, updating the binder target's value to the latest.
     /// Unsubscribed by deallocating the binder's target.
     ///
     /// - Prameters:
@@ -43,7 +43,7 @@ public extension Subscribable {
         return subscribe(subscriptionScope: binder.subscriptionScope, executor: executor, observer: binder.on(value:))
     }
     
-    /// Binds a values to a target, updating the target's value to the latest value.
+    /// Binds the values to a binder, updating the binder target's value to the latest.
     /// Unsubscribed by deallocating the target object.
     ///
     /// - Prameters:
@@ -57,7 +57,7 @@ public extension Subscribable {
         return bind(executor: executor, to: .init(target: target, binding: binding))
     }
     
-    /// Binds a values to a target, updating the target's value to the latest value.
+    /// Binds the values to a binder, updating the binder target's value to the latest.
     /// Unsubscribed by deallocating the target object.
     ///
     /// - Prameters:
@@ -73,6 +73,15 @@ public extension Subscribable {
 }
 
 private extension Subscribable {
+    /// Subscribe the observer function to be received the values.
+    /// Unsubscribed by given SubscriptionScope.
+    ///
+    /// - Prameters:
+    ///   - subscriptionScope: A SubscriptionScope that to be unsubscribe.
+    ///   - executor: An executor to receive values on.
+    ///   - observer: A function to be received the values.
+    ///
+    /// - Returns: A subscription to unsubscribe given observer.
     @inline(__always)
     func subscribe(subscriptionScope: SubscriptionScope, executor: Executor, observer: @escaping (Value) -> Void) -> Subscription {
         let subscription = subscribe(executor: executor, observer: observer)

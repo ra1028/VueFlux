@@ -5,7 +5,7 @@ public struct Binder<Value> {
 
     private let binding: (Value) -> Void
 
-    /// Construct the target.
+    /// Create the Binder with target object and binding function.
     ///
     /// - Parameters:
     ///   - target: Target object.
@@ -19,7 +19,7 @@ public struct Binder<Value> {
         }
     }
     
-    /// Construct the target.
+    /// Create with target object and keyPath for binding.
     ///
     /// - Parameters:
     ///   - target: Target object.
@@ -30,7 +30,7 @@ public struct Binder<Value> {
         }
     }
     
-    /// Update target with given value.
+    /// Update the target with given value.
     ///
     /// - Parameters:
     ///   - value: Value to update target.

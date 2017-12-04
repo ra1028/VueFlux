@@ -1,6 +1,6 @@
 import Foundation
 
-/// Manages a `State` and commits the action received via Dispatcher to Mutations.
+/// Manages a State and commits the action received via dispatcher to mutations.
 open class Store<State: VueFlux.State> {
     private let state: State
     private let mutations: State.Mutations
@@ -8,23 +8,23 @@ open class Store<State: VueFlux.State> {
     private let sharedDispatcher = Dispatcher<State>.shared
     private var sharedDispatcherKey: Dispatcher<State>.Observers.Key?
     
-    /// An actions proxy via shared dispatcher.
+    /// An action proxy that dispatches actions via shared dispatcher.
     /// Action is dispatched to all stores which have same generic type of State.
     public static var actions: Actions<State> {
         return .init(dispatcher: Dispatcher<State>.shared)
     }
     
-    /// A proxy for actions dispatch via dispatcher retained by `self`.
+    /// A action proxy that dispatches actions via dispatcher retained by `self`.
     public lazy var actions = Actions<State>(dispatcher: dispatcher)
     
-    /// A proxy for computed properties to be published of `State`.
+    /// A proxy for computed properties to be published of State.
     public lazy var computed = Computed<State>(state: state)
     
-    /// Initialize and subscribe to Dispachers.
+    /// Initialize a new store.
     ///
     /// - Parameters:
     ///   - state: A state to be managed in `self`.
-    ///   - mutations: A mutations for mutate the state.
+    ///   - mutations: A mutations for mutates the state.
     ///   - executor: An executor to dispatch actions on.
     public init(state: State, mutations: State.Mutations, executor: Executor) {
         self.state = state
@@ -47,19 +47,19 @@ open class Store<State: VueFlux.State> {
     /// Commit action to mutations.
     ///
     /// - Parameters:
-    ///   - action: An action to mutate state.
+    ///   - action: An action to mutates the state.
     fileprivate func commit(action: State.Action) {
         mutations.commit(action: action, state: state)
     }
 }
 
-/// Represents a state can be managed by Store.
+/// Represents a state can be managed in Store.
 public protocol State: class {
     associatedtype Action
     associatedtype Mutations: VueFlux.Mutations where Mutations.State == Self
 }
 
-/// Represents a proxy for function to mutate a `State`.
+/// Represents a proxy for functions to mutate a State.
 public protocol Mutations {
     associatedtype State: VueFlux.State
     
@@ -72,7 +72,7 @@ public protocol Mutations {
 public struct Actions<State: VueFlux.State> {
     private let dispatcher: Dispatcher<State>
     
-    /// Construct the proxy.
+    /// Create the proxy.
     ///
     /// - Parameters:
     ///   - dispather: A dispatcher to dispatch the actions to.
@@ -89,11 +89,11 @@ public struct Actions<State: VueFlux.State> {
     }
 }
 
-/// A proxy of properties to be published of `State`.
+/// A proxy of properties to be published of State.
 public struct Computed<State: VueFlux.State> {
     public let state: State
     
-    /// Construct the proxy.
+    /// Create the proxy.
     ///
     /// - Parameters:
     ///   - state: A state to be proxied.
@@ -102,7 +102,7 @@ public struct Computed<State: VueFlux.State> {
     }
 }
 
-/// Executes arbitrary function by given behavior.
+/// Executes arbitrary function by several behavior.
 public struct Executor {
     /// Executes function immediately and synchronously.
     public static var immediate: Executor {
@@ -123,7 +123,7 @@ public struct Executor {
     
     private let executor: (@escaping () -> Void) -> Void
     
-    /// Construct with executor function.
+    /// Create with executor function.
     ///
     /// - Parameters:
     ///   - executor: A function to that executes other function.

@@ -1,5 +1,6 @@
 import VueFlux
 
+/// A variable that able to observe its value changes.
 public final class Immutable<Value>: Subscribable {
     /// The current value.
     public var value: Value {
@@ -12,7 +13,7 @@ public final class Immutable<Value>: Subscribable {
     private let _value: () -> Value
     private let _subscribe: (Executor, @escaping (Value) -> Void) -> Subscription
     
-    /// Initialize with mutable.
+    /// Initialize a immutable from mutable.
     public convenience init(_ mutable: Mutable<Value>) {
         self.init({ mutable.value }, mutable.signal) { executor, observer in
             mutable.subscribe(executor: executor) { value in
@@ -30,12 +31,12 @@ public final class Immutable<Value>: Subscribable {
         _subscribe = subscribe
     }
     
-    /// Map current value and each value to a new value.
+    /// Map current value and each values to a new value.
     ///
-    /// - parameters:
-    ///   - transform: A function that transform current value and each value to a new value.
+    /// - Parameters:
+    ///   - transform: A function that transform current value and each values to a new value.
     ///
-    /// - returns: A Immutable that have transformed value.
+    /// - Returns: A Immutable that have transformed value.
     public func map<T>(_ transform: @escaping (Value) -> T) -> Immutable<T> {
         return .init({ transform(self.value) }, signal.map(transform)) { executor, observer in
             self.subscribe(executor: executor) { value in
@@ -44,11 +45,11 @@ public final class Immutable<Value>: Subscribable {
         }
     }
     
-    /// Subscribe the observer function to be received the value.
+    /// Subscribe the observer function to be received the values.
     ///
     /// - Prameters:
-    ///   - executor: An executor to receive value on.
-    ///   - observer: A function to be received the value.
+    ///   - executor: An executor to receive values on.
+    ///   - observer: A function to be received the values.
     ///
     /// - Returns: A subscription to unsubscribe given observer.
     @discardableResult

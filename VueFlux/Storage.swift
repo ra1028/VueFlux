@@ -3,7 +3,7 @@ public struct Storage<Element> {
     private var buffer = ContiguousArray<(key: Key, element: Element)>()
     private var nextKey = Key.first
     
-    /// Construct the storage.
+    /// Create the new, empty storage.
     public init() {}
     
     /// Append a new element.
@@ -45,12 +45,12 @@ public extension Storage {
     public struct Key: Equatable {
         private let value: UInt64
         
-        /// Construct a first key
+        /// Create a first key
         fileprivate static var first: Key {
             return .init(value: 0)
         }
         
-        /// Construct a next key
+        /// A next key
         fileprivate var next: Key {
             return .init(value: value &+ 1)
         }

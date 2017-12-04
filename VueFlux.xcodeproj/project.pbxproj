@@ -141,10 +141,10 @@
 		6B9E32771FA639DF000B24D4 = {
 			isa = PBXGroup;
 			children = (
-				6B120DC71FD5B4CB001FEAB4 /* Configurations */,
 				6B9EB2121FCB14BF009F0659 /* VueFlux */,
 				6B9EB2381FCB1611009F0659 /* VueFluxReactive */,
 				6B9E329E1FA63B07000B24D4 /* Tests */,
+				6B120DC71FD5B4CB001FEAB4 /* Configurations */,
 				6B9E32821FA639DF000B24D4 /* Products */,
 				6B9EB2421FCB1FF8009F0659 /* Frameworks */,
 			);

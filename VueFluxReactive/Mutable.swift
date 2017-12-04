@@ -1,5 +1,6 @@
 import VueFlux
 
+/// A variable that able to change value and observe changes.
 public final class Mutable<Value>: Subscribable {
     /// A signal that will send the value changes.
     public var signal: Signal<Value> {
@@ -26,27 +27,27 @@ public final class Mutable<Value>: Subscribable {
     private let subject = Subject<Value>()
     private let _value: ThreadSafe<Value>
     
-    /// Initialze with a initial value.
+    /// Initialze a new mutable with its initial value.
     public init(value: Value) {
         self._value = .init(value)
     }
     
-    /// Map current value and each value to a new value.
+    /// Map current value and each values to a new value.
     ///
-    /// - parameters:
-    ///   - transform: A function that transform current value and each value to a new value.
+    /// - Parameters:
+    ///   - transform: A function that transform current value and each values to a new value.
     ///
-    /// - returns: A Immutable that have transformed value.
+    /// - Returns: An Immutable that have transformed value.
     @inline(__always)
     public func map<T>(_ transform: @escaping (Value) -> T) -> Immutable<T> {
         return immutable.map(transform)
     }
     
-    /// Subscribe the observer function to be received the value.
+    /// Subscribe the observer function to be received the values.
     ///
     /// - Prameters:
-    ///   - executor: An executor to receive value on.
-    ///   - observer: A function to be received the value.
+    ///   - executor: An executor to receive values on.
+    ///   - observer: A function to be received the values.
     ///
     /// - Returns: A subscription to unsubscribe given observer.
     @discardableResult
