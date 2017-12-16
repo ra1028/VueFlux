@@ -1,7 +1,7 @@
 import VueFlux
 
 /// Represents an object wich have subscribe function.
-public protocol Subscribable: class {
+public protocol Subscribable {
     associatedtype Value
     
     /// Subscribe the observer function to be received the values.
