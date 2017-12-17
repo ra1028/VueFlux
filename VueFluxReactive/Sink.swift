@@ -1,12 +1,12 @@
 import VueFlux
 
 public struct Constant<Value> {
-    public var value: Value {
-        return variable.value
-    }
-    
     public var stream: Stream<Value> {
         return variable.stream
+    }
+    
+    public var value: Value {
+        return variable.value
     }
     
     private let variable: Variable<Value>
@@ -20,48 +20,36 @@ public struct Constant<Value> {
     }
 }
 
-public final class Variable<Value> {
-    public var value: Value {
-        get {
-            return core.value.value
-        }
-        set {
-            core.modify { core in
-                core.value = newValue
-                core.observers.forEach { $0(newValue) }
-            }
-        }
-    }
-    
-    public var stream: Stream<Value> {
-        return .init { executor, observer in
-            self.core.modify { core in
-                let key = core.observers.append { value in
-                    executor.execute { observer(value) }
-                }
-                
-                let value = core.value
-                executor.execute {
-                    observer(value)
-                }
-                
-                return AnySubscription { [weak self] in
-                    self?.core.modify { core in
-                        core.observers.remove(for: key)
-                    }
-                }
-            }
-        }
-    }
-    
+public struct Variable<Value> {
     public var constant: Constant<Value> {
         return .init(variable: self)
     }
     
-    private let core: ThreadSafe<(value: Value, observers: Storage<(Value) -> Void>)>
+    public var stream: Stream<Value> {
+        return .init { executor, observer in
+            self._value.synchronized { value in
+                self.subject.subscribe(executor: executor, initialValue: value, observer: observer)
+            }
+        }
+    }
+    
+    public var value: Value {
+        get {
+            return _value.value
+        }
+        set {
+            _value.modify { value in
+                value = newValue
+                subject.send(value: newValue)
+            }
+        }
+    }
+    
+    private let subject = Subject<Value>()
+    private var _value: ThreadSafe<Value>
     
     public init(_ value: Value) {
-        self.core = .init((value: value, observers: .init()))
+        _value = .init(value)
     }
 }
 
@@ -86,28 +74,14 @@ public struct Stream<Value>: Subscribable {
     }
 }
 
-public final class Sink<Value> {
+public struct Sink<Value> {
     public var stream: Stream<Value> {
-        return .init { executor, observer in
-            self.observers.modify { observers in
-                let key = observers.append { value in
-                    executor.execute { observer(value) }
-                }
-                
-                return AnySubscription { [weak self] in
-                    self?.observers.modify { observers in
-                        observers.remove(for: key)
-                    }
-                }
-            }
-        }
+        return .init (subject.subscribe(executor:observer:))
     }
     
-    private let observers = ThreadSafe(Storage<(Value) -> Void>())
+    private let subject = Subject<Value>()
     
     public func send(value: Value) {
-        observers.synchronized { observers in
-            observers.forEach { $0(value) }
-        }
+        subject.send(value: value)
     }
 }
