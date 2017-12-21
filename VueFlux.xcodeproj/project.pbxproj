@@ -77,7 +77,7 @@
 		6B9EB2161FCB14BF009F0659 /* DispatcherContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatcherContext.swift; sourceTree = "<group>"; };
 		6B9EB21C1FCB14BF009F0659 /* VueFlux.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VueFlux.swift; sourceTree = "<group>"; };
 		6B9EB2361FCB157C009F0659 /* VueFluxReactive.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VueFluxReactive.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6B9EB2391FCB1611009F0659 /* VueFluxReactive.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = VueFluxReactive.plist; sourceTree = "<group>"; };
+		6B9EB2391FCB1611009F0659 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6B9EB23A1FCB1C87009F0659 /* Subscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscription.swift; sourceTree = "<group>"; };
 		6B9EB23B1FCB1C88009F0659 /* SubscriptionScope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionScope.swift; sourceTree = "<group>"; };
 		6B9EB23C1FCB1CFB009F0659 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
@@ -212,7 +212,7 @@
 				6B9EB25E1FCB40AC009F0659 /* Subscribable.swift */,
 				6B052E131FCB4EE2008B3731 /* Binder.swift */,
 				6BEB90161FCF24C6001B9BF6 /* Internal */,
-				6B9EB2391FCB1611009F0659 /* VueFluxReactive.plist */,
+				6B9EB2391FCB1611009F0659 /* Info.plist */,
 			);
 			path = VueFluxReactive;
 			sourceTree = "<group>";
