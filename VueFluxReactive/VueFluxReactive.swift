@@ -20,13 +20,15 @@ public struct Sink<Value> {
 
 /// A signal that only able to receive values.
 public struct Signal<Value>: Subscribable {
-    private let _subscribe: (Executor, @escaping (Value) -> Void) -> Subscription
+    public typealias Producer = (Executor, @escaping (Value) -> Void) -> Subscription
+    
+    private let producer: (Executor, @escaping (Value) -> Void) -> Subscription
     
     /// Create a signal with subscribed function.
     /// - Parameters:
     ///   - subscribe: A function of behavior when subscribed.
-    public init(_ subscribe: @escaping (Executor, @escaping (Value) -> Void) -> Subscription) {
-        _subscribe = subscribe
+    public init(_ producer: @escaping Producer) {
+        self.producer = producer
     }
     
     /// Subscribe the observer function to be received the values.
@@ -39,7 +41,7 @@ public struct Signal<Value>: Subscribable {
     /// - Returns: A subscription to unsubscribe given observer.
     @discardableResult
     public func subscribe(executor: Executor = .mainThread, observer: @escaping (Value) -> Void) -> Subscription {
-        return _subscribe(executor, observer)
+        return producer(executor, observer)
     }
     
     /// Map each values to a new value.
@@ -68,7 +70,8 @@ public final class Variable<Value> {
     public var signal: Signal<Value> {
         return .init { executor, observer in
             self._value.synchronized { value in
-                self.subject.subscribe(executor: executor, initialValue: value, observer: observer)
+                executor.execute { observer(value) }
+                return self.subject.subscribe(executor: executor, observer: observer)
             }
         }
     }

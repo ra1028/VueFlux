@@ -9,18 +9,13 @@ final class Subject<Value>: Subscribable {
     /// - Prameters:z
     ///   - executor: An executor to receive values on.
     ///   - observer: A function to be received the values.
-    ///   - initialValue: Initial value to be received just on subscribed.
     ///
     /// - Returns: A subscription to unsubscribe given observer.
     @discardableResult
-    func subscribe(executor: Executor, initialValue: Value? = nil, observer: @escaping (Value) -> Void) -> Subscription {
+    func subscribe(executor: Executor = .mainThread, observer: @escaping (Value) -> Void) -> Subscription {
         return observers.modify { observers in
             let key = observers.append { value in
                 executor.execute { observer(value) }
-            }
-            
-            if let initialValue = initialValue {
-                executor.execute { observer(initialValue) }
             }
             
             return AnySubscription { [weak self] in
@@ -29,18 +24,6 @@ final class Subject<Value>: Subscribable {
                 }
             }
         }
-    }
-    
-    /// Subscribe the observer function to be received the values.
-    ///
-    /// - Prameters:
-    ///   - executor: An executor to receive values on.
-    ///   - observer: A function to be received the values.
-    ///
-    /// - Returns: A subscription to unsubscribe given observer.
-    @discardableResult
-    func subscribe(executor: Executor = .mainThread, observer: @escaping (Value) -> Void) -> Subscription {
-        return subscribe(executor: executor, initialValue: nil, observer: observer)
     }
     
     /// Send arbitrary value to all subscribed observers.
