@@ -8,7 +8,7 @@ final class VariableTests: XCTestCase {
         
         var value: Int? = nil
         
-        variable.stream.subscribe { int in
+        variable.signal.subscribe { int in
             XCTAssertTrue(Thread.isMainThread)
             value = int
         }
@@ -29,7 +29,7 @@ final class VariableTests: XCTestCase {
         
         let expectation = self.expectation(description: "subscribe to variable on global queue")
         
-        variable.stream.subscribe(executor: .queue(.globalDefault())) { int in
+        variable.signal.subscribe(executor: .queue(.globalDefault())) { int in
             XCTAssertFalse(Thread.isMainThread)
             value = int
             expectation.fulfill()
@@ -46,7 +46,7 @@ final class VariableTests: XCTestCase {
         
         var value: Int? = nil
         
-        let subscription = variable.stream.subscribe { int in
+        let subscription = variable.signal.subscribe { int in
             value = int
         }
 
@@ -65,7 +65,7 @@ final class VariableTests: XCTestCase {
         XCTAssertEqual(variable.value, 2)
         XCTAssertEqual(value, 1)
         
-        variable.stream.subscribe { int in
+        variable.signal.subscribe { int in
             value = int
         }
         
@@ -83,7 +83,7 @@ final class VariableTests: XCTestCase {
         
         let binder = Binder(target: object!) { _, int in value = int }
         
-        variable.stream.bind(to: binder)
+        variable.signal.bind(to: binder)
         
         variable.value = 1
         
@@ -101,7 +101,7 @@ final class VariableTests: XCTestCase {
         
         var value: String?
         
-        let subscription = variable.stream.map(String.init(_:)).subscribe { string in
+        let subscription = variable.signal.map(String.init(_:)).subscribe { string in
             value = string
         }
         

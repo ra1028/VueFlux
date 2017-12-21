@@ -6,7 +6,7 @@ final class Subject<Value>: Subscribable {
     
     /// Subscribe the observer function to be received the values.
     ///
-    /// - Prameters:
+    /// - Prameters:z
     ///   - executor: An executor to receive values on.
     ///   - observer: A function to be received the values.
     ///   - initialValue: Initial value to be received just on subscribed.

@@ -29,7 +29,7 @@
 		6B9EB24C1FCB2078009F0659 /* Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB23A1FCB1C87009F0659 /* Subscription.swift */; };
 		6B9EB24D1FCB2078009F0659 /* SubscriptionScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB23B1FCB1C88009F0659 /* SubscriptionScope.swift */; };
 		6B9EB2531FCB2B82009F0659 /* SubjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB2521FCB2B82009F0659 /* SubjectTests.swift */; };
-		6B9EB2571FCB2FEE009F0659 /* SinkStreamTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB2561FCB2FEE009F0659 /* SinkStreamTests.swift */; };
+		6B9EB2571FCB2FEE009F0659 /* SinkSignalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB2561FCB2FEE009F0659 /* SinkSignalTests.swift */; };
 		6B9EB25D1FCB3D81009F0659 /* VariableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB25C1FCB3D81009F0659 /* VariableTests.swift */; };
 		6B9EB25F1FCB40AC009F0659 /* Subscribable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB25E1FCB40AC009F0659 /* Subscribable.swift */; };
 		6B9EB2631FCB434E009F0659 /* SubscribableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB2621FCB434E009F0659 /* SubscribableTests.swift */; };
@@ -82,7 +82,7 @@
 		6B9EB23C1FCB1CFB009F0659 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		6B9EB23D1FCB1CFB009F0659 /* ThreadSafe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadSafe.swift; sourceTree = "<group>"; };
 		6B9EB2521FCB2B82009F0659 /* SubjectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectTests.swift; sourceTree = "<group>"; };
-		6B9EB2561FCB2FEE009F0659 /* SinkStreamTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinkStreamTests.swift; sourceTree = "<group>"; };
+		6B9EB2561FCB2FEE009F0659 /* SinkSignalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinkSignalTests.swift; sourceTree = "<group>"; };
 		6B9EB25C1FCB3D81009F0659 /* VariableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableTests.swift; sourceTree = "<group>"; };
 		6B9EB25E1FCB40AC009F0659 /* Subscribable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscribable.swift; sourceTree = "<group>"; };
 		6B9EB2621FCB434E009F0659 /* SubscribableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscribableTests.swift; sourceTree = "<group>"; };
@@ -165,7 +165,7 @@
 				6BE63FF31FB39A3C007F8B5D /* DispatcherContextTests.swift */,
 				6BA27BD31FB8CFE600809472 /* StorageTests.swift */,
 				6BE63FF01FB39446007F8B5D /* ThreadSafeTests.swift */,
-				6B9EB2561FCB2FEE009F0659 /* SinkStreamTests.swift */,
+				6B9EB2561FCB2FEE009F0659 /* SinkSignalTests.swift */,
 				6B9EB25C1FCB3D81009F0659 /* VariableTests.swift */,
 				6BEB90121FCF2340001B9BF6 /* ConstantTests.swift */,
 				6B9EB2521FCB2B82009F0659 /* SubjectTests.swift */,
@@ -427,7 +427,7 @@
 				6B9EB2451FCB203B009F0659 /* ExecutorTests.swift in Sources */,
 				6B9EB2631FCB434E009F0659 /* SubscribableTests.swift in Sources */,
 				6B9EB2531FCB2B82009F0659 /* SubjectTests.swift in Sources */,
-				6B9EB2571FCB2FEE009F0659 /* SinkStreamTests.swift in Sources */,
+				6B9EB2571FCB2FEE009F0659 /* SinkSignalTests.swift in Sources */,
 				6B9EB2461FCB203B009F0659 /* SubscriptionTests.swift in Sources */,
 				6BEB90131FCF2340001B9BF6 /* ConstantTests.swift in Sources */,
 				6B052E161FCB5452008B3731 /* BinderTests.swift in Sources */,

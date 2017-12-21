@@ -2,14 +2,14 @@ import XCTest
 import VueFlux
 @testable import VueFluxReactive
 
-final class ImvariableTests: XCTestCase {
+final class ConstantTests: XCTestCase {
     func testSubscribe() {
         let variable = Variable(0)
         let constant = variable.constant
         
         var value: Int? = nil
         
-        constant.stream.subscribe { int in
+        constant.signal.subscribe { int in
             XCTAssertTrue(Thread.isMainThread)
             value = int
         }
@@ -31,7 +31,7 @@ final class ImvariableTests: XCTestCase {
         
         let expectation = self.expectation(description: "subscribe to variable on global queue")
         
-        constant.stream.subscribe(executor: .queue(.globalDefault())) { int in
+        constant.signal.subscribe(executor: .queue(.globalDefault())) { int in
             XCTAssertFalse(Thread.isMainThread)
             value = int
             expectation.fulfill()
@@ -49,7 +49,7 @@ final class ImvariableTests: XCTestCase {
         
         var value: Int? = nil
         
-        let subscription = constant.stream.subscribe { int in
+        let subscription = constant.signal.subscribe { int in
             value = int
         }
         
@@ -68,7 +68,7 @@ final class ImvariableTests: XCTestCase {
         XCTAssertEqual(constant.value, 2)
         XCTAssertEqual(value, 1)
         
-        constant.stream.subscribe { int in
+        constant.signal.subscribe { int in
             value = int
         }
         
@@ -87,7 +87,7 @@ final class ImvariableTests: XCTestCase {
         
         let binder = Binder(target: object!) { _, int in value = int }
         
-        constant.stream.bind(to: binder)
+        constant.signal.bind(to: binder)
         
         variable.value = 1
         
@@ -106,7 +106,7 @@ final class ImvariableTests: XCTestCase {
         
         var value: String?
         
-        let subscription = constant.stream.map(String.init(_:)).subscribe { string in
+        let subscription = constant.signal.map(String.init(_:)).subscribe { string in
             value = string
         }
         

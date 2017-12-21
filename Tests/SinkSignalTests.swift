@@ -2,14 +2,14 @@ import XCTest
 import VueFlux
 @testable import VueFluxReactive
 
-final class SignalTests: XCTestCase {
+final class SinkSignalTests: XCTestCase {
     func testSubscribe() {
         let sink = Sink<Int>()
-        let stream = sink.stream
+        let signal = sink.signal
         
         var value = 0
         
-        stream.subscribe { int in
+        signal.subscribe { int in
             value += int
         }
         
@@ -17,7 +17,7 @@ final class SignalTests: XCTestCase {
         
         XCTAssertEqual(value, 1)
         
-        stream.subscribe { int in
+        signal.subscribe { int in
             XCTAssertTrue(Thread.isMainThread)
             value += int
         }
@@ -29,13 +29,13 @@ final class SignalTests: XCTestCase {
     
     func testSubscribeWithExercutor() {
         let sink = Sink<Int>()
-        let stream = sink.stream
+        let signal = sink.signal
         
         var value = 0
         
         let expectation = self.expectation(description: "subscribe to signal on global queue")
         
-        stream.subscribe(executor: .queue(.globalDefault())) { int in
+        signal.subscribe(executor: .queue(.globalDefault())) { int in
             XCTAssertFalse(Thread.isMainThread)
             value = int
             expectation.fulfill()
@@ -50,11 +50,11 @@ final class SignalTests: XCTestCase {
     
     func testUnsubscribe() {
         let sink = Sink<Int>()
-        let stream = sink.stream
+        let signal = sink.signal
         
         var value = 0
         
-        let subscription = stream.subscribe { int in
+        let subscription = signal.subscribe { int in
             value = int
         }
         
@@ -73,14 +73,14 @@ final class SignalTests: XCTestCase {
         final class Object {}
         
         let sink = Sink<Int>()
-        let stream = sink.stream
+        let signal = sink.signal
         
         var value = 0
         var object: Object? = .init()
         
         let binder = Binder(target: object!) { _, int in value = int }
         
-        stream.bind(to: binder)
+        signal.bind(to: binder)
         
         sink.send(value: 1)
         
@@ -95,11 +95,11 @@ final class SignalTests: XCTestCase {
     
     func testMapValues() {
         let sink = Sink<Int>()
-        let stream = sink.stream
+        let signal = sink.signal
         
         var value: String?
         
-        let subscription = stream.map(String.init(_:)).subscribe { string in
+        let subscription = signal.map(String.init(_:)).subscribe { string in
             value = string
         }
         

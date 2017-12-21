@@ -1,28 +1,28 @@
 import VueFlux
 
-/// A sink that to sends all values to stream.
+/// A sink that to sends all values to signal.
 public struct Sink<Value> {
-    /// Create the stream that flows all values sent into the sink.
-    public var stream: Stream<Value> {
+    /// Create the signal that flows all values sent into the sink.
+    public var signal: Signal<Value> {
         return .init(subject.subscribe(executor:observer:))
     }
     
     private let subject = Subject<Value>()
     
-    /// Send arbitrary value to the stream.
+    /// Send arbitrary value to the signal.
     ///
-    /// - Parameters:
-    ///   - value: Value to send to the stream.
+    /// - Parameters:u
+    ///   - value: Value to send to the signal.
     public func send(value: Value) {
         subject.send(value: value)
     }
 }
 
-/// A stream that only able to receive values.
-public struct Stream<Value>: Subscribable {
+/// A signal that only able to receive values.
+public struct Signal<Value>: Subscribable {
     private let _subscribe: (Executor, @escaping (Value) -> Void) -> Subscription
     
-    /// Create a stream with subscribed function.
+    /// Create a signal with subscribed function.
     /// - Parameters:
     ///   - subscribe: A function of behavior when subscribed.
     public init(_ subscribe: @escaping (Executor, @escaping (Value) -> Void) -> Subscription) {
@@ -47,8 +47,8 @@ public struct Stream<Value>: Subscribable {
     /// - Parameters:
     ///   - transform: A function that to transform each values to a new value.
     ///
-    /// - Returns: Stream to be receives new values.
-    public func map<T>(_ transform: @escaping (Value) -> T) -> Stream<T> {
+    /// - Returns: A signal to be receives new values.
+    public func map<T>(_ transform: @escaping (Value) -> T) -> Signal<T> {
         return .init { executor, observer in
             self.subscribe(executor: executor) { value in
                 observer(transform(value))
@@ -57,15 +57,15 @@ public struct Stream<Value>: Subscribable {
     }
 }
 
-/// A variable that able to change value and receive changes via stream.
+/// A variable that able to change value and receive changes via signal.
 public final class Variable<Value> {
     /// Create a constant which reflects the `self`.
     public var constant: Constant<Value> {
         return .init(variable: self)
     }
     
-    /// Create a stream that flows current value at the time of subscribing and all value changes.
-    public var stream: Stream<Value> {
+    /// Create a signal that flows current value at the time of subscribing and all value changes.
+    public var signal: Signal<Value> {
         return .init { executor, observer in
             self._value.synchronized { value in
                 self.subject.subscribe(executor: executor, initialValue: value, observer: observer)
@@ -74,7 +74,7 @@ public final class Variable<Value> {
     }
     
     /// The current value.
-    /// Setting this to a new value will send to stream.
+    /// Setting this to a new value will send to signal.
     public var value: Value {
         get {
             return _value.value
@@ -96,12 +96,12 @@ public final class Variable<Value> {
     }
 }
 
-/// A constant that able to change value and receive changes via stream.
+/// A constant that able to change value and receive changes via signal.
 /// Changes are reflects from a variable.
 public struct Constant<Value> {
-    /// Create a stream that flows current value at the time of subscribing and all value changes.
-    public var stream: Stream<Value> {
-        return variable.stream
+    /// Create a signal that flows current value at the time of subscribing and all value changes.
+    public var signal: Signal<Value> {
+        return variable.signal
     }
     
     /// The current value.
