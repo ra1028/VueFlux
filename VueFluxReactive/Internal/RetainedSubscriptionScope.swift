@@ -9,7 +9,7 @@ extension SubscriptionScope {
     ///   - object: An object that associates SubscriptionScope.
     ///
     /// - Returns: A SubscriptionScope associated by given object.
-    static func ratained(by object: AnyObject) -> SubscriptionScope {
+    static func owned(by object: AnyObject) -> SubscriptionScope {
         objc_sync_enter(object)
         defer { objc_sync_exit(object) }
         

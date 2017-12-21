@@ -27,7 +27,7 @@ public extension Subscribable {
     /// - Returns: A subscription to unsubscribe given observer.
     @discardableResult
     func subscribe(scope object: AnyObject, executor: Executor = .mainThread, observer: @escaping (Value) -> Void) -> Subscription {
-        return subscribe(subscriptionScope: .ratained(by: object), executor: executor, observer: observer)
+        return subscribe(subscriptionScope: .owned(by: object), executor: executor, observer: observer)
     }
     
     /// Binds the values to a binder, updating the binder target's value to the latest.

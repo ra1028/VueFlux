@@ -11,7 +11,7 @@ public struct Binder<Value> {
     ///   - target: Target object.
     ///   - binding: A function to bind values.
     public init<Target: AnyObject>(target: Target, binding: @escaping (Target, Value) -> Void) {
-        SubscriptionScope.ratained(by: target) += subscriptionScope
+        SubscriptionScope.owned(by: target) += subscriptionScope
         
         self.binding = { [weak target] value in
             guard let target = target else { return }
