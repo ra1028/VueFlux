@@ -85,24 +85,4 @@ final class SubjectTests: XCTestCase {
         
         XCTAssertEqual(value, 1)
     }
-    
-    func testMapValues() {
-        let subject = Subject<Int>()
-        
-        var value: String?
-        
-        let subscription = subject.map(String.init(_:)).subscribe { string in
-            value = string
-        }
-        
-        subject.send(value: 1)
-        
-        XCTAssertEqual(value, "1")
-        
-        subscription.unsubscribe()
-        
-        subject.send(value: 2)
-        
-        XCTAssertEqual(value, "1")
-    }
 }

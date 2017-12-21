@@ -58,7 +58,7 @@ public struct Stream<Value>: Subscribable {
 }
 
 /// A variable that able to change value and receive changes via stream.
-public struct Variable<Value> {
+public final class Variable<Value> {
     /// Create a constant which reflects the `self`.
     public var constant: Constant<Value> {
         return .init(variable: self)

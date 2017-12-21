@@ -4,46 +4,44 @@ import VueFlux
 
 final class SignalTests: XCTestCase {
     func testSubscribe() {
-        let subject = Subject<Int>()
-        
-        let signal = subject.signal
+        let sink = Sink<Int>()
+        let stream = sink.stream
         
         var value = 0
         
-        subject.subscribe { int in
+        stream.subscribe { int in
             value += int
         }
         
-        subject.send(value: 1)
+        sink.send(value: 1)
         
         XCTAssertEqual(value, 1)
         
-        signal.subscribe { int in
+        stream.subscribe { int in
             XCTAssertTrue(Thread.isMainThread)
             value += int
         }
         
-        subject.send(value: 1)
+        sink.send(value: 1)
         
         XCTAssertEqual(value, 3)
     }
     
     func testSubscribeWithExercutor() {
-        let subject = Subject<Int>()
-        
-        let signal = subject.signal
+        let sink = Sink<Int>()
+        let stream = sink.stream
         
         var value = 0
         
         let expectation = self.expectation(description: "subscribe to signal on global queue")
         
-        signal.subscribe(executor: .queue(.globalDefault())) { int in
+        stream.subscribe(executor: .queue(.globalDefault())) { int in
             XCTAssertFalse(Thread.isMainThread)
             value = int
             expectation.fulfill()
         }
         
-        subject.send(value: 1)
+        sink.send(value: 1)
         
         waitForExpectations(timeout: 1) { _ in
             XCTAssertEqual(value, 1)
@@ -51,23 +49,22 @@ final class SignalTests: XCTestCase {
     }
     
     func testUnsubscribe() {
-        let subject = Subject<Int>()
-        
-        let signal = subject.signal
+        let sink = Sink<Int>()
+        let stream = sink.stream
         
         var value = 0
         
-        let subscription = signal.subscribe { int in
+        let subscription = stream.subscribe { int in
             value = int
         }
         
-        subject.send(value: 1)
+        sink.send(value: 1)
         
         XCTAssertEqual(value, 1)
         
         subscription.unsubscribe()
         
-        subject.send(value: 2)
+        sink.send(value: 2)
         
         XCTAssertEqual(value, 1)
     }
@@ -75,46 +72,44 @@ final class SignalTests: XCTestCase {
     func testUnbindOnTargetDeinit() {
         final class Object {}
         
-        let subject = Subject<Int>()
-        
-        let signal = subject.signal
+        let sink = Sink<Int>()
+        let stream = sink.stream
         
         var value = 0
         var object: Object? = .init()
         
         let binder = Binder(target: object!) { _, int in value = int }
         
-        signal.bind(to: binder)
+        stream.bind(to: binder)
         
-        subject.send(value: 1)
+        sink.send(value: 1)
         
         XCTAssertEqual(value, 1)
         
         object = nil
         
-        subject.send(value: 2)
+        sink.send(value: 2)
         
         XCTAssertEqual(value, 1)
     }
     
     func testMapValues() {
-        let subject = Subject<Int>()
-        
-        let signal = subject.signal
+        let sink = Sink<Int>()
+        let stream = sink.stream
         
         var value: String?
         
-        let subscription = signal.map(String.init(_:)).subscribe { string in
+        let subscription = stream.map(String.init(_:)).subscribe { string in
             value = string
         }
         
-        subject.send(value: 1)
+        sink.send(value: 1)
         
         XCTAssertEqual(value, "1")
         
         subscription.unsubscribe()
         
-        subject.send(value: 2)
+        sink.send(value: 2)
         
         XCTAssertEqual(value, "1")
     }
