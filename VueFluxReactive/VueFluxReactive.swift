@@ -41,34 +41,6 @@ public struct Signal<Value>: Subscribable {
     public func subscribe(observer: @escaping (Value) -> Void) -> Subscription {
         return producer(observer)
     }
-    
-    /// Map each values to a new value.
-    ///
-    /// - Parameters:
-    ///   - transform: A function that to transform each values to a new value.
-    ///
-    /// - Returns: A signal to be receives new values.
-    public func map<T>(_ transform: @escaping (Value) -> T) -> Signal<T> {
-        return .init { observer in
-            self.subscribe { value in
-                observer(transform(value))
-            }
-        }
-    }
-    
-    /// Forward all events onto the given executor.
-    ///
-    /// - Parameters:
-    ///   - executor: A executor to forward events on.
-    ///
-    /// - returns: A signal that will forward values on given executor.
-    public func observe(on executor: Executor) -> Signal<Value> {
-        return .init { observer in
-            self.subscribe { value in
-                executor.execute { observer(value) }
-            }
-        }
-    }
 }
 
 /// A variable that able to change value and receive changes via signal.
