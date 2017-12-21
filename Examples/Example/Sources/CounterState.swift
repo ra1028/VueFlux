@@ -3,16 +3,16 @@ import VueFlux
 import VueFluxReactive
 
 extension Computed where State == CounterState {
-    var countText: Immutable<String?> {
-        return state.count.map { String($0) }
+    var countText: Signal<String?> {
+        return state.count.signal.map { String($0) }
     }
     
     var interval: TimeInterval {
         return state.interval.value
     }
     
-    var intervalText: Immutable<String?> {
-        return state.interval.map { "Count after: \(($0 * 10).rounded() / 10)" }
+    var intervalText: Signal<String?> {
+        return state.interval.signal.map { "Count after: \(($0 * 10).rounded() / 10)" }
     }
 }
 
@@ -21,8 +21,8 @@ final class CounterState: State {
     typealias Mutations = CounterMutations
     
     fileprivate let max: Int
-    fileprivate let count = Mutable(value: 0)
-    fileprivate let interval = Mutable<TimeInterval>(value: 0)
+    fileprivate let count = Variable(0)
+    fileprivate let interval = Variable<TimeInterval>(0)
     
     init(max: Int) {
         self.max = max
