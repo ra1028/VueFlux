@@ -6,17 +6,14 @@ final class Subject<Value>: Subscribable {
     
     /// Subscribe the observer function to be received the values.
     ///
-    /// - Prameters:z
-    ///   - executor: An executor to receive values on.
+    /// - Prameters:
     ///   - observer: A function to be received the values.
     ///
     /// - Returns: A subscription to unsubscribe given observer.
     @discardableResult
-    func subscribe(executor: Executor = .mainThread, observer: @escaping (Value) -> Void) -> Subscription {
+    func subscribe(observer: @escaping (Value) -> Void) -> Subscription {
         return observers.modify { observers in
-            let key = observers.append { value in
-                executor.execute { observer(value) }
-            }
+            let key = observers.append(observer)
             
             return AnySubscription { [weak self] in
                 self?.observers.modify { observers in

@@ -22,26 +22,6 @@ final class SubjectTests: XCTestCase {
         XCTAssertEqual(value, 2)
     }
     
-    func testSubscribeWithExercutor() {
-        let subject = Subject<Int>()
-        
-        var value = 0
-        
-        let expectation = self.expectation(description: "subscribe to subject on global queue")
-        
-        subject.subscribe(executor: .queue(.globalDefault())) { int in
-            XCTAssertFalse(Thread.isMainThread)
-            value = int
-            expectation.fulfill()
-        }
-        
-        subject.send(value: 1)
-        
-        waitForExpectations(timeout: 1) { _ in
-            XCTAssertEqual(value, 1)
-        }
-    }
-    
     func testUnsubscribe() {
         let subject = Subject<Int>()
         

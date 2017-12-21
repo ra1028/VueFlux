@@ -25,8 +25,13 @@ private extension CounterViewController {
         counterView.resetButton.addTarget(self, action: #selector(reset(_:)), for: .touchUpInside)
         counterView.intervalSlider.addTarget(self, action: #selector(updateInterval(_:)), for: .valueChanged)
         
-        store.computed.countText.bind(to: counterView.counterLabel, \.text)
-        store.computed.intervalText.bind(to: counterView.intervalLabel, \.text)
+        store.computed.countText
+            .observe(on: .mainThread)
+            .bind(to: counterView.counterLabel, \.text)
+        
+        store.computed.intervalText
+            .observe(on: .mainThread)
+            .bind(to: counterView.intervalLabel, \.text)
     }
     
     @objc func increment(_ button: UIButton) {

@@ -42,40 +42,41 @@ final class SubscribableTests: XCTestCase {
         let queue = DispatchQueue(label: "scoped subscribe loop queue", attributes: .concurrent)
         let group = DispatchGroup()
         
-        let subject = Subject<Int>()
-        
         for _ in (1...100) {
-            group.enter()
-            
-            queue.async {
+            queue.async(group: group) {
                 var object: Object? = .init()
                 
-                subject.subscribe(scope: object!) { int in
+                let sink = Sink<Int>()
+                let signal = sink.signal
+                signal.subscribe(scope: object!) { int in
                     value += int
                 }
                 
                 object = nil
-                subject.send(value: 1)
-                
-                group.leave()
+                sink.send(value: 1)
             }
         }
         
         _ = group.wait(timeout: .now() + 10)
         
+        let sink = Sink<Int>()
+        let signal = sink.signal
+        
+        XCTAssertEqual(value, 0)
+        
         var object: Object? = .init()
         
-        subject.subscribe(scope: object!) { int in
+        signal.subscribe(scope: object!) { int in
             value += int
         }
         
-        subject.send(value: 1)
+        sink.send(value: 1)
         
         XCTAssertEqual(value, 1)
         
         object = nil
         
-        subject.send(value: 1)
+        sink.send(value: 1)
         
         XCTAssertEqual(value, 1)
     }

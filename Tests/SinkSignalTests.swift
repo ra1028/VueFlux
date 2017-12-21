@@ -27,27 +27,6 @@ final class SinkSignalTests: XCTestCase {
         XCTAssertEqual(value, 3)
     }
     
-    func testSubscribeWithExercutor() {
-        let sink = Sink<Int>()
-        let signal = sink.signal
-        
-        var value = 0
-        
-        let expectation = self.expectation(description: "subscribe to signal on global queue")
-        
-        signal.subscribe(executor: .queue(.globalDefault())) { int in
-            XCTAssertFalse(Thread.isMainThread)
-            value = int
-            expectation.fulfill()
-        }
-        
-        sink.send(value: 1)
-        
-        waitForExpectations(timeout: 1) { _ in
-            XCTAssertEqual(value, 1)
-        }
-    }
-    
     func testUnsubscribe() {
         let sink = Sink<Int>()
         let signal = sink.signal
@@ -93,7 +72,7 @@ final class SinkSignalTests: XCTestCase {
         XCTAssertEqual(value, 1)
     }
     
-    func testMapValues() {
+    func testMap() {
         let sink = Sink<Int>()
         let signal = sink.signal
         
@@ -112,5 +91,71 @@ final class SinkSignalTests: XCTestCase {
         sink.send(value: 2)
         
         XCTAssertEqual(value, "1")
+    }
+    
+    func testObserveOn_sink() {
+        let sink = Sink<Int>()
+        let signal = sink.signal
+        
+        var value = 0
+        
+        let expectation = self.expectation(description: "subscribe to signal on global queue")
+        
+        signal
+            .observe(on: .queue(.globalDefault()))
+            .subscribe { int in
+                XCTAssertFalse(Thread.isMainThread)
+                value = int
+                expectation.fulfill()
+        }
+        
+        sink.send(value: 1)
+        
+        waitForExpectations(timeout: 1) { _ in
+            XCTAssertEqual(value, 1)
+        }
+    }
+    
+    func testObserveOn_variable() {
+        let variable = Variable(0)
+        let signal = variable.signal
+        
+        var value: Int?
+        
+        let expectation = self.expectation(description: "subscribe to signal on global queue")
+        
+        signal
+            .observe(on: .queue(.globalDefault()))
+            .subscribe { int in
+                XCTAssertFalse(Thread.isMainThread)
+                value = int
+                expectation.fulfill()
+        }
+        
+        waitForExpectations(timeout: 1) { _ in
+            XCTAssertEqual(value, 0)
+        }
+    }
+    
+    func testObserveOn_constant() {
+        let variable = Variable(0)
+        let constant = Constant(variable: variable)
+        let signal = constant.signal
+        
+        var value: Int?
+        
+        let expectation = self.expectation(description: "subscribe to signal on global queue")
+        
+        signal
+            .observe(on: .queue(.globalDefault()))
+            .subscribe { int in
+                XCTAssertFalse(Thread.isMainThread)
+                value = int
+                expectation.fulfill()
+        }
+        
+        waitForExpectations(timeout: 1) { _ in
+            XCTAssertEqual(value, 0)
+        }
     }
 }

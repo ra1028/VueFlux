@@ -4,7 +4,7 @@ import VueFlux
 public struct Sink<Value> {
     /// Create the signal that flows all values sent into the sink.
     public var signal: Signal<Value> {
-        return .init(subject.subscribe(executor:observer:))
+        return .init(subject.subscribe(observer:))
     }
     
     private let subject = Subject<Value>()
@@ -20,9 +20,9 @@ public struct Sink<Value> {
 
 /// A signal that only able to receive values.
 public struct Signal<Value>: Subscribable {
-    public typealias Producer = (Executor, @escaping (Value) -> Void) -> Subscription
+    public typealias Producer = (@escaping (Value) -> Void) -> Subscription
     
-    private let producer: (Executor, @escaping (Value) -> Void) -> Subscription
+    private let producer: (@escaping (Value) -> Void) -> Subscription
     
     /// Create a signal with subscribed function.
     /// - Parameters:
@@ -34,14 +34,12 @@ public struct Signal<Value>: Subscribable {
     /// Subscribe the observer function to be received the values.
     ///
     /// - Prameters:
-    ///   - executor: An executor to receive values on.
     ///   - observer: A function to be received the values.
-    ///   - initialValue: Initial value to be received just on subscribed.
     ///
     /// - Returns: A subscription to unsubscribe given observer.
     @discardableResult
-    public func subscribe(executor: Executor = .mainThread, observer: @escaping (Value) -> Void) -> Subscription {
-        return producer(executor, observer)
+    public func subscribe(observer: @escaping (Value) -> Void) -> Subscription {
+        return producer(observer)
     }
     
     /// Map each values to a new value.
@@ -51,9 +49,23 @@ public struct Signal<Value>: Subscribable {
     ///
     /// - Returns: A signal to be receives new values.
     public func map<T>(_ transform: @escaping (Value) -> T) -> Signal<T> {
-        return .init { executor, observer in
-            self.subscribe(executor: executor) { value in
+        return .init { observer in
+            self.subscribe { value in
                 observer(transform(value))
+            }
+        }
+    }
+    
+    /// Forward all events onto the given executor.
+    ///
+    /// - Parameters:
+    ///   - executor: A executor to forward events on.
+    ///
+    /// - returns: A signal that will forward values on given executor.
+    public func observe(on executor: Executor) -> Signal<Value> {
+        return .init { observer in
+            self.subscribe { value in
+                executor.execute { observer(value) }
             }
         }
     }
@@ -68,10 +80,10 @@ public final class Variable<Value> {
     
     /// Create a signal that flows current value at the time of subscribing and all value changes.
     public var signal: Signal<Value> {
-        return .init { executor, observer in
+        return .init { observer in
             self._value.synchronized { value in
-                executor.execute { observer(value) }
-                return self.subject.subscribe(executor: executor, observer: observer)
+                observer(value)
+                return self.subject.subscribe(observer: observer)
             }
         }
     }

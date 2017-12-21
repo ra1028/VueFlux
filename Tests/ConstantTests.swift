@@ -23,26 +23,6 @@ final class ConstantTests: XCTestCase {
         XCTAssertEqual(value, 1)
     }
     
-    func testSubscribeWithExercutor() {
-        let variable = Variable(0)
-        let constant = variable.constant
-        
-        var value: Int? = nil
-        
-        let expectation = self.expectation(description: "subscribe to variable on global queue")
-        
-        constant.signal.subscribe(executor: .queue(.globalDefault())) { int in
-            XCTAssertFalse(Thread.isMainThread)
-            value = int
-            expectation.fulfill()
-        }
-        
-        waitForExpectations(timeout: 1) { _ in
-            XCTAssertEqual(constant.value, 0)
-            XCTAssertEqual(value, 0)
-        }
-    }
-    
     func testUnsubscribe() {
         let variable = Variable(0)
         let constant = variable.constant
