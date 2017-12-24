@@ -3,10 +3,9 @@ import Foundation
 /// Manages a State and commits the action received via dispatcher to mutations.
 open class Store<State: VueFlux.State> {
     private let state: State
-    private let mutations: State.Mutations
     private let dispatcher = Dispatcher<State>()
     private let sharedDispatcher = Dispatcher<State>.shared
-    private var sharedDispatcherKey: Dispatcher<State>.Observers.Key?
+    private let sharedDispatcherKey: Dispatcher<State>.Observers.Key
     
     /// An action proxy that dispatches actions via shared dispatcher.
     /// Action is dispatched to all stores which have same generic type of State.
@@ -28,10 +27,10 @@ open class Store<State: VueFlux.State> {
     ///   - executor: An executor to dispatch actions on.
     public init(state: State, mutations: State.Mutations, executor: Executor) {
         self.state = state
-        self.mutations = mutations
         
-        let dispatch: ((State.Action) -> Void) = { [weak self] action in
-            self?.commit(action: action)
+        let dispatch: (State.Action) -> Void = { [weak state] action in
+            guard let state = state else { return }
+            mutations.commit(action: action, state: state)
         }
         
         dispatcher.subscribe(executor: executor, dispatch: dispatch)
@@ -39,17 +38,7 @@ open class Store<State: VueFlux.State> {
     }
     
     deinit {
-        if let key = sharedDispatcherKey {
-            sharedDispatcher.unsubscribe(for: key)
-        }
-    }
-    
-    /// Commit action to mutations.
-    ///
-    /// - Parameters:
-    ///   - action: An action to mutates the state.
-    fileprivate func commit(action: State.Action) {
-        mutations.commit(action: action, state: state)
+        sharedDispatcher.unsubscribe(for: sharedDispatcherKey)
     }
 }
 
