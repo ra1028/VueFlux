@@ -13,7 +13,7 @@ final class Subject<Value>: Subscribable {
     @discardableResult
     func subscribe(observer: @escaping (Value) -> Void) -> Subscription {
         return observers.modify { observers in
-            let key = observers.append(observer)
+            let key = observers.add(observer)
             
             return AnySubscription { [weak self] in
                 self?.observers.modify { observers in

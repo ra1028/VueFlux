@@ -14,8 +14,8 @@ final class StorageTests: XCTestCase {
             value += 10
         }
         
-        let key1 = storage.append(f1)
-        let key2 = storage.append(f2)
+        let key1 = storage.add(f1)
+        let key2 = storage.add(f2)
         
         storage.forEach { f in f() }
         

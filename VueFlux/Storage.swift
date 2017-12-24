@@ -6,13 +6,13 @@ public struct Storage<Element> {
     /// Create the new, empty storage.
     public init() {}
     
-    /// Append a new element.
+    /// Add a new element.
     ///
     /// - Parameters:
-    ///   - element: An element to be append.
+    ///   - element: An element to be added.
     ///
     /// - Returns: A key for remove given element.
-    public mutating func append(_ element: Element) -> Key {
+    public mutating func add(_ element: Element) -> Key {
         let key = nextKey
         nextKey = key.next
         buffer.append((key: key, element: element))
