@@ -26,7 +26,7 @@ public struct Signal<Value>: Subscribable {
     
     /// Create a signal with subscribed function.
     /// - Parameters:
-    ///   - subscribe: A function of behavior when subscribed.
+    ///   - producer: A function of behavior when subscribed.
     public init(_ producer: @escaping Producer) {
         self.producer = producer
     }

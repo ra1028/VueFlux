@@ -20,9 +20,9 @@ final class CounterViewController: UIViewController {
 
 private extension CounterViewController {
     func configure() {
-        counterView.incrementButton.addTarget(self, action: #selector(increment(_:)), for: .touchUpInside)
-        counterView.decrementButton.addTarget(self, action: #selector(decrement(_:)), for: .touchUpInside)
-        counterView.resetButton.addTarget(self, action: #selector(reset(_:)), for: .touchUpInside)
+        counterView.incrementButton.addTarget(self, action: #selector(increment), for: .touchUpInside)
+        counterView.decrementButton.addTarget(self, action: #selector(decrement), for: .touchUpInside)
+        counterView.resetButton.addTarget(self, action: #selector(reset), for: .touchUpInside)
         counterView.intervalSlider.addTarget(self, action: #selector(updateInterval(_:)), for: .valueChanged)
         
         store.computed.countText
@@ -34,15 +34,15 @@ private extension CounterViewController {
             .bind(to: counterView.intervalLabel, \.text)
     }
     
-    @objc func increment(_ button: UIButton) {
+    @objc func increment() {
         store.actions.incrementAcync(after: store.computed.interval)
     }
     
-    @objc func decrement(_ button: UIButton) {
+    @objc func decrement() {
         store.actions.decrementAcync(after: store.computed.interval)
     }
     
-    @objc func reset(_ button: UIButton) {
+    @objc func reset() {
         store.actions.resetAcync(after: store.computed.interval)
     }
     
