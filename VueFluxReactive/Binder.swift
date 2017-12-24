@@ -1,8 +1,7 @@
 import VueFlux
 
 public struct Binder<Value> {
-    let subscriptionScope = SubscriptionScope()
-
+    private let addSubscription: (Subscription) -> Void
     private let binding: (Value) -> Void
 
     /// Create the Binder with target object and binding function.
@@ -11,7 +10,10 @@ public struct Binder<Value> {
     ///   - target: Target object.
     ///   - binding: A function to bind values.
     public init<Target: AnyObject>(target: Target, binding: @escaping (Target, Value) -> Void) {
-        SubscriptionScope.owned(by: target) += subscriptionScope
+        self.addSubscription = { [weak target] subscription in
+            guard let target = target else { return subscription.unsubscribe() }
+            SubscriptionScope.owned(by: target).add(subscription: subscription)
+        }
         
         self.binding = { [weak target] value in
             guard let target = target else { return }
@@ -30,11 +32,15 @@ public struct Binder<Value> {
         }
     }
     
-    /// Update the target with given value.
+    /// Binds the values, updating the target's value to the latest value of source until target deinitialized.
     ///
     /// - Parameters:
-    ///   - value: Value to update target.
-    public func on(value: Value) {
-        binding(value)
+    ///   - source: A subscribable source that updating the target's value to its latest value.
+    ///
+    /// - Returns: A subscription to unbind from source.
+    public func bind<Source: Subscribable>(_ source: Source) -> Subscription where Source.Value == Value {
+        let subscription = source.subscribe(observer: binding)
+        addSubscription(subscription)
+        return subscription
     }
 }

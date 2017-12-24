@@ -75,6 +75,10 @@ final class VariableTests: XCTestCase {
         variable.value = 2
         
         XCTAssertEqual(value, 1)
+        
+        let subscription = variable.signal.bind(to: binder)
+        
+        XCTAssertTrue(subscription.isUnsubscribed)
     }
     
     func testMapValues() {

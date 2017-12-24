@@ -70,6 +70,10 @@ final class SinkSignalTests: XCTestCase {
         sink.send(value: 2)
         
         XCTAssertEqual(value, 1)
+        
+        let subscription = signal.bind(to: binder)
+        
+        XCTAssertTrue(subscription.isUnsubscribed)
     }
     
     func testMap() {

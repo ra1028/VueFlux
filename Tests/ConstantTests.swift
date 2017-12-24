@@ -78,6 +78,10 @@ final class ConstantTests: XCTestCase {
         variable.value = 2
         
         XCTAssertEqual(value, 1)
+        
+        let subscription = constant.signal.bind(to: binder)
+        
+        XCTAssertTrue(subscription.isUnsubscribed)
     }
     
     func testMapValues() {

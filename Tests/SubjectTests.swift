@@ -64,5 +64,9 @@ final class SubjectTests: XCTestCase {
         subject.send(value: 2)
         
         XCTAssertEqual(value, 1)
+        
+        let subscription = subject.bind(to: binder)
+        
+        XCTAssertTrue(subscription.isUnsubscribed)
     }
 }
