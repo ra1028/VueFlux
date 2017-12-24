@@ -91,8 +91,10 @@ public struct Computed<State: VueFlux.State> {
     }
 }
 
-/// Executes arbitrary function by several behavior.
+/// Executor for executes arbitrary function on a certain context.
 public struct Executor {
+    public typealias Context = (@escaping () -> Void) -> Void
+    
     /// Executes function immediately and synchronously.
     public static var immediate: Executor {
         return .init { function in function() }
@@ -110,14 +112,14 @@ public struct Executor {
         return .init { function in dispatchQueue.async(execute: function) }
     }
     
-    private let executor: (@escaping () -> Void) -> Void
+    private let context: Context
     
     /// Create with executor function.
     ///
     /// - Parameters:
-    ///   - executor: A function to that executes other function.
-    public init(_ executor: @escaping (@escaping () -> Void) -> Void) {
-        self.executor = executor
+    ///   - context: A function to that executes other function.
+    public init(_ context: @escaping Context) {
+        self.context = context
     }
     
     /// Execute an arbitrary function.
@@ -125,7 +127,7 @@ public struct Executor {
     /// - Parameters:
     ///   - function: A function to be execute.
     public func execute(_ function: @escaping () -> Void) {
-        executor(function)
+        context(function)
     }
 }
 
