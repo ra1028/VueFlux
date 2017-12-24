@@ -52,10 +52,10 @@ public final class Variable<Value> {
     
     /// Create a signal that flows current value at the time of subscribing and all value changes.
     public var signal: Signal<Value> {
-        return .init { observer in
+        return .init { send in
             self._value.synchronized { value in
-                observer(value)
-                return self.subject.subscribe(observer: observer)
+                send(value)
+                return self.subject.subscribe(observer: send)
             }
         }
     }
