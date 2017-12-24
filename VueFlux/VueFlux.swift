@@ -5,6 +5,7 @@ open class Store<State: VueFlux.State> {
     private let state: State
     private let dispatcher = Dispatcher<State>()
     private let sharedDispatcher = Dispatcher<State>.shared
+    private let dispatcherKey: Dispatcher<State>.Observers.Key
     private let sharedDispatcherKey: Dispatcher<State>.Observers.Key
     
     /// An action proxy that dispatches actions via shared dispatcher.
@@ -33,11 +34,12 @@ open class Store<State: VueFlux.State> {
             mutations.commit(action: action, state: state)
         }
         
-        dispatcher.subscribe(executor: executor, dispatch: dispatch)
+        dispatcherKey = dispatcher.subscribe(executor: executor, dispatch: dispatch)
         sharedDispatcherKey = sharedDispatcher.subscribe(executor: executor, dispatch: dispatch)
     }
     
     deinit {
+        dispatcher.unsubscribe(for: dispatcherKey)
         sharedDispatcher.unsubscribe(for: sharedDispatcherKey)
     }
 }
