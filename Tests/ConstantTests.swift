@@ -106,4 +106,26 @@ final class ConstantTests: XCTestCase {
         
         XCTAssertEqual(value, "1")
     }
+    
+    func testObserveOn() {
+        let variable = Variable(0)
+        let constant = Constant(variable: variable)
+        let signal = constant.signal
+        
+        var value: Int?
+        
+        let expectation = self.expectation(description: "subscribe to signal on global queue")
+        
+        signal
+            .observe(on: .queue(.globalDefault()))
+            .subscribe { int in
+                XCTAssertFalse(Thread.isMainThread)
+                value = int
+                expectation.fulfill()
+        }
+        
+        waitForExpectations(timeout: 1) { _ in
+            XCTAssertEqual(value, 0)
+        }
+    }
 }

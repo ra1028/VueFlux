@@ -97,7 +97,7 @@ final class SinkSignalTests: XCTestCase {
         XCTAssertEqual(value, "1")
     }
     
-    func testObserveOn_sink() {
+    func testObserveOn() {
         let sink = Sink<Int>()
         let signal = sink.signal
         
@@ -120,45 +120,32 @@ final class SinkSignalTests: XCTestCase {
         }
     }
     
-    func testObserveOn_variable() {
-        let variable = Variable(0)
-        let signal = variable.signal
+    func testImmediatelyUnsubscribeObserveOn() {
+        let queue = DispatchQueue.globalDefault()
         
-        var value: Int?
+        let sink = Sink<Int>()
+        let signal = sink.signal
         
-        let expectation = self.expectation(description: "subscribe to signal on global queue")
-        
-        signal
-            .observe(on: .queue(.globalDefault()))
-            .subscribe { int in
-                XCTAssertFalse(Thread.isMainThread)
-                value = int
-                expectation.fulfill()
-        }
-        
-        waitForExpectations(timeout: 1) { _ in
-            XCTAssertEqual(value, 0)
-        }
-    }
-    
-    func testObserveOn_constant() {
-        let variable = Variable(0)
-        let constant = Constant(variable: variable)
-        let signal = constant.signal
-        
-        var value: Int?
+        var value = 0
         
         let expectation = self.expectation(description: "subscribe to signal on global queue")
         
-        signal
-            .observe(on: .queue(.globalDefault()))
+        let subscription = signal
+            .observe(on: .queue(queue))
             .subscribe { int in
-                XCTAssertFalse(Thread.isMainThread)
                 value = int
-                expectation.fulfill()
         }
         
-        waitForExpectations(timeout: 1) { _ in
+        queue.suspend()
+        
+        sink.send(value: 1)
+        subscription.unsubscribe()
+        
+        queue.resume()
+        
+        queue.async(execute: expectation.fulfill)
+        
+        waitForExpectations(timeout: 2) { _ in
             XCTAssertEqual(value, 0)
         }
     }

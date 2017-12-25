@@ -23,9 +23,14 @@ public extension Signal {
     /// - returns: A signal that will forward values on given executor.
     public func observe(on executor: Executor) -> Signal<Value> {
         return .init { send in
-            self.subscribe { value in
-                executor.execute { send(value) }
+            let subscriptionScope = SubscriptionScope()
+            subscriptionScope += self.subscribe { value in
+                executor.execute {
+                    guard !subscriptionScope.isUnsubscribed else { return }
+                    send(value)
+                }
             }
+            return subscriptionScope
         }
     }
 }
