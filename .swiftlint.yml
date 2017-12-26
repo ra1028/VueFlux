@@ -8,4 +8,8 @@ disabled_rules:
 trailing_whitespace:
   ignores_empty_lines: true
 
+nesting:
+  type_level:
+    warning: 2
+
 line_length: 180
