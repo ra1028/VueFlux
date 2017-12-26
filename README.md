@@ -16,7 +16,7 @@ Unidirectional Data Flow State Management Architecture for Swift - Inspired by <
 
 ---
 
-## About VueFlux
+## Introduction
 VueFlux is the architecture to manage state with unidirectional data flow for Swift, inspired by [Vuex](https://github.com/vuejs/vuex) and [Flux](https://github.com/facebook/flux).  
 
 It serves multi store, so that all ViewControllers have designated stores, with rules ensuring that the states can only be mutated in a predictable fashion.  
@@ -34,8 +34,9 @@ Arbitrary third party reactive frameworks (e.g. [RxSwift](https://github.com/Rea
 
 ---
 
-## Core Concepts
+## About VueFlux
 VueFlux is constituted of following core concepts.  
+Sample code uses VueFluxReactive which will be described later.  
 You can see actual implementation [here](./Examples).  
 
 - [State](#state)
@@ -56,7 +57,7 @@ final class CounterState: State {
     typealias Action = CounterAction
     typealias Mutations = CounterMutations
 
-    fileprivate var count = 0
+    fileprivate let count = Variable(0)
 }
 ```
 
@@ -99,10 +100,10 @@ struct CounterMutations: Mutations {
     func commit(action: CounterAction, state: CounterState) {
         switch action {
         case .increment:
-            state.count += 1
+            state.count.value += 1
 
         case .decrement:
-            state.count -= 1
+            state.count.value -= 1
         }
     }
 }
@@ -117,8 +118,8 @@ Properties of State in the Store can only be accessed via this.
 
 ```swift
 extension Computed where State == CounterState {
-    var count: Int {
-        return state.count
+    var countText: Constant<Int> {
+        return state.count.constant
     }
 }
 ```
@@ -137,18 +138,14 @@ final class CounterViewController: UIViewController {
     @IBOutlet private weak var counterLabel: UILabel!
 
     private let store = Store<CounterState>(state: .init(), mutations: .init(), executor: .queue(.global()))
-    // This is the type erased code of following.
-    // private let store = Store<CounterState>(state: CounterState(), mutations: CounterMutations(), executor: Executor.queue(DispatchQueue.global()))
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        store.subscribe(scope: self) { [unowned self] action, store in
-            switch action {
-                case .increment, .decrement:
-                    self.counterLabel.text = String(store.computed.count)
-            }
-        }
+        store.computed.count.signal
+            .map { String($0) as String? }
+            .observe(on: .mainThread)
+            .bind(to: counterLabel, \.text)
     }
 
     @IBAction func incrementButtonTapped(sender: UIButton) {
@@ -163,7 +160,7 @@ final class CounterViewController: UIViewController {
 
 ---
 
-## Advanced concepts
+## Advanced Usage
 
 ### Executor
 Executor determines the execution behavior of function such as execute on main-thread, on a global queue and so on.  
@@ -186,9 +183,53 @@ let store = Store<CounterState>(state: .init(), mutations: .init(), executor: .q
 If you subscribe like below, the observer function is executed on the main thread.  
 The argument default is `mainThread`.  
 ```swift
-store.subscribe(executor: .mainThread) { action, store in
+store
+    .observe(on: .mainThread)
+    .subscribe { count in
     // Executed on the main thread
 }
+```
+
+### Signal Operators
+VueFluxReactive is restricts functional approach as much as possible.  
+
+However, includes minimum some operators for convenience.  
+
+These operators transform a signal into a new sinal.  
+
+__map__  
+The map operator is used to transform the values in a signal, creating a new signal.  
+
+```swift
+let sink = Sink<Int>()
+let signal = sink.signal
+
+signal
+    .map { "Value is \($0)" }
+    .subscribe { print($0) }
+
+sink.send(value: 100)    // prints "Value is 100"
+sink.send(value: 200)    // prints "Value is 200"
+```
+
+__observe(on:)__  
+Forwards all values ​​on the context of the given Executor.  
+
+```swift
+let sink = Sink<Int>()
+let signal = sink.signal
+
+signal
+    .observe(on: .mainThread)
+    .subscribe { print("Value: \($0), isMainThread: \(Thread.isMainThread)") }
+
+DispatchQueue.global().async {
+  sink.send(value: 100)    
+  sink.send(value: 200)
+}
+
+// prints "Value: 100, isMainThread: true"
+// prints "Value: 200, isMainThread: true"
 ```
 
 ### Subscription
@@ -197,8 +238,9 @@ Subscribing to the store returns Subscription.
 Subscription has `unsubscribe` function which can remove an observer function that is subscribing to the store.  
 
 ```swift
-let subscription = store.subscribe { action, store in
-    // NOT executed after unsubscribed.
+let subscription = store.computed.count.signal
+    .subscribe { count in
+        // NOT executed after unsubscribed.
 }
 
 subscription.unsubscribe()
@@ -214,21 +256,62 @@ For example, when the ViewController which has a property of SubscriptionScope i
 ```swift
 var subscriptionsScope: SubscriptionScope? = SubscriptionScope()
 
-subscriptionScope += store.subscribe { action, store in
-    // NOT executed after subscriptionsScope had deinitialized.
+subscriptionScope += store.computed.count.signal
+    .subscribe { count in
+        // NOT executed after subscriptionsScope had deinitialized.
 }
 
 subscriptionsScope = nil  // Be unsubscribed
 ```
 
 ### Scoped Subscribe
-In subscribing, you can pass `AnyObject` as the parameter of `scope`.  
+In subscribing, you can pass `AnyObject` as the parameter of `duringScopeOf`.  
 An observer function which is subscribed to the store will be unsubscribe when deinitializes its object.  
 
 ```swift
-store.subscribe(scope: self) { action, store in
-    // NOT executed after `self` had deinitialized.
+store.computed.count.signal
+    .subscribe(duringScopeOf: self) { count in
+        // NOT executed after `self` had deinitialized.
 }
+```
+
+### Bind
+By binding, the target object's value is updated to the latest value sent by the Signal.  
+
+Bindings are not updated after the target object is deinitialized.  
+
+Closure binding.
+```swift
+store.computed.text.signal
+    .observe(on: .mainThread)
+    .bind(to: label) { label, text in label.text = text }
+```
+
+Smart KeyPath binding.
+```swift
+store.computed.text.signal
+    .observe(on: .mainThread)
+    .bind(to: label, \.text)
+```
+
+Binder binding.
+```swift
+extension UIView {
+    func setHiddenBinder(duration: TimeInterval): Binder<Bool> {
+        return Binder(target: self) { view, isHidden in
+          UIView.transition(
+            with: view,
+            duration: duration,
+            options: .transitionCrossDissolve,
+            animations: { view.isHidden = isHidden }
+          )
+        }
+    }
+}
+
+store.computed.isViewHidden.signal
+    .observe(on: .mainThread)
+    .bind(to: view.setHiddenBinder(duration: 0.3))
 ```
 
 ### Shared Store
@@ -241,7 +324,7 @@ final class CounterStore: Store<CounterState> {
     static let shared = CounterStore()
 
     private init() {
-        super.init(state: .init(), mutations: .init(), executor: .queue(.default))
+        super.init(state: .init(), mutations: .init(), executor: .queue(.global()))
     }
 }
 ```
@@ -254,11 +337,11 @@ If you call a function from `actions` that is a static member of Store, all the 
 ```swift
 let store = Store<CounterState>(state: .init(), mutations: .init(), executor: .immediate)
 
-print(store.computed.count)  // 0
+print(store.computed.count.value)  // 0
 
 Store<CounterState>.actions.increment()
 
-print(store.computed.count)  // 1
+print(store.computed.count.value)  // 1
 ```
 ---
 
