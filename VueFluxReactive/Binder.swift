@@ -12,7 +12,7 @@ public struct Binder<Value> {
     public init<Target: AnyObject>(target: Target, binding: @escaping (Target, Value) -> Void) {
         self.addSubscription = { [weak target] subscription in
             guard let target = target else { return subscription.unsubscribe() }
-            SubscriptionScope.owned(by: target).add(subscription: subscription)
+            SubscriptionScope.associated(with: target).add(subscription: subscription)
         }
         
         self.binding = { [weak target] value in

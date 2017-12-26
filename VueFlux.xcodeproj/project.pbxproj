@@ -36,7 +36,7 @@
 		6BC664F71FEC627E00BD74C8 /* SignalOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC664F61FEC627E00BD74C8 /* SignalOperators.swift */; };
 		6BC665331FF032C500BD74C8 /* Executor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC665321FF032C500BD74C8 /* Executor.swift */; };
 		6BEB90131FCF2340001B9BF6 /* ConstantTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEB90121FCF2340001B9BF6 /* ConstantTests.swift */; };
-		6BEB901A1FCF2DB2001B9BF6 /* OwnedSubscriptionScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEB90191FCF2DB2001B9BF6 /* OwnedSubscriptionScope.swift */; };
+		6BEB901A1FCF2DB2001B9BF6 /* AssociatedSubscriptionScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEB90191FCF2DB2001B9BF6 /* AssociatedSubscriptionScope.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,7 +98,7 @@
 		6BE63FF91FB39EA6007F8B5D /* ExecutorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExecutorTests.swift; sourceTree = "<group>"; };
 		6BE63FFE1FB3A6D8007F8B5D /* VueFluxTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VueFluxTests.swift; sourceTree = "<group>"; };
 		6BEB90121FCF2340001B9BF6 /* ConstantTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantTests.swift; sourceTree = "<group>"; };
-		6BEB90191FCF2DB2001B9BF6 /* OwnedSubscriptionScope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnedSubscriptionScope.swift; sourceTree = "<group>"; };
+		6BEB90191FCF2DB2001B9BF6 /* AssociatedSubscriptionScope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssociatedSubscriptionScope.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -228,7 +228,7 @@
 			isa = PBXGroup;
 			children = (
 				6B9920701FEC261600D4837C /* Subject.swift */,
-				6BEB90191FCF2DB2001B9BF6 /* OwnedSubscriptionScope.swift */,
+				6BEB90191FCF2DB2001B9BF6 /* AssociatedSubscriptionScope.swift */,
 			);
 			path = Internal;
 			sourceTree = "<group>";
@@ -451,7 +451,7 @@
 				6BC664F71FEC627E00BD74C8 /* SignalOperators.swift in Sources */,
 				6BC664F51FEC5ABF00BD74C8 /* AnySubscription.swift in Sources */,
 				6B052E141FCB4EE2008B3731 /* Binder.swift in Sources */,
-				6BEB901A1FCF2DB2001B9BF6 /* OwnedSubscriptionScope.swift in Sources */,
+				6BEB901A1FCF2DB2001B9BF6 /* AssociatedSubscriptionScope.swift in Sources */,
 				6B9EB25F1FCB40AC009F0659 /* Subscribable.swift in Sources */,
 				6B58D3541FE5B53F0078FE53 /* VueFluxReactive.swift in Sources */,
 				6B9920711FEC261600D4837C /* Subject.swift in Sources */,

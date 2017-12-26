@@ -1,13 +1,13 @@
 import ObjectiveC
 
 extension SubscriptionScope {
-    /// Take a SubscriptionScope associated by object.
+    /// Take a SubscriptionScope associated with given object.
     ///
     /// - Prameters:
-    ///   - object: An object that associates SubscriptionScope.
+    ///   - object: An object that associates with SubscriptionScope.
     ///
-    /// - Returns: A SubscriptionScope associated by given object.
-    static func owned(by object: AnyObject) -> SubscriptionScope {
+    /// - Returns: A SubscriptionScope associated with given object.
+    static func associated(with object: AnyObject) -> SubscriptionScope {
         struct Keys {
             static let subscriptionScope = UnsafeRawPointer(UnsafeMutablePointer<UInt8>.allocate(capacity: 1))
         }

@@ -25,7 +25,7 @@ public extension Subscribable {
     @discardableResult
     func subscribe(scope object: AnyObject, observer: @escaping (Value) -> Void) -> Subscription {
         let subscription = subscribe(observer: observer)
-        SubscriptionScope.owned(by: object) += subscription
+        SubscriptionScope.associated(with: object) += subscription
         return subscription
     }
     
