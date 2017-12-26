@@ -27,7 +27,7 @@ Although VueFlux makes your projects more productive and codes more readable, it
 If your project is small-scale, you will most likely be fine without VueFlux.  
 However, as the scale of your project becomes larger, VueFlux will be the best choice to handle the complicated data flow.  
 
-VueFlux is receives state changes by efficient reactive system. [VueFluxReactive](./VueFluxReactive) is tiny reactive(NOT functional) framework compatible with this architecture.  
+VueFlux is receives state changes by efficient reactive system. [VueFluxReactive](./VueFluxReactive) is µ reactive framework(not functional) compatible with this architecture.  
 Arbitrary third party reactive frameworks (e.g. [RxSwift](https://github.com/ReactiveX/RxSwift), [ReactiveSwift](https://github.com/ReactiveCocoa/ReactiveSwift) and [ReactiveKit](https://github.com/ReactiveKit/ReactiveKit)) can also be used with VueFlux.  
 
 ![](./Assets/VueFlux.png)

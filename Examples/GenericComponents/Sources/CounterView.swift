@@ -8,6 +8,7 @@ public final class CounterView: UIView {
     @IBOutlet public private(set) weak var incrementButton: UIButton!
     @IBOutlet public private(set) weak var decrementButton: UIButton!
     @IBOutlet public private(set) weak var resetButton: UIButton!
+    @IBOutlet public private(set) weak var openGitHubButton: UIButton!
     
     @IBInspectable public var startColor: UIColor? {
         didSet { updateColors() }
@@ -61,6 +62,9 @@ private extension CounterView {
         round(view: incrementButton, corners: [.topRight, .bottomRight])
         round(view: decrementButton, corners: [.topRight, .bottomRight])
         round(view: resetButton, corners: [.topLeft, .bottomLeft])
+        round(view: openGitHubButton, corners: [.topLeft, .bottomLeft])
+        
+        openGitHubButton.titleLabel?.numberOfLines = 2
         
         counterLabel.font = .monospacedDigitSystemFont(ofSize: 80, weight: .thin)
         intervalLabel.font = .monospacedDigitSystemFont(ofSize: 20, weight: .light)

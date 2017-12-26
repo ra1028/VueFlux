@@ -11,6 +11,10 @@ extension Computed where State == CounterState {
         return state.interval.value
     }
     
+    var command: Signal<CounterState.Command> {
+        return state.command.signal
+    }
+    
     var intervalText: Signal<String?> {
         return state.interval.signal.map { "Count after: \(($0 * 10).rounded() / 10)" }
     }
@@ -20,8 +24,13 @@ final class CounterState: State {
     typealias Action = CounterAction
     typealias Mutations = CounterMutations
     
+    enum Command {
+        case openGitHub
+    }
+    
     fileprivate let max: Int
     fileprivate let count = Variable(0)
+    fileprivate let command = Sink<Command>()
     fileprivate let interval = Variable<TimeInterval>(0)
     
     init(max: Int) {
@@ -40,6 +49,9 @@ struct CounterMutations: Mutations {
             
         case .reset:
             state.count.value = 0
+            
+        case .openGitHub:
+            state.command.send(value: .openGitHub)
             
         case let .update(interval):
             state.interval.value = interval

@@ -14,7 +14,7 @@
         </array>
     </customFonts>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CounterView" customModule="RxExample" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CounterView" customModule="GenericComponents" customModuleProvider="target">
             <userDefinedRuntimeAttributes>
                 <userDefinedRuntimeAttribute type="color" keyPath="startColor">
                     <color key="value" red="0.023529411760000001" green="0.062745098040000002" blue="0.14901960780000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -30,6 +30,7 @@
                 <outlet property="incrementButton" destination="XVv-Wo-Fd9" id="KVN-zD-Dny"/>
                 <outlet property="intervalLabel" destination="dBg-1Q-Oj8" id="1ry-94-RQn"/>
                 <outlet property="intervalSlider" destination="3bA-WF-w66" id="Jd0-aK-OUs"/>
+                <outlet property="openGitHubButton" destination="535-lN-hRn" id="YGD-dZ-MVH"/>
                 <outlet property="resetButton" destination="UZU-Dt-8bq" id="fEB-Gp-2Xz"/>
             </connections>
         </placeholder>
@@ -88,14 +89,28 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                         </button>
+                        <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="535-lN-hRn">
+                            <rect key="frame" x="262" y="285.5" width="113" height="70"/>
+                            <color key="backgroundColor" white="1" alpha="0.050000000000000003" colorSpace="calibratedWhite"/>
+                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
+                            <inset key="contentEdgeInsets" minX="0.0" minY="2" maxX="0.0" maxY="0.0"/>
+                            <state key="normal">
+                                <string key="title" base64-UTF8="YES">
+T3BlbhEREREREQ1HaXRIdWI
+</string>
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
+                        <constraint firstItem="535-lN-hRn" firstAttribute="height" secondItem="zja-xh-oFo" secondAttribute="height" id="1Nd-IP-dO6"/>
                         <constraint firstAttribute="bottom" secondItem="3bA-WF-w66" secondAttribute="bottom" constant="32" id="3bd-cn-wAC"/>
                         <constraint firstAttribute="trailing" secondItem="UZU-Dt-8bq" secondAttribute="trailing" id="G6P-nX-iD7"/>
                         <constraint firstItem="UZU-Dt-8bq" firstAttribute="leading" secondItem="XVv-Wo-Fd9" secondAttribute="trailing" constant="64" id="N6J-SO-bwt"/>
                         <constraint firstItem="XVv-Wo-Fd9" firstAttribute="leading" secondItem="R6k-LV-uLR" secondAttribute="leading" id="Tap-mY-wam"/>
                         <constraint firstItem="XVv-Wo-Fd9" firstAttribute="top" secondItem="gTv-zM-aSi" secondAttribute="bottom" constant="96" id="Vtc-WF-jaf"/>
+                        <constraint firstItem="535-lN-hRn" firstAttribute="leading" secondItem="zja-xh-oFo" secondAttribute="trailing" constant="64" id="Yfk-MG-b2v"/>
                         <constraint firstItem="gTv-zM-aSi" firstAttribute="top" secondItem="R6k-LV-uLR" secondAttribute="top" id="ZFV-Ft-p6z"/>
                         <constraint firstItem="3bA-WF-w66" firstAttribute="top" secondItem="dBg-1Q-Oj8" secondAttribute="bottom" constant="24" id="ZGf-Xs-kYK"/>
                         <constraint firstItem="zja-xh-oFo" firstAttribute="height" secondItem="XVv-Wo-Fd9" secondAttribute="height" id="bCW-Qz-fZ9"/>
@@ -110,8 +125,10 @@
                         <constraint firstItem="UZU-Dt-8bq" firstAttribute="height" secondItem="XVv-Wo-Fd9" secondAttribute="height" id="sq4-Go-0ni"/>
                         <constraint firstItem="zja-xh-oFo" firstAttribute="top" secondItem="XVv-Wo-Fd9" secondAttribute="bottom" constant="24" id="txY-kH-M55"/>
                         <constraint firstItem="dBg-1Q-Oj8" firstAttribute="top" secondItem="zja-xh-oFo" secondAttribute="bottom" constant="64" id="umk-n6-BCj"/>
+                        <constraint firstItem="535-lN-hRn" firstAttribute="centerY" secondItem="zja-xh-oFo" secondAttribute="centerY" id="wB5-6A-4IZ"/>
                         <constraint firstItem="gTv-zM-aSi" firstAttribute="leading" secondItem="R6k-LV-uLR" secondAttribute="leading" id="xEA-Ib-4Un"/>
                         <constraint firstAttribute="trailing" secondItem="gTv-zM-aSi" secondAttribute="trailing" id="xLf-uz-12Q"/>
+                        <constraint firstAttribute="trailing" secondItem="535-lN-hRn" secondAttribute="trailing" id="xPf-DB-S0H"/>
                     </constraints>
                 </view>
             </subviews>

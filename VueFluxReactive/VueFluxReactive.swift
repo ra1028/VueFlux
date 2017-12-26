@@ -9,6 +9,9 @@ public struct Sink<Value> {
     
     private let subject = Subject<Value>()
     
+    /// Create a sink.
+    public init() {}
+    
     /// Send arbitrary value to the signal.
     ///
     /// - Parameters:u

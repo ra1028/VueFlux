@@ -1,4 +1,5 @@
 import UIKit
+import SafariServices
 import VueFlux
 import GenericComponents
 import RxSwift
@@ -40,6 +41,12 @@ private extension CounterViewController {
             })
             .disposed(by: disposeBag)
         
+        counterView.openGitHubButton.rx.controlEvent(.touchUpInside)
+            .subscribe(onNext: { [unowned self] _ in
+                self.store.actions.openGitHub()
+            })
+            .disposed(by: disposeBag)
+        
         counterView.intervalSlider.rx.controlEvent(.valueChanged)
             .subscribe(onNext: { [unowned self] in
                 let interval = TimeInterval(self.counterView.intervalSlider.value)
@@ -58,6 +65,18 @@ private extension CounterViewController {
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [unowned self] text in
                 self.counterView.intervalLabel.text = text
+            })
+            .disposed(by: disposeBag)
+        
+        store.computed.command
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] command in
+                switch command {
+                case .openGitHub:
+                    guard let url = URL(string: "https://github.com/ra1028/VueFlux") else { return }
+                    let viewController = SFSafariViewController(url: url)
+                    self.present(viewController, animated: true)
+                }
             })
             .disposed(by: disposeBag)
     }

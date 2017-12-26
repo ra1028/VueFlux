@@ -1,4 +1,5 @@
 import UIKit
+import SafariServices
 import VueFlux
 import VueFluxReactive
 import GenericComponents
@@ -23,6 +24,7 @@ private extension CounterViewController {
         counterView.incrementButton.addTarget(self, action: #selector(increment), for: .touchUpInside)
         counterView.decrementButton.addTarget(self, action: #selector(decrement), for: .touchUpInside)
         counterView.resetButton.addTarget(self, action: #selector(reset), for: .touchUpInside)
+        counterView.openGitHubButton.addTarget(self, action: #selector(openGithub), for: .touchUpInside)
         counterView.intervalSlider.addTarget(self, action: #selector(updateInterval(_:)), for: .valueChanged)
         
         store.computed.countText
@@ -32,6 +34,17 @@ private extension CounterViewController {
         store.computed.intervalText
             .observe(on: .mainThread)
             .bind(to: counterView.intervalLabel, \.text)
+        
+        store.computed.command
+            .observe(on: .mainThread)
+            .subscribe(duringScopeOf: self) { [unowned self] command in
+                switch command {
+                case .openGitHub:
+                    guard let url = URL(string: "https://github.com/ra1028/VueFlux") else { return }
+                    let viewController = SFSafariViewController(url: url)
+                    self.present(viewController, animated: true)
+                }
+        }
     }
     
     @objc func increment() {
@@ -44,6 +57,10 @@ private extension CounterViewController {
     
     @objc func reset() {
         store.actions.resetAcync(after: store.computed.interval)
+    }
+    
+    @objc func openGithub() {
+        store.actions.openGitHub()
     }
     
     @objc func updateInterval(_ slider: UISlider) {

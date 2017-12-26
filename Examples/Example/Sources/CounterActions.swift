@@ -5,6 +5,7 @@ enum CounterAction {
     case increment
     case decrement
     case reset
+    case openGitHub
     case update(interval: TimeInterval)
 }
 
@@ -25,6 +26,10 @@ extension Actions where State == CounterState {
         DispatchQueue.global(qos: .default).asyncAfter(deadline: .now() + interval) {
             self.dispatch(action: .reset)
         }
+    }
+    
+    func openGitHub() {
+        self.dispatch(action: .openGitHub)
     }
     
     func update(interval: TimeInterval) {
