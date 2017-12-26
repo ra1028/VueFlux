@@ -14,11 +14,11 @@ final class SubscribableTests: XCTestCase {
         let subject1 = Subject<Int>()
         let subject2 = Subject<Int>()
         
-        subject1.subscribe(scope: object!) { int in
+        subject1.subscribe(duringScopeOf: object!) { int in
             value1 = int
         }
         
-        subject2.subscribe(scope: object!) { int in
+        subject2.subscribe(duringScopeOf: object!) { int in
             value2 = int
         }
         
@@ -39,16 +39,17 @@ final class SubscribableTests: XCTestCase {
     
     func testScopedSubscribeConcurrentAsync() {
         var value = 0
-        let queue = DispatchQueue(label: "scoped subscribe loop queue", attributes: .concurrent)
+        let queue = DispatchQueue(label: "scoped subscribe loop queue")
         let group = DispatchGroup()
+        
+        let sink = Sink<Int>()
+        let signal = sink.signal
         
         for _ in (1...100) {
             queue.async(group: group) {
                 var object: Object? = .init()
                 
-                let sink = Sink<Int>()
-                let signal = sink.signal
-                signal.subscribe(scope: object!) { int in
+                signal.subscribe(duringScopeOf: object!) { int in
                     value += int
                 }
                 
@@ -59,14 +60,11 @@ final class SubscribableTests: XCTestCase {
         
         _ = group.wait(timeout: .now() + 10)
         
-        let sink = Sink<Int>()
-        let signal = sink.signal
-        
         XCTAssertEqual(value, 0)
         
         var object: Object? = .init()
         
-        signal.subscribe(scope: object!) { int in
+        signal.subscribe(duringScopeOf: object!) { int in
             value += int
         }
         

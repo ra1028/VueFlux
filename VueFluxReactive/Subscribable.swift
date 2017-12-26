@@ -15,15 +15,15 @@ public protocol Subscribable {
 }
 
 public extension Subscribable {
-    /// Subscribe the observer function to be received the values until given scope object deinitialized.
+    /// Subscribe the observer function to be received the values during scope of given object deinitialized.
     ///
     /// - Prameters:
-    ///   - scope: An object that will unsubscribe given observer function by being deinitialize.
+    ///   - object: An object that will unsubscribe given observer by being deinitialize.
     ///   - observer: A function to be received the values.
     ///
     /// - Returns: A subscription to unsubscribe given observer.
     @discardableResult
-    func subscribe(scope object: AnyObject, observer: @escaping (Value) -> Void) -> Subscription {
+    func subscribe(duringScopeOf object: AnyObject, observer: @escaping (Value) -> Void) -> Subscription {
         let subscription = subscribe(observer: observer)
         SubscriptionScope.associated(with: object) += subscription
         return subscription
