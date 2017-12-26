@@ -32,6 +32,8 @@ private extension DispatcherContext {
         let hashValue: Int
         
         /// Create with arbitrary State protocol conformed type.
+        /// - Parameters:
+        ///   - stateType: Type of state to make Dispatcher unique.
         init<State: VueFlux.State>(for stateType: State.Type) {
             hashValue = String(reflecting: stateType).hashValue
         }

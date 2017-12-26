@@ -9,7 +9,7 @@ public struct Executor {
         return .init { function in function() }
     }
     
-    /// Exxecutes function on main-thread.
+    /// Executes function on main-thread.
     /// If called execute on main-thread, function is not enqueue and execute immediately.
     public static var mainThread: Executor {
         let innerExecutor = MainThreadInnerExecutor()

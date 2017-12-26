@@ -16,6 +16,9 @@ public struct AnySubscription: Subscription {
     }
     
     /// Create with unsubscribe function.
+    ///
+    /// - Parameters:
+    ///   - unsubscribe: A function to run when unsubscribed.
     public init(unsubscribe: @escaping (() -> Void)) {
         state = .init(.subscribing(unsubscribe: unsubscribe))
     }
