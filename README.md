@@ -36,7 +36,9 @@ Arbitrary third party reactive frameworks (e.g. [RxSwift](https://github.com/Rea
 
 ## About VueFlux
 VueFlux is constituted of following core concepts.  
+
 Sample code uses VueFluxReactive which will be described later.  
+
 You can see actual implementation [here](./Examples).  
 
 - [State](#state)
@@ -118,7 +120,7 @@ Properties of State in the Store can only be accessed via this.
 
 ```swift
 extension Computed where State == CounterState {
-    var countText: Constant<Int> {
+    var count: Constant<Int> {
         return state.count.constant
     }
 }
@@ -157,6 +159,30 @@ final class CounterViewController: UIViewController {
     }
 }
 ```
+
+---
+
+## About VueFluxReactive
+VueFluxReactive is a μ reactive system for observe state changes.  
+
+It was made for replacing the existing reactive framework that have high learning and introduction costs such as RxSwift and ReactiveSwift.
+
+However, it's not included in VueFlux so that can also be use VueFlux with other high powered third-party reactive framework.  
+
+VueFluxReactive is constituted of following primitives.  
+
+- [Sink](#sink)
+- [Signal](#signal)
+- [Variable](#variable)
+- [Constant](#constant)
+
+### Sink
+
+### Signal
+
+### Variable
+
+### Constant
 
 ---
 
@@ -224,8 +250,8 @@ signal
     .subscribe { print("Value: \($0), isMainThread: \(Thread.isMainThread)") }
 
 DispatchQueue.global().async {
-  sink.send(value: 100)    
-  sink.send(value: 200)
+    sink.send(value: 100)    
+    sink.send(value: 200)
 }
 
 // prints "Value: 100, isMainThread: true"
@@ -299,12 +325,12 @@ Binder binding.
 extension UIView {
     func setHiddenBinder(duration: TimeInterval): Binder<Bool> {
         return Binder(target: self) { view, isHidden in
-          UIView.transition(
-            with: view,
-            duration: duration,
-            options: .transitionCrossDissolve,
-            animations: { view.isHidden = isHidden }
-          )
+            UIView.transition(
+              with: view,
+              duration: duration,
+              options: .transitionCrossDissolve,
+              animations: { view.isHidden = isHidden }
+            )
         }
     }
 }
