@@ -56,7 +56,7 @@ public extension Subscribable {
     ///
     /// - Prameters:
     ///   - target: A binding target object.
-    ///   - keyPath: The key path of the object that bind values.
+    ///   - keyPath: The key path of the object that to bind values.
     ///
     /// - Returns: A subscription to unbind given target.
     @discardableResult
@@ -70,7 +70,7 @@ public extension Subscribable {
     ///
     /// - Prameters:
     ///   - target: A binding target object.
-    ///   - keyPath: The key path of the object that bind values. Allows optional.
+    ///   - keyPath: The key path of the object that to bind values. Allows optional.
     ///
     /// - Returns: A subscription to unbind given target.
     @discardableResult

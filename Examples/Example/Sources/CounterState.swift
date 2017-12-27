@@ -3,7 +3,7 @@ import VueFlux
 import VueFluxReactive
 
 extension Computed where State == CounterState {
-    var countText: Signal<String?> {
+    var countText: Signal<String> {
         return state.count.signal.map { String($0) }
     }
     
@@ -15,7 +15,7 @@ extension Computed where State == CounterState {
         return state.command.signal
     }
     
-    var intervalText: Signal<String?> {
+    var intervalText: Signal<String> {
         return state.interval.signal.map { "Count after: \(($0 * 10).rounded() / 10)" }
     }
 }

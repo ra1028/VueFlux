@@ -3,7 +3,7 @@ import RxSwift
 import RxCocoa
 
 extension Computed where State == CounterState {
-    var countText: Observable<String?> {
+    var countText: Observable<String> {
         return state.count.map { String($0) }
     }
     
@@ -15,7 +15,7 @@ extension Computed where State == CounterState {
         return state.command.asObservable()
     }
     
-    var intervalText: Observable<String?> {
+    var intervalText: Observable<String> {
         return state.interval.map { "Count after: \(($0 * 10).rounded() / 10)" }
     }
 }
