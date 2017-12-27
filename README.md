@@ -21,7 +21,9 @@ VueFlux is the architecture to manage state with unidirectional data flow for Sw
 
 It serves multi store, so that all ViewControllers have designated stores, with rules ensuring that the states can only be mutated in a predictable fashion.  
 
-The stores also can receives an action dispatched globally. That makes ViewControllers be freed from dependencies among them. And, a shared state in an application is also supported by making a shared instance of the store.  
+The stores also can receives an action dispatched globally.  
+That makes ViewControllers be freed from dependencies among them. 
+And, a shared state in an application is also supported by a shared instance of the store.  
 
 Although VueFlux makes your projects more productive and codes more readable, it also comes with the cost of more concepts and boilerplates.  
 If your project is small-scale, you will most likely be fine without VueFlux.  
@@ -64,7 +66,7 @@ final class CounterState: State {
 ### Actions
 This is the proxy for functions of dispatching Action.  
 They can have arbitrary operations asynchronous such as request to backend API.  
-The type of Action dispatched from Actions' proxied functions is determined by State.  
+The type of Action dispatched from Actions' function is determined by State.  
 
 ```swift
 enum CounterAction {
@@ -218,6 +220,7 @@ variable.signal.subscribe { print($0) }
 /// prints "0"
 /// prints "1"
 /// prints "1"
+/// prints "1"
 ```
 
 ### Constant
@@ -240,6 +243,7 @@ constant.signal.subscribe { print($0) }
 /// prints "0"
 /// prints "1"
 /// prints "1"
+/// prints "1"
 ```
 
 ---
@@ -247,8 +251,8 @@ constant.signal.subscribe { print($0) }
 ## Advanced Usage
 
 ### Executor
-Executor determines the execution behavior of function such as execute on main-thread, on a global queue and so on.  
-It has some behavior by default.  
+Executor determines the execution context of function such as execute on main-thread, on a global queue and so on.  
+Some contexts are built in default.  
 
 - immediate  
   Executes function immediately and synchronously.  
@@ -259,14 +263,13 @@ It has some behavior by default.
 - queue(_ dispatchQueue: DispatchQueue)  
   All functions are enqueued to given dispatch queue.  
 
-In the following case, the store commits actions to mutations through the global queue.  
+In the following case, the store commits actions to mutations on the global queue.  
 
 ```swift
 let store = Store<CounterState>(state: .init(), mutations: .init(), executor: .queue(.global()))
 ```
 
 If you subscribe like below, the observer function is executed on the main thread.  
-The argument default is `mainThread`.  
 
 ```swift
 store
@@ -374,7 +377,7 @@ store.computed.text.signal
     .bind(to: label, \.text)
 ```
 
-Binder binding.
+Binder
 ```swift
 extension UIView {
     func setHiddenBinder(duration: TimeInterval) -> Binder<Bool> {
@@ -439,12 +442,21 @@ print(store.computed.count.value)
 ## Installation
 
 ### [CocoaPods](https://cocoapods.org/)  
-Add the following to your Podfile:  
+If use VueFlux with VueFluxReactive, add the following to your Podfile:  
+```ruby
+use_frameworks!
+
+target 'TargetName' do
+  pod 'VueFluxReactive'
+end
+```
+Or if, use with third-party Reactive framework:  
 ```ruby
 use_frameworks!
 
 target 'TargetName' do
   pod 'VueFlux'
+  # and, reactive framework you like
 end
 ```
 And run
@@ -473,6 +485,6 @@ If your pull request including new function, please write test cases for it.
 ---
 
 ## License
-VueFlux is released under the MIT License.  
+VueFlux and VueFluxReactive is released under the MIT License.  
 
 ---
