@@ -90,11 +90,8 @@ extension Actions where State == CounterState {
 
 ### Mutations
 This is the protocol that represents `commit` function that mutate the state.  
-
 Be able to change the fileprivate properties of the state by implementing it in the same file.  
-
 The only way to actually change State in a Store is committing an Action via Mutations.  
-
 Changes of State must be done `synchronously`.  
 
 ```swift
@@ -113,9 +110,7 @@ struct CounterMutations: Mutations {
 
 ### Computed
 This is the proxy for publishing read-only properties of State.  
-
 Be able to access and publish the fileprivate properties of state by implementing it in the same file.  
-
 Properties of State in the Store can only be accessed via this.  
 
 ```swift
@@ -128,11 +123,9 @@ extension Computed where State == CounterState {
 
 ### Store
 The Store manages the state, and also can be manage shared state in an application by shared store instance.  
-
 Computed and Actions can only be accessed via this. Changing the state is the same as well.  
-
-An Action dispatched from the `actions` of the instance member is mutates only the designated store's state. On the other hand, an Action dispatched from the `actions` of the static member will mutates all the states managed in the stores which have same generic type of State in common.  
-
+An Action dispatched from the `actions` of the instance member is mutates only the designated store's state.  
+On the other hand, an Action dispatched from the `actions` of the static member will mutates all the states managed in the stores which have same generic type of State in common.  
 Store implementation in a ViewController is like as follows:  
 
 ```swift
@@ -164,25 +157,94 @@ final class CounterViewController: UIViewController {
 
 ## About VueFluxReactive
 VueFluxReactive is a μ reactive system for observe state changes.  
-
-It was made for replacing the existing reactive framework that have high learning and introduction costs such as RxSwift and ReactiveSwift.
-
+It was made for replacing the existing reactive framework that have high learning and introduction costs such as RxSwift and ReactiveSwift.  
 However, it's not included in VueFlux so that can also be use VueFlux with other high powered third-party reactive framework.  
-
 VueFluxReactive is constituted of following primitives.  
 
-- [Sink](#sink)
-- [Signal](#signal)
 - [Variable](#variable)
 - [Constant](#constant)
+- [Sink](#sink)
+- [Signal](#signal)
 
 ### Sink
+This primitive is a way of generating signal.  
+One can send input values into a sink and receives values via generated signal.  
+Signals generated from Sink does not hold the latest value.  
+It's usually used to send instructions from State to ViewController (such as presents another ViewController).  
+
+```swift
+let sink = Sink<Int>()
+let signal = sink.signal
+
+signal.subscribe { print($0) }
+
+sink.send(value: 100)
+
+// prints "100"
+```
 
 ### Signal
+A push-driven stream that sends value changes over time.  
+Can be subscribe values stream, and values will be sent to all observers at the same time.  
+All observations of the values are made via this primitive.  
+
+```swift
+let sink = Sink<Int>()
+let signal = sink.signal
+
+signal.subscribe { print("1: \($0)") }
+signal.subscribe { print($2: \($0)") }
+
+sink.send(value: 100)
+sink.send(value: 200)
+
+// prints "1: 100"
+// prints "2: 100"
+// prints "1: 200"
+// prints "2: 200"
+```
 
 ### Variable
+Variable represents a thread-safe mutable value that allows observation of its changes via signal.  
+Signal generated from Variable is forwards the latest value when start observing, all value changes are delivers on after that.  
+
+```swift
+let variable = Variable(0)
+
+variable.signal.subscribe { print($0) }
+
+variable.value = 1
+
+print(variable.value)
+
+variable.signal.subscribe { print($0) }
+
+/// prints "0"
+/// prints "1"
+/// prints "1"
+```
 
 ### Constant
+This is primitive that wrapper to make the Variable read-only.  
+Just like Variable, the latest value and value changes are forwarded via signal, but not allowed to change the value directly.  
+Constant generated from Variable reflects the changes of its Variable.  
+
+```swift
+let variable = Variable(0)
+let constant = variable.constant
+
+constant.signal.subscribe { print($0) }
+
+variable.value = 1
+
+print(constant.value)
+
+constant.signal.subscribe { print($0) }
+
+/// prints "0"
+/// prints "1"
+/// prints "1"
+```
 
 ---
 
@@ -190,8 +252,8 @@ VueFluxReactive is constituted of following primitives.
 
 ### Executor
 Executor determines the execution behavior of function such as execute on main-thread, on a global queue and so on.  
-
 It has some behavior by default.  
+
 - immediate  
   Executes function immediately and synchronously.  
 
@@ -202,12 +264,14 @@ It has some behavior by default.
   All functions are enqueued to given dispatch queue.  
 
 In the following case, the store commits actions to mutations through the global queue.  
+
 ```swift
 let store = Store<CounterState>(state: .init(), mutations: .init(), executor: .queue(.global()))
 ```
 
 If you subscribe like below, the observer function is executed on the main thread.  
 The argument default is `mainThread`.  
+
 ```swift
 store
     .observe(on: .mainThread)
@@ -218,9 +282,7 @@ store
 
 ### Signal Operators
 VueFluxReactive is restricts functional approach as much as possible.  
-
 However, includes minimum some operators for convenience.  
-
 These operators transform a signal into a new sinal.  
 
 __map__  
@@ -234,8 +296,11 @@ signal
     .map { "Value is \($0)" }
     .subscribe { print($0) }
 
-sink.send(value: 100)    // prints "Value is 100"
-sink.send(value: 200)    // prints "Value is 200"
+sink.send(value: 100)
+sink.send(value: 200)
+
+// prints "Value is 100"
+// prints "Value is 200"
 ```
 
 __observe(on:)__  
@@ -260,13 +325,11 @@ DispatchQueue.global().async {
 
 ### Subscription
 Subscribing to the store returns Subscription.  
-
 Subscription has `unsubscribe` function which can remove an observer function that is subscribing to the store.  
 
 ```swift
-let subscription = store.computed.count.signal
-    .subscribe { count in
-        // NOT executed after unsubscribed.
+let subscription = store.computed.count.signal.subscribe { count in
+    // NOT executed after unsubscribed.
 }
 
 subscription.unsubscribe()
@@ -274,17 +337,14 @@ subscription.unsubscribe()
 
 ### SubscriptionScope
 SubscriptionScope serves as resource manager of subscription.  
-
 This will terminate all added subscriptions on deinitialization.  
-
 For example, when the ViewController which has a property of SubscriptionScope is dismissed, all subscriptions are terminated.  
 
 ```swift
 var subscriptionsScope: SubscriptionScope? = SubscriptionScope()
 
-subscriptionScope += store.computed.count.signal
-    .subscribe { count in
-        // NOT executed after subscriptionsScope had deinitialized.
+subscriptionScope += store.computed.count.signal.subscribe { count in
+    // NOT executed after subscriptionsScope had deinitialized.
 }
 
 subscriptionsScope = nil  // Be unsubscribed
@@ -295,15 +355,13 @@ In subscribing, you can pass `AnyObject` as the parameter of `duringScopeOf`.
 An observer function which is subscribed to the store will be unsubscribe when deinitializes its object.  
 
 ```swift
-store.computed.count.signal
-    .subscribe(duringScopeOf: self) { count in
-        // NOT executed after `self` had deinitialized.
+store.computed.count.signal.subscribe(duringScopeOf: self) { count in
+    // NOT executed after `self` had deinitialized.
 }
 ```
 
 ### Bind
 By binding, the target object's value is updated to the latest value sent by the Signal.  
-
 Bindings are not updated after the target object is deinitialized.  
 
 Closure binding.
@@ -323,7 +381,7 @@ store.computed.text.signal
 Binder binding.
 ```swift
 extension UIView {
-    func setHiddenBinder(duration: TimeInterval): Binder<Bool> {
+    func setHiddenBinder(duration: TimeInterval) -> Binder<Bool> {
         return Binder(target: self) { view, isHidden in
             UIView.transition(
               with: view,
@@ -342,7 +400,6 @@ store.computed.isViewHidden.signal
 
 ### Shared Store
 You should make a shared instance of Store in order to manages a state shared in application.  
-
 Although you may define it as a global variable, an elegant way is overriding the Store and defining a static member `shared`.  
 
 ```swift
@@ -357,17 +414,20 @@ final class CounterStore: Store<CounterState> {
 
 ### Global Event Bus
 VueFlux can also serve as a global event bus.  
-
 If you call a function from `actions` that is a static member of Store, all the states managed in the stores which have same generic type of State in common are affected.  
 
 ```swift
 let store = Store<CounterState>(state: .init(), mutations: .init(), executor: .immediate)
 
-print(store.computed.count.value)  // 0
+print(store.computed.count.value)
 
 Store<CounterState>.actions.increment()
 
-print(store.computed.count.value)  // 1
+print(store.computed.count.value)
+
+
+// prints "0"
+// prints "1"
 ```
 ---
 
