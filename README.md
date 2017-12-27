@@ -22,7 +22,7 @@ VueFlux is the architecture to manage state with unidirectional data flow for Sw
 It serves multi store, so that all ViewControllers have designated stores, with rules ensuring that the states can only be mutated in a predictable fashion.  
 
 The stores also can receives an action dispatched globally.  
-That makes ViewControllers be freed from dependencies among them. 
+That makes ViewControllers be freed from dependencies among them.
 And, a shared state in an application is also supported by a shared instance of the store.  
 
 Although VueFlux makes your projects more productive and codes more readable, it also comes with the cost of more concepts and boilerplates.  
@@ -154,9 +154,9 @@ final class CounterViewController: UIViewController {
 ---
 
 ## About VueFluxReactive
-VueFluxReactive is a μ reactive system for observe state changes.  
-It was made for replacing the existing reactive framework that have high learning and introduction costs such as RxSwift and ReactiveSwift.  
-However, it's not included in VueFlux so that can also be use VueFlux with other high powered third-party reactive framework.  
+VueFluxReactive is a μ reactive system for observing state changes.  
+It was made for replacing the existing reactive framework that takes high learning and introduction costs though high-powered such as RxSwift and ReactiveSwift.  
+But, of course, VueFlux can be used with those framework because VueFluxReactive is separated.  
 VueFluxReactive is constituted of following primitives.  
 
 - [Variable](#variable)
@@ -165,10 +165,10 @@ VueFluxReactive is constituted of following primitives.
 - [Signal](#signal)
 
 ### Sink
-This primitive is a way of generating signal.  
-One can send input values into a sink and receives values via generated signal.  
+This type has a way of generating Signal.  
+One can send values into a sink and receives it by observing generated signal.  
 Signals generated from Sink does not hold the latest value.  
-It's usually used to send instructions from State to ViewController (such as presents another ViewController).  
+Practically, it's used to send commands (such as presents another ViewController) from State to ViewController.
 
 ```swift
 let sink = Sink<Int>()
@@ -184,7 +184,7 @@ sink.send(value: 100)
 ### Signal
 A push-driven stream that sends value changes over time.  
 Can be subscribe values stream, and values will be sent to all observers at the same time.  
-All observations of the values are made via this primitive.  
+All of values changes are made via this primitive.  
 
 ```swift
 let sink = Sink<Int>()
@@ -203,8 +203,8 @@ sink.send(value: 200)
 ```
 
 ### Variable
-Variable represents a thread-safe mutable value that allows observation of its changes via signal.  
-Signal generated from Variable is forwards the latest value when start observing, all value changes are delivers on after that.  
+Variable represents a thread-safe mutable value that allows observation of its changes via signal generated from it.  
+The signal forwards the latest value when observing starts. All value changes are delivers on after that.  
 
 ```swift
 let variable = Variable(0)
@@ -224,9 +224,9 @@ variable.signal.subscribe { print($0) }
 ```
 
 ### Constant
-This is primitive that wrapper to make the Variable read-only.  
-Just like Variable, the latest value and value changes are forwarded via signal, but not allowed to change the value directly.  
+This is a kind of wrapper to making Variable read-only.  
 Constant generated from Variable reflects the changes of its Variable.  
+Just like Variable, the latest value and value changes are forwarded via signal. But Constant is not allowed to be changed directly.  
 
 ```swift
 let variable = Variable(0)
