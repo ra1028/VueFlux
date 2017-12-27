@@ -145,7 +145,7 @@ final class CounterViewController: UIViewController {
         super.viewDidLoad()
 
         store.computed.count.signal
-            .map { String($0) as String? }
+            .map { String($0) }
             .observe(on: .mainThread)
             .bind(to: counterLabel, \.text)
     }

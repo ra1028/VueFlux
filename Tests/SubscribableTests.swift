@@ -84,7 +84,11 @@ final class SubscribableTests: XCTestCase {
         
         let subject = Subject<Int>()
         
-        subject.bind(to: .init(target: object, \.value))
+        let binder = Binder<Int>(target: object) { object, value in
+            object.value = value
+        }
+        
+        subject.bind(to: binder)
         
         subject.send(value: 3)
         

@@ -61,6 +61,22 @@ public extension Subscribable {
     /// - Returns: A subscription to unbind given target.
     @discardableResult
     func bind<Target: AnyObject>(to target: Target, _ keyPath: ReferenceWritableKeyPath<Target, Value>) -> Subscription {
-        return bind(to: .init(target: target, keyPath))
+        return bind(to: target) { target, value in
+            target[keyPath: keyPath] = value
+        }
+    }
+    
+    /// Binds the values to a target, updating the target's value to the latest value of `self` until target deinitialized.
+    ///
+    /// - Prameters:
+    ///   - target: A binding target object.
+    ///   - keyPath: The key path of the object that bind values. Allows optional.
+    ///
+    /// - Returns: A subscription to unbind given target.
+    @discardableResult
+    func bind<Target: AnyObject>(to target: Target, _ keyPath: ReferenceWritableKeyPath<Target, Value?>) -> Subscription {
+        return bind(to: target) { target, value in
+            target[keyPath: keyPath] = value as Value?
+        }
     }
 }
