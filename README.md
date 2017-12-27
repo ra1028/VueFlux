@@ -30,16 +30,16 @@ However, as the scale of your project becomes larger, VueFlux will be the best c
 VueFlux is receives state changes by efficient reactive system. [VueFluxReactive](./VueFluxReactive) is µ reactive framework(not functional) compatible with this architecture.  
 Arbitrary third party reactive frameworks (e.g. [RxSwift](https://github.com/ReactiveX/RxSwift), [ReactiveSwift](https://github.com/ReactiveCocoa/ReactiveSwift) and [ReactiveKit](https://github.com/ReactiveKit/ReactiveKit)) can also be used with VueFlux.  
 
-![](./Assets/VueFlux.png)
+![VueFlux Architecture](./Assets/VueFlux.png)
 
 ---
 
 ## About VueFlux
-VueFlux is constituted of following core concepts.  
-
+VueFlux makes a unidirectional and predictable flow by explicitly dividing the roles making up the ViewController.
+It's constituted of following core concepts.  
+State changes are observed by the ViewController using the reactive system.  
 Sample code uses VueFluxReactive which will be described later.  
-
-You can see actual implementation [here](./Examples).  
+You can see example implementation [here](./Examples/Example).  
 
 - [State](#state)
 - [Actions](#actions)
@@ -49,9 +49,7 @@ You can see actual implementation [here](./Examples).
 
 ### State
 This is the protocol that only just for constraining the type of Action and Mutations, represents the state managed by the Store.  
-
 Implement some properties of the state, and keeps them readonly by fileprivate access control, like below.   
-
 Will be mutated only by Mutations, and the properties will be published only by Computed.  
 
 ```swift
@@ -65,9 +63,7 @@ final class CounterState: State {
 
 ### Actions
 This is the proxy for functions of dispatching Action.  
-
 They can have arbitrary operations asynchronous such as request to backend API.  
-
 The type of Action dispatched from Actions' proxied functions is determined by State.  
 
 ```swift
