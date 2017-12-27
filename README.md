@@ -263,19 +263,19 @@ Some contexts are built in default.
 - queue(_ dispatchQueue: DispatchQueue)  
   All functions are enqueued to given dispatch queue.  
 
-In the following case, the store commits actions to mutations on the global queue.  
+In the following case, the store commits actions to mutations on global queue.  
 
 ```swift
 let store = Store<CounterState>(state: .init(), mutations: .init(), executor: .queue(.global()))
 ```
 
-If you subscribe like below, the observer function is executed on the main thread.  
+If you subscribe like below, the observer function is executed on main thread.  
 
 ```swift
 store
     .observe(on: .mainThread)
     .subscribe { count in
-    // Executed on the main thread
+        // Executed on main thread
 }
 ```
 
@@ -303,7 +303,7 @@ sink.send(value: 200)
 ```
 
 __observe(on:)__  
-Forwards all values ​​on the context of the given Executor.  
+Forwards all values ​​on context of a given Executor.  
 
 ```swift
 let sink = Sink<Int>()
@@ -328,7 +328,7 @@ Subscription has `unsubscribe` function which can remove an observer function th
 
 ```swift
 let subscription = store.computed.count.signal.subscribe { count in
-    // NOT executed after unsubscribed.
+    // Not executed after unsubscribed.
 }
 
 subscription.unsubscribe()
@@ -343,7 +343,7 @@ For example, when the ViewController which has a property of SubscriptionScope i
 var subscriptionsScope: SubscriptionScope? = SubscriptionScope()
 
 subscriptionScope += store.computed.count.signal.subscribe { count in
-    // NOT executed after subscriptionsScope had deinitialized.
+    // Not executed after subscriptionsScope had deinitialized.
 }
 
 subscriptionsScope = nil  // Be unsubscribed
@@ -355,7 +355,7 @@ An observer function which is subscribed to the store will be unsubscribe when d
 
 ```swift
 store.computed.count.signal.subscribe(duringScopeOf: self) { count in
-    // NOT executed after `self` had deinitialized.
+    // Not executed after `self` had deinitialized.
 }
 ```
 
@@ -423,7 +423,6 @@ print(store.computed.count.value)
 Store<CounterState>.actions.increment()
 
 print(store.computed.count.value)
-
 
 // prints "0"
 // prints "1"
