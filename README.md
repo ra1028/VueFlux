@@ -280,12 +280,12 @@ store
 ```
 
 ### Signal Operators
-VueFluxReactive is restricts functional approach as much as possible.  
-However, includes minimum some operators for convenience.  
-These operators transform a signal into a new sinal.  
+VueFluxReactive restricts functional approach AMAP.  
+However, includes minimum operators for convenience.  
+These operators transform a signal into a new sinal generated in the operators, which means the invariance of Signal holds.  
 
 __map__  
-The map operator is used to transform the values in a signal, creating a new signal.  
+The map operator is used to transform the values in a signal.  
 
 ```swift
 let sink = Sink<Int>()
@@ -323,7 +323,7 @@ DispatchQueue.global().async {
 ```
 
 ### Subscription
-Subscribing to the store returns Subscription.  
+Subscribing to the store returns this type.  
 Subscription has `unsubscribe` function which can remove an observer function that is subscribing to the store.  
 
 ```swift
@@ -351,7 +351,7 @@ subscriptionsScope = nil  // Be unsubscribed
 
 ### Scoped Subscribe
 In subscribing, you can pass `AnyObject` as the parameter of `duringScopeOf`.  
-An observer function which is subscribed to the store will be unsubscribe when deinitializes its object.  
+An observer function which is subscribing to the store will be unsubscribed when the object is deinitialized.  
 
 ```swift
 store.computed.count.signal.subscribe(duringScopeOf: self) { count in
@@ -360,8 +360,8 @@ store.computed.count.signal.subscribe(duringScopeOf: self) { count in
 ```
 
 ### Bind
-By binding, the target object's value is updated to the latest value sent by the Signal.  
-Bindings are not updated after the target object is deinitialized.  
+Binding makes target object's value be updated to the latest value sent by the Signal.  
+The binding is no longer valid after the target object is deinitialized.  
 
 Closure binding.
 ```swift
