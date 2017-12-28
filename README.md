@@ -274,7 +274,7 @@ If you subscribe like below, the observer function is executed on main thread.
 ```swift
 store
     .observe(on: .mainThread)
-    .subscribe { count in
+    .subscribe { value in
         // Executed on main thread
 }
 ```
@@ -327,7 +327,7 @@ Subscribing to the store returns this type.
 Subscription has `unsubscribe` function which can remove an observer function that is subscribing to the store.  
 
 ```swift
-let subscription = store.computed.count.signal.subscribe { count in
+let subscription = signal.subscribe { value in
     // Not executed after unsubscribed.
 }
 
@@ -342,7 +342,7 @@ For example, when the ViewController which has a property of SubscriptionScope i
 ```swift
 var subscriptionsScope: SubscriptionScope? = SubscriptionScope()
 
-subscriptionScope += store.computed.count.signal.subscribe { count in
+subscriptionScope += signal.subscribe { value in
     // Not executed after subscriptionsScope had deinitialized.
 }
 
@@ -354,7 +354,7 @@ In subscribing, you can pass `AnyObject` as the parameter of `duringScopeOf`.
 An observer function which is subscribing to the store will be unsubscribed when the object is deinitialized.  
 
 ```swift
-store.computed.count.signal.subscribe(duringScopeOf: self) { count in
+signal.subscribe(duringScopeOf: self) { value in
     // Not executed after `self` had deinitialized.
 }
 ```
@@ -365,14 +365,14 @@ The binding is no longer valid after the target object is deinitialized.
 
 Closure binding.
 ```swift
-store.computed.text.signal
+text.signal
     .observe(on: .mainThread)
     .bind(to: label) { label, text in label.text = text }
 ```
 
 Smart KeyPath binding.
 ```swift
-store.computed.text.signal
+text.signal
     .observe(on: .mainThread)
     .bind(to: label, \.text)
 ```
@@ -392,7 +392,7 @@ extension UIView {
     }
 }
 
-store.computed.isViewHidden.signal
+isViewHidden.signal
     .observe(on: .mainThread)
     .bind(to: view.setHiddenBinder(duration: 0.3))
 ```
@@ -455,7 +455,7 @@ use_frameworks!
 
 target 'TargetName' do
   pod 'VueFlux'
-  # and, reactive framework you like
+  # and reactive framework you like
 end
 ```
 And run
