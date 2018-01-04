@@ -28,15 +28,23 @@ public struct Storage<Element> {
             buffer.remove(at: index)
         }
     }
+}
+
+extension Storage: RandomAccessCollection {
+    public var startIndex: Int {
+        return buffer.startIndex
+    }
     
-    /// Calls the given function on each element in the collection.
-    ///
-    /// - Parameters:
-    ///   - body: A function that takes an element of the collection as a parameter.
-    public func forEach(_ body: (Element) -> Void) {
-        for (_, element) in buffer {
-            body(element)
-        }
+    public var endIndex: Int {
+        return buffer.endIndex
+    }
+    
+    public func index(after i: Int) -> Int {
+        return i + 1
+    }
+    
+    public subscript(position: Int) -> Element {
+        return buffer[position].element
     }
 }
 

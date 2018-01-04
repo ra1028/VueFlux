@@ -17,19 +17,19 @@ final class StorageTests: XCTestCase {
         let key1 = storage.add(f1)
         let key2 = storage.add(f2)
         
-        storage.forEach { f in f() }
+        for f in storage { f() }
         
         XCTAssertEqual(value, 11)
         
         storage.remove(for: key1)
         
-        storage.forEach { f in f() }
+        for f in storage { f() }
         
         XCTAssertEqual(value, 21)
         
         storage.remove(for: key2)
         
-        storage.forEach { f in f() }
+        for f in storage { f() }
         
         XCTAssertEqual(value, 21)
     }

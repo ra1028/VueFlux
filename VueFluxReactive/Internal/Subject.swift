@@ -29,7 +29,9 @@ final class Subject<Value>: Subscribable {
     ///   - value: Value to send to all observers.
     func send(value: Value) {
         observers.synchronized { observers in
-            observers.forEach { $0(value) }
+            for observer in observers {
+                observer(value)
+            }
         }
     }
 }

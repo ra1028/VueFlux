@@ -18,7 +18,7 @@ struct Dispatcher<State: VueFlux.State> {
     ///   - action: An Action to be dispatch.
     func dispatch(action: State.Action) {
         observers.synchronized { observers in
-            observers.forEach { observer in
+            for observer in observers {
                 observer(action)
             }
         }
