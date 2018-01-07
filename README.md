@@ -269,13 +269,13 @@ In the following case, the store commits actions to mutations on global queue.
 let store = Store<CounterState>(state: .init(), mutations: .init(), executor: .queue(.global()))
 ```
 
-If you subscribe like below, the observer function is executed on main thread.  
+If you subscribe like below, the observer function is executed on global background queue.  
 
 ```swift
-store
-    .observe(on: .mainThread)
+store.computed.valueSignal
+    .observe(on: .queue(.global(qos: .background)))
     .subscribe { value in
-        // Executed on main thread
+        // Executed on global background queue
 }
 ```
 
