@@ -121,7 +121,7 @@ final class SinkSignalTests: XCTestCase {
     }
     
     func testImmediatelyUnsubscribeObserveOn() {
-        let queue = DispatchQueue.globalDefault()
+        let queue = DispatchQueue(label: "testImmediatelyUnsubscribeObserveOn")
         
         let sink = Sink<Int>()
         let signal = sink.signal
