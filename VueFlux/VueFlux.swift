@@ -80,6 +80,7 @@ public struct Actions<State: VueFlux.State> {
 
 /// A proxy of properties to be published of State.
 public struct Computed<State: VueFlux.State> {
+    /// A state to be publish properties by `self`.
     public let state: State
     
     /// Create the proxy.

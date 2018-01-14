@@ -7,7 +7,7 @@ matrix:
       language: objective-c
       osx_image: xcode9
       before_install:
-        - ./install_swiftlint.sh
+        - ./scripts/install_swiftlint.sh
       script:
         - swiftlint
         - set -o pipefail

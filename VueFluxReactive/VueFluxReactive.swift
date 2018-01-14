@@ -14,7 +14,7 @@ public struct Sink<Value> {
     
     /// Send arbitrary value to the signal.
     ///
-    /// - Parameters:u
+    /// - Parameters:
     ///   - value: A value to send to the signal.
     public func send(value: Value) {
         subject.send(value: value)

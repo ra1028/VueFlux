@@ -32,7 +32,7 @@ However, as the scale of your project becomes larger, VueFlux will be the best c
 VueFlux is receives state changes by efficient reactive system. [VueFluxReactive](./VueFluxReactive) is µ reactive framework(not functional) compatible with this architecture.  
 Arbitrary third party reactive frameworks (e.g. [RxSwift](https://github.com/ReactiveX/RxSwift), [ReactiveSwift](https://github.com/ReactiveCocoa/ReactiveSwift) and [ReactiveKit](https://github.com/ReactiveKit/ReactiveKit)) can also be used with VueFlux.  
 
-![VueFlux Architecture](./Assets/VueFlux.png)
+![VueFlux Architecture](./assets/VueFlux.png)
 
 ---
 
