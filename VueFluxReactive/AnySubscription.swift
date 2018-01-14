@@ -19,7 +19,7 @@ public struct AnySubscription: Subscription {
     ///
     /// - Parameters:
     ///   - unsubscribe: A function to run when unsubscribed.
-    public init(unsubscribe: @escaping (() -> Void)) {
+    public init(unsubscribe: @escaping () -> Void) {
         state = .init(.subscribing(unsubscribe: unsubscribe))
     }
     

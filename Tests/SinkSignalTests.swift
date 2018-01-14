@@ -128,7 +128,7 @@ final class SinkSignalTests: XCTestCase {
         
         var value = 0
         
-        let expectation = self.expectation(description: "subscribe to signal on global queue")
+        let expectation = self.expectation(description: "subscribe to signal on queue")
         
         let subscription = signal
             .observe(on: .queue(queue))
