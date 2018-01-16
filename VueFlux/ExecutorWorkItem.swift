@@ -27,9 +27,9 @@ public extension Executor {
         ///
         /// - Parameters:
         ///   - value: A value to be pass to specified function.
-        public func execute(with value: Value) {
+        public func execute(with value: @autoclosure () -> Value) {
             guard case let .active(function) = state.value else { return }
-            function(value)
+            function(value())
         }
         
         /// Cancel the specified function.

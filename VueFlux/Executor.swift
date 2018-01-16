@@ -44,8 +44,8 @@ public struct Executor {
     /// - Parameters:
     ///   - workItem: A work item to be execute.
     ///   - value: A value that pass to work item.
-    public func execute<Value>(workItem: WorkItem<Value>, with value: Value) {
-        execute { workItem.execute(with: value) }
+    public func execute<Value>(workItem: WorkItem<Value>, with value: @autoclosure @escaping () -> Value) {
+        execute { workItem.execute(with: value()) }
     }
 
     /// Execute an arbitrary work item.
