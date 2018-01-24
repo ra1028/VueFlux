@@ -13,7 +13,7 @@
         <scene sceneID="Gml-Tz-eHb">
             <objects>
                 <viewController id="HiG-m7-zor" customClass="CounterViewController" customModule="Example" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="f2m-iX-VUq" customClass="CounterView" customModule="GenericComponents">
+                    <view key="view" contentMode="scaleToFill" id="f2m-iX-VUq" customClass="CounterView" customModule="Example" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

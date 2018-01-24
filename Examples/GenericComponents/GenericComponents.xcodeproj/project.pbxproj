@@ -13,8 +13,8 @@
 
 /* Begin PBXFileReference section */
 		6BF9DEEF1FBA1BCA00C4BCFD /* GenericComponents.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GenericComponents.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6BF9DEFB1FBA1BE200C4BCFD /* CounterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterView.swift; sourceTree = "<group>"; };
-		6BF9DEFC1FBA1BE200C4BCFD /* CounterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CounterView.xib; sourceTree = "<group>"; };
+		6BF9DEFB1FBA1BE200C4BCFD /* CounterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CounterView.swift; path = ../../Example/Sources/CounterView.swift; sourceTree = "<group>"; };
+		6BF9DEFC1FBA1BE200C4BCFD /* CounterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CounterView.xib; path = ../../Example/Sources/CounterView.xib; sourceTree = "<group>"; };
 		6BF9DEFD1FBA1BE200C4BCFD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 

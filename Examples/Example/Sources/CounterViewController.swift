@@ -2,7 +2,6 @@ import UIKit
 import SafariServices
 import VueFlux
 import VueFluxReactive
-import GenericComponents
 
 final class CounterViewController: UIViewController {
     @IBOutlet private weak var counterView: CounterView!
