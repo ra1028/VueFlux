@@ -1,13 +1,13 @@
 import VueFlux
 
-/// Represents the wrapper around a function to send a value to signal.
+/// Represents the wrapper around a function to forward values to signal.
 public struct Sink<Value> {
     /// Create the signal that flows all values sent into the sink.
     public var signal: Signal<Value> {
-        return .init(subject)
+        return .init(stream.add(observer:))
     }
     
-    private let subject = Subject<Value>()
+    private let stream = Stream<Value>()
     
     /// Create a sink.
     public init() {}
@@ -17,11 +17,11 @@ public struct Sink<Value> {
     /// - Parameters:
     ///   - value: A value to send to the signal.
     public func send(value: Value) {
-        subject.send(value: value)
+        stream.send(value: value)
     }
 }
 
-/// Stream that can be observe sended values.
+/// A stream that can be sending values over time.
 public struct Signal<Value>: Subscribable {
     public typealias Producer = (@escaping (Value) -> Void) -> Subscription
     
@@ -33,14 +33,6 @@ public struct Signal<Value>: Subscribable {
     ///   - producer: A function of behavior when subscribed.
     public init(_ producer: @escaping Producer) {
         self.producer = producer
-    }
-
-    /// Create a signal with other subscribable source stream.
-    ///
-    /// - Parameters:
-    ///   - source: An other source stream.
-    public init<Source: Subscribable>(_ source: Source) where Source.Value == Value {
-        self.init(source.subscribe(observer:))
     }
     
     /// Subscribe the observer function to be received the values.
@@ -67,7 +59,7 @@ public final class Variable<Value> {
         return .init { send in
             self._value.synchronized { value in
                 send(value)
-                return self.subject.subscribe(observer: send)
+                return self.stream.add(observer: send)
             }
         }
     }
@@ -81,12 +73,12 @@ public final class Variable<Value> {
         set {
             _value.modify { value in
                 value = newValue
-                subject.send(value: newValue)
+                stream.send(value: newValue)
             }
         }
     }
     
-    private let subject = Subject<Value>()
+    private let stream = Stream<Value>()
     private var _value: ThreadSafe<Value>
     
     /// Create a new variable with its initial value.
