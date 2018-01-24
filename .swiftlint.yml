@@ -2,7 +2,15 @@ excluded:
   - Tests
   - Examples/RxExample/Carthage
 
+disabled_rules:
+  - multiple_closures_with_trailing_closure
+  - identifier_name
+
 trailing_whitespace:
   ignores_empty_lines: true
 
-line_length: 160
+nesting:
+  type_level:
+    warning: 2
+
+line_length: 180

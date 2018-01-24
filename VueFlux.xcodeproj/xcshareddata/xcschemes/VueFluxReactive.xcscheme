@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6B9E32801FA639DF000B24D4"
-               BuildableName = "VueFlux.framework"
-               BlueprintName = "VueFlux"
+               BlueprintIdentifier = "6B9EB2251FCB157C009F0659"
+               BuildableName = "VueFluxReactive.framework"
+               BlueprintName = "VueFluxReactive"
                ReferencedContainer = "container:VueFlux.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -43,9 +43,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6B9E32801FA639DF000B24D4"
-            BuildableName = "VueFlux.framework"
-            BlueprintName = "VueFlux"
+            BlueprintIdentifier = "6B9EB2251FCB157C009F0659"
+            BuildableName = "VueFluxReactive.framework"
+            BlueprintName = "VueFluxReactive"
             ReferencedContainer = "container:VueFlux.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -66,9 +66,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6B9E32801FA639DF000B24D4"
-            BuildableName = "VueFlux.framework"
-            BlueprintName = "VueFlux"
+            BlueprintIdentifier = "6B9EB2251FCB157C009F0659"
+            BuildableName = "VueFluxReactive.framework"
+            BlueprintName = "VueFluxReactive"
             ReferencedContainer = "container:VueFlux.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -84,9 +84,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6B9E32801FA639DF000B24D4"
-            BuildableName = "VueFlux.framework"
-            BlueprintName = "VueFlux"
+            BlueprintIdentifier = "6B9EB2251FCB157C009F0659"
+            BuildableName = "VueFluxReactive.framework"
+            BlueprintName = "VueFluxReactive"
             ReferencedContainer = "container:VueFlux.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

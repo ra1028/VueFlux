@@ -18,7 +18,7 @@ final class ExecutorTests: XCTestCase {
         
         let expectation = self.expectation(description: "global default queue execute")
         
-        DispatchQueue.globalQueue().async {
+        DispatchQueue.globalDefault().async {
             excutor.execute {
                 XCTAssertTrue(Thread.isMainThread)
                 expectation.fulfill()
@@ -37,7 +37,7 @@ final class ExecutorTests: XCTestCase {
         
         let group = DispatchGroup()
         
-        DispatchQueue.globalQueue().async(group: group) {
+        DispatchQueue.globalDefault().async(group: group) {
             excutor.execute {
                 array.append(0)
             }
@@ -45,7 +45,7 @@ final class ExecutorTests: XCTestCase {
         
         group.wait()
         
-        DispatchQueue.globalQueue().async(group: group) {
+        DispatchQueue.globalDefault().async(group: group) {
             excutor.execute {
                 array.append(1)
             }
@@ -68,9 +68,9 @@ final class ExecutorTests: XCTestCase {
     }
     
     func testDispatchQueueExcutor() {
-        let excutor = Executor.queue(.globalQueue())
+        let excutor = Executor.queue(.globalDefault())
         
-        let expectation = self.expectation(description: "multi global default queue execute")
+        let expectation = self.expectation(description: "global default queue execute")
         
         var value = 0
         
@@ -82,6 +82,53 @@ final class ExecutorTests: XCTestCase {
         
         waitForExpectations(timeout: 1) { _ in
             XCTAssertEqual(value, 1)
+        }
+    }
+    
+    func testWorkItem() {
+        var value = 0
+        
+        let expectation = self.expectation(description: "global default queue execute")
+        
+        let workItem = Executor.WorkItem<Int> { int in
+            value = int
+            expectation.fulfill()
+        }
+        
+        let executor = Executor.queue(.globalDefault())
+        
+        executor.execute(workItem: workItem, with: 1)
+        
+        waitForExpectations(timeout: 1) { _ in
+            XCTAssertEqual(value, 1)
+        }
+    }
+    
+    func testCancelWorkItem() {
+        let queue = DispatchQueue(label: "testImmediatelyDisposeObserveOn")
+        
+        var value = 0
+        
+        let expectation = self.expectation(description: "queue execute")
+        
+        let workItem = Executor.WorkItem<Int> { int in
+            value = int
+        }
+        
+        let executor = Executor.queue(queue)
+        
+        queue.suspend()
+        
+        executor.execute(workItem: workItem, with: 1)
+        workItem.cancel()
+        
+        queue.resume()
+        
+        queue.async(execute: expectation.fulfill)
+        
+        waitForExpectations(timeout: 1) { _ in
+            XCTAssertTrue(workItem.isCanceled)
+            XCTAssertEqual(value, 0)
         }
     }
 }
