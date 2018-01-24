@@ -105,7 +105,7 @@ final class ExecutorTests: XCTestCase {
     }
     
     func testCancelWorkItem() {
-        let queue = DispatchQueue(label: "testImmediatelyUnsubscribeObserveOn")
+        let queue = DispatchQueue(label: "testImmediatelyDisposeObserveOn")
         
         var value = 0
         

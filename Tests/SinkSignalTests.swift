@@ -31,13 +31,13 @@ final class SinkSignalTests: XCTestCase {
         XCTAssertEqual(value, 3)
     }
     
-    func testUnsubscribe() {
+    func testDispose() {
         let sink = Sink<Int>()
         let signal = sink.signal
         
         var value = 0
         
-        let subscription = signal.observe { int in
+        let disposable = signal.observe { int in
             value = int
         }
         
@@ -45,7 +45,7 @@ final class SinkSignalTests: XCTestCase {
         
         XCTAssertEqual(value, 1)
         
-        subscription.unsubscribe()
+        disposable.dispose()
         
         sink.send(value: 2)
         
@@ -193,9 +193,9 @@ final class SinkSignalTests: XCTestCase {
         
         XCTAssertEqual(value, 1)
         
-        let subscription = signal.bind(to: binder)
+        let disposable = signal.bind(to: binder)
         
-        XCTAssertTrue(subscription.isUnsubscribed)
+        XCTAssertTrue(disposable.isDisposed)
     }
     
     func testMap() {
@@ -204,7 +204,7 @@ final class SinkSignalTests: XCTestCase {
         
         var value: String?
         
-        let subscription = signal.map(String.init(_:)).observe { string in
+        let disposable = signal.map(String.init(_:)).observe { string in
             value = string
         }
         
@@ -212,7 +212,7 @@ final class SinkSignalTests: XCTestCase {
         
         XCTAssertEqual(value, "1")
         
-        subscription.unsubscribe()
+        disposable.dispose()
         
         sink.send(value: 2)
         
@@ -242,8 +242,8 @@ final class SinkSignalTests: XCTestCase {
         }
     }
     
-    func testImmediatelyUnsubscribeObserveOn() {
-        let queue = DispatchQueue(label: "testImmediatelyUnsubscribeObserveOn")
+    func testImmediatelyDisposeObserveOn() {
+        let queue = DispatchQueue(label: "testImmediatelyDisposeObserveOn")
         
         let sink = Sink<Int>()
         let signal = sink.signal
@@ -252,7 +252,7 @@ final class SinkSignalTests: XCTestCase {
         
         let expectation = self.expectation(description: "observe a signal on queue")
         
-        let subscription = signal
+        let disposable = signal
             .observe(on: .queue(queue))
             .observe { int in
                 value = int
@@ -261,7 +261,7 @@ final class SinkSignalTests: XCTestCase {
         queue.suspend()
         
         sink.send(value: 1)
-        subscription.unsubscribe()
+        disposable.dispose()
         
         queue.resume()
         

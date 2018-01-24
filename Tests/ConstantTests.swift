@@ -3,7 +3,7 @@ import VueFlux
 @testable import VueFluxReactive
 
 final class ConstantTests: XCTestCase {
-    func testSubscribe() {
+    func testObserve() {
         let variable = Variable(0)
         let constant = variable.constant
         
@@ -23,13 +23,13 @@ final class ConstantTests: XCTestCase {
         XCTAssertEqual(value, 1)
     }
     
-    func testUnsubscribe() {
+    func testdispose() {
         let variable = Variable(0)
         let constant = variable.constant
         
         var value: Int? = nil
         
-        let subscription = constant.signal.observe { int in
+        let disposable = constant.signal.observe { int in
             value = int
         }
         
@@ -41,7 +41,7 @@ final class ConstantTests: XCTestCase {
         XCTAssertEqual(constant.value, 1)
         XCTAssertEqual(value, 1)
         
-        subscription.unsubscribe()
+        disposable.dispose()
         
         variable.value = 2
         
@@ -79,9 +79,9 @@ final class ConstantTests: XCTestCase {
         
         XCTAssertEqual(value, 1)
         
-        let subscription = constant.signal.bind(to: binder)
+        let disposable = constant.signal.bind(to: binder)
         
-        XCTAssertTrue(subscription.isUnsubscribed)
+        XCTAssertTrue(disposable.isDisposed)
     }
     
     func testMapValues() {
@@ -90,7 +90,7 @@ final class ConstantTests: XCTestCase {
         
         var value: String?
         
-        let subscription = constant.signal
+        let disposable = constant.signal
             .map(String.init(_:))
             .observe { string in
                 value = string
@@ -102,7 +102,7 @@ final class ConstantTests: XCTestCase {
         
         XCTAssertEqual(value, "1")
         
-        subscription.unsubscribe()
+        disposable.dispose()
         
         variable.value = 2
         
@@ -116,7 +116,7 @@ final class ConstantTests: XCTestCase {
         
         var value: Int?
         
-        let expectation = self.expectation(description: "subscribe to signal on global queue")
+        let expectation = self.expectation(description: "observe a signal on global queue")
         
         signal
             .observe(on: .queue(.globalDefault()))

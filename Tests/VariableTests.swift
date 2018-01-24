@@ -3,7 +3,7 @@ import VueFlux
 @testable import VueFluxReactive
 
 final class VariableTests: XCTestCase {
-    func testSubscribe() {
+    func testObserve() {
         let variable = Variable(0)
         
         var value: Int? = nil
@@ -22,12 +22,12 @@ final class VariableTests: XCTestCase {
         XCTAssertEqual(value, 1)
     }
     
-    func testUnsubscribe() {
+    func testdispose() {
         let variable = Variable(0)
         
         var value: Int? = nil
         
-        let subscription = variable.signal.observe { int in
+        let disposable = variable.signal.observe { int in
             value = int
         }
 
@@ -39,7 +39,7 @@ final class VariableTests: XCTestCase {
         XCTAssertEqual(variable.value, 1)
         XCTAssertEqual(value, 1)
         
-        subscription.unsubscribe()
+        disposable.dispose()
         
         variable.value = 2
         
@@ -76,9 +76,9 @@ final class VariableTests: XCTestCase {
         
         XCTAssertEqual(value, 1)
         
-        let subscription = variable.signal.bind(to: binder)
+        let disposable = variable.signal.bind(to: binder)
         
-        XCTAssertTrue(subscription.isUnsubscribed)
+        XCTAssertTrue(disposable.isDisposed)
     }
     
     func testMapValues() {
@@ -86,7 +86,7 @@ final class VariableTests: XCTestCase {
         
         var value: String?
         
-        let subscription = variable.signal
+        let disposable = variable.signal
             .map(String.init(_:))
             .observe { string in
                 value = string
@@ -98,7 +98,7 @@ final class VariableTests: XCTestCase {
         
         XCTAssertEqual(value, "1")
         
-        subscription.unsubscribe()
+        disposable.dispose()
         
         variable.value = 2
         

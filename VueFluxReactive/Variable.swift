@@ -7,7 +7,7 @@ public final class Variable<Value> {
         return .init(variable: self)
     }
     
-    /// Create a signal that forwards current value at the time of subscribing and all value changes.
+    /// Create a signal to forwards the current value at observation and the all value changes.
     public var signal: Signal<Value> {
         return .init { send in
             self._value.synchronized { value in

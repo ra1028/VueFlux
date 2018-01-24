@@ -31,7 +31,7 @@ struct Dispatcher<State: VueFlux.State> {
     ///   - executor: An executor to dispatch actions on.
     ///   - dispatch: A function to be called with action.
     ///
-    /// - Returns: A subscription to be able to unsubscribe.
+    /// - Returns: A disposable to be able to unsubscribe.
     @discardableResult
     func subscribe(executor: Executor, dispatch: @escaping (State.Action) -> Void) -> Observers.Key {
         return observers.modify { observers in

@@ -9,13 +9,13 @@ final class Stream<Value> {
     /// - Prameters:
     ///   - observer: A function to be received the values.
     ///
-    /// - Returns: A subscription to unsubscribe given observer.
+    /// - Returns: A disposable to remove given observer from `self`.
     @discardableResult
-    func add(observer: @escaping (Value) -> Void) -> Subscription {
+    func add(observer: @escaping (Value) -> Void) -> Disposable {
         return observers.modify { observers in
             let key = observers.add(observer)
             
-            return AnySubscription { [weak self] in
+            return AnyDisposable { [weak self] in
                 self?.observers.modify { observers in
                     observers.remove(for: key)
                 }
@@ -23,7 +23,7 @@ final class Stream<Value> {
         }
     }
     
-    /// Send arbitrary value to all subscribed observers.
+    /// Send arbitrary value to all added observers.
     ///
     /// - Parameters:
     ///   - value: Value to send to all observers.

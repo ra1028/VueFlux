@@ -1,7 +1,7 @@
 /// Wrapper to make Variable read-only.
 /// Observable value changes are reflects from its variable.
 public struct Constant<Value> {
-    /// Create a signal that forwards current value at the time of subscribing and all value changes.
+    /// Create a signal to forwards the current value at observation and the all value changes.
     public var signal: Signal<Value> {
         return variable.signal
     }

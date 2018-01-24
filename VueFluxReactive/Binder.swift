@@ -1,7 +1,7 @@
 import VueFlux
 
 public struct Binder<Value> {
-    private let addSubscription: (Subscription) -> Void
+    private let addDisposable: (Disposable) -> Void
     private let binding: (Value) -> Void
 
     /// Create the Binder with target object and binding function.
@@ -10,9 +10,9 @@ public struct Binder<Value> {
     ///   - target: Target object.
     ///   - binding: A function to bind values.
     public init<Target: AnyObject>(target: Target, binding: @escaping (Target, Value) -> Void) {
-        self.addSubscription = { [weak target] subscription in
-            guard let target = target else { return subscription.unsubscribe() }
-            SubscriptionScope.associated(with: target).add(subscription: subscription)
+        self.addDisposable = { [weak target] disposable in
+            guard let target = target else { return disposable.dispose() }
+            DisposableScope.associated(with: target).add(disposable: disposable)
         }
         
         self.binding = { [weak target] value in
@@ -26,10 +26,10 @@ public struct Binder<Value> {
     /// - Parameters:
     ///   - signal: A signal that updating the target's value to its latest value.
     ///
-    /// - Returns: A subscription to unbind from signal.
-    public func bind(signal: Signal<Value>) -> Subscription {
-        let subscription = signal.observe(binding)
-        addSubscription(subscription)
-        return subscription
+    /// - Returns: A disposable to unbind from signal.
+    public func bind(signal: Signal<Value>) -> Disposable {
+        let disposable = signal.observe(binding)
+        addDisposable(disposable)
+        return disposable
     }
 }

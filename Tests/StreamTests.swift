@@ -27,7 +27,7 @@ final class StreamTests: XCTestCase {
         
         var value = 0
         
-        let subscription = stream.add { int in
+        let disposable = stream.add { int in
             value = int
         }
         
@@ -35,7 +35,7 @@ final class StreamTests: XCTestCase {
         
         XCTAssertEqual(value, 1)
         
-        subscription.unsubscribe()
+        disposable.dispose()
         
         stream.send(value: 2)
         

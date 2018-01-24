@@ -1,8 +1,8 @@
 /// A stream that can be sending values over time.
 public struct Signal<Value> {
-    public typealias Producer = (@escaping (Value) -> Void) -> Subscription
+    public typealias Producer = (@escaping (Value) -> Void) -> Disposable
     
-    private let producer: (@escaping (Value) -> Void) -> Subscription
+    private let producer: (@escaping (Value) -> Void) -> Disposable
     
     /// Create new signal with a producer function.
     ///
@@ -17,24 +17,24 @@ public struct Signal<Value> {
     /// - Prameters:
     ///   - observer: A function to be received the values.
     ///
-    /// - Returns: A subscription to unsubscribe given observer.
+    /// - Returns: A disposable to unregister given observer.
     @discardableResult
-    public func observe(_ observer: @escaping (Value) -> Void) -> Subscription {
+    public func observe(_ observer: @escaping (Value) -> Void) -> Disposable {
         return producer(observer)
     }
     
     /// observe the values to the given observer during during scope of specified object.
     ///
     /// - Prameters:
-    ///   - object: An object that will unsubscribe given observer by being deinitialize.
+    ///   - object: An object that will unregister given observer by being deinitialize.
     ///   - observer: A function to be received the values.
     ///
-    /// - Returns: A subscription to unsubscribe given observer.
+    /// - Returns: A disposable to unregister given observer.
     @discardableResult
-    func observe(duringScopeOf object: AnyObject, _ observer: @escaping (Value) -> Void) -> Subscription {
-        let subscription = observe(observer)
-        SubscriptionScope.associated(with: object) += subscription
-        return subscription
+    func observe(duringScopeOf object: AnyObject, _ observer: @escaping (Value) -> Void) -> Disposable {
+        let disposable = observe(observer)
+        DisposableScope.associated(with: object) += disposable
+        return disposable
     }
     
     /// Binds the values to a binder, updating the binder target's value to the latest value of `self` during scope of binder target.
@@ -42,9 +42,9 @@ public struct Signal<Value> {
     /// - Prameters:
     ///   - binder: A binder to be bound.
     ///
-    /// - Returns: A subscription to unbind given binder.
+    /// - Returns: A disposable to unbind given binder.
     @discardableResult
-    func bind(to binder: Binder<Value>) -> Subscription {
+    func bind(to binder: Binder<Value>) -> Disposable {
         return binder.bind(signal: self)
     }
     
@@ -54,9 +54,9 @@ public struct Signal<Value> {
     ///   - target: A binding target object.
     ///   - binding: A function to bind values.
     ///
-    /// - Returns: A subscription to unbind given target.
+    /// - Returns: A disposable to unbind given target.
     @discardableResult
-    func bind<Target: AnyObject>(to target: Target, binding: @escaping (Target, Value) -> Void) -> Subscription {
+    func bind<Target: AnyObject>(to target: Target, binding: @escaping (Target, Value) -> Void) -> Disposable {
         return bind(to: .init(target: target, binding: binding))
     }
     
@@ -66,9 +66,9 @@ public struct Signal<Value> {
     ///   - target: A binding target object.
     ///   - keyPath: The key path of the object that to bind values.
     ///
-    /// - Returns: A subscription to unbind given target.
+    /// - Returns: A disposable to unbind given target.
     @discardableResult
-    func bind<Target: AnyObject>(to target: Target, _ keyPath: ReferenceWritableKeyPath<Target, Value>) -> Subscription {
+    func bind<Target: AnyObject>(to target: Target, _ keyPath: ReferenceWritableKeyPath<Target, Value>) -> Disposable {
         return bind(to: target) { target, value in
             target[keyPath: keyPath] = value
         }
@@ -80,9 +80,9 @@ public struct Signal<Value> {
     ///   - target: A binding target object.
     ///   - keyPath: The key path of the object that to bind values. Allows optional.
     ///
-    /// - Returns: A subscription to unbind given target.
+    /// - Returns: A disposable to unbind given target.
     @discardableResult
-    func bind<Target: AnyObject>(to target: Target, _ keyPath: ReferenceWritableKeyPath<Target, Value?>) -> Subscription {
+    func bind<Target: AnyObject>(to target: Target, _ keyPath: ReferenceWritableKeyPath<Target, Value?>) -> Disposable {
         return bind(to: target) { target, value in
             target[keyPath: keyPath] = value as Value?
         }

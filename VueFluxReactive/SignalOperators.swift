@@ -25,13 +25,13 @@ public extension Signal {
         return .init { send in
             let workItem = Executor.WorkItem(send)
             
-            let subscription = self.observe { value in
+            let disposable = self.observe { value in
                 executor.execute(workItem: workItem, with: value)
             }
             
-            return AnySubscription {
+            return AnyDisposable {
                 workItem.cancel()
-                subscription.unsubscribe()
+                disposable.dispose()
             }
         }
     }
