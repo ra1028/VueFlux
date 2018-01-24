@@ -3,7 +3,7 @@ Pod::Spec.new do |spec|
   spec.version  = '1.0.0'
   spec.author = { 'ra1028' => 'r.fe51028.r@gmail.com' }
   spec.homepage = 'https://github.com/ra1028/VueFlux'
-  spec.summary = 'Unidirectional Data Flow State Management for Swift - Inspired by Vuex and Flux'
+  spec.summary = 'Unidirectional State Management for Swift - Inspired by Vuex and Flux'
   spec.source = { :git => 'https://github.com/ra1028/VueFlux.git', :tag => spec.version.to_s }
   spec.license = { :type => 'MIT', :file => 'LICENSE' }
   spec.source_files = 'VueFlux/**/*.swift'

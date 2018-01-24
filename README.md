@@ -1,7 +1,7 @@
 ![VueFlux](./assets/logo.png)
 
 <H4 align="center">
-Unidirectional Data Flow State Management Architecture for Swift - Inspired by <a href="https://github.com/vuejs/vuex">Vuex</a> and <a href="https://github.com/facebook/flux">Flux</a>
+Unidirectional State Management Architecture for Swift - Inspired by <a href="https://github.com/vuejs/vuex">Vuex</a> and <a href="https://github.com/facebook/flux">Flux</a>
 </H4>
 </br>
 
@@ -175,7 +175,7 @@ Practically, it's used to send commands (such as presents another ViewController
 let sink = Sink<Int>()
 let signal = sink.signal
 
-signal.subscribe { print($0) }
+signal.observe { print($0) }
 
 sink.send(value: 100)
 
@@ -184,15 +184,15 @@ sink.send(value: 100)
 
 ### Signal
 A push-driven stream that sends value changes over time.  
-Can be subscribe values stream, and values will be sent to all observers at the same time.  
+Values will be sent to all registered observers at the same time.  
 All of values changes are made via this primitive.  
 
 ```swift
 let sink = Sink<Int>()
 let signal = sink.signal
 
-signal.subscribe { print("1: \($0)") }
-signal.subscribe { print($2: \($0)") }
+signal.observe { print("1: \($0)") }
+signal.observe { print($2: \($0)") }
 
 sink.send(value: 100)
 sink.send(value: 200)
@@ -210,13 +210,13 @@ The signal forwards the latest value when observing starts. All value changes ar
 ```swift
 let variable = Variable(0)
 
-variable.signal.subscribe { print($0) }
+variable.signal.observe { print($0) }
 
 variable.value = 1
 
 print(variable.value)
 
-variable.signal.subscribe { print($0) }
+variable.signal.observe { print($0) }
 
 /// prints "0"
 /// prints "1"
@@ -233,13 +233,13 @@ Just like Variable, the latest value and value changes are forwarded via signal.
 let variable = Variable(0)
 let constant = variable.constant
 
-constant.signal.subscribe { print($0) }
+constant.signal.observe { print($0) }
 
 variable.value = 1
 
 print(constant.value)
 
-constant.signal.subscribe { print($0) }
+constant.signal.observe { print($0) }
 
 /// prints "0"
 /// prints "1"
@@ -270,12 +270,12 @@ In the following case, the store commits actions to mutations on global queue.
 let store = Store<CounterState>(state: .init(), mutations: .init(), executor: .queue(.global()))
 ```
 
-If you subscribe like below, the observer function is executed on global background queue.  
+If you observe like below, the observer function is executed on global background queue.  
 
 ```swift
 store.computed.valueSignal
     .observe(on: .queue(.global(qos: .background)))
-    .subscribe { value in
+    .observe { value in
         // Executed on global background queue
 }
 ```
@@ -314,7 +314,7 @@ let signal = sink.signal
 
 signal
     .map { "Value is \($0)" }
-    .subscribe { print($0) }
+    .observe { print($0) }
 
 sink.send(value: 100)
 sink.send(value: 200)
@@ -332,7 +332,7 @@ let signal = sink.signal
 
 signal
     .observe(on: .mainThread)
-    .subscribe { print("Value: \($0), isMainThread: \(Thread.isMainThread)") }
+    .observe { print("Value: \($0), isMainThread: \(Thread.isMainThread)") }
 
 DispatchQueue.global().async {
     sink.send(value: 100)    
@@ -343,45 +343,44 @@ DispatchQueue.global().async {
 // prints "Value: 200, isMainThread: true"
 ```
 
-### Subscription
-Subscribing to the store returns this type.  
-Subscription has `unsubscribe` function which can remove an observer function that is subscribing to the store.  
+### Disposable
+Disposable represents something that can be “disposed”, usually unregister a observe that registered to Signal.  
 
 ```swift
-let subscription = signal.subscribe { value in
-    // Not executed after unsubscribed.
+let disposable = signal.observe { value in
+    // Not executed after disposed.
 }
 
-subscription.unsubscribe()
+disposable.dispose()
 ```
 
-### SubscriptionScope
-SubscriptionScope serves as resource manager of subscription.  
-This will terminate all added subscriptions on deinitialization.  
-For example, when the ViewController which has a property of SubscriptionScope is dismissed, all subscriptions are terminated.  
+### DisposableScope
+DisposableScope serves as resource manager of Disposable.  
+This will terminate all added disposables on deinitialization or disposed.  
+For example, when the ViewController which has a property of DisposableScope is dismissed, all disposables are terminated.  
 
 ```swift
-var subscriptionsScope: SubscriptionScope? = SubscriptionScope()
+var disposableScope: DisposableScope? = DisposableScope()
 
-subscriptionScope += signal.subscribe { value in
-    // Not executed after subscriptionsScope had deinitialized.
+disposableScope += signal.observe { value in
+    // Not executed after disposableScope had deinitialized.
 }
 
-subscriptionsScope = nil  // Be unsubscribed
+disposableScope = nil  // Be disposed
 ```
 
-### Scoped Subscribe
-In subscribing, you can pass `AnyObject` as the parameter of `duringScopeOf`.  
-An observer function which is subscribing to the store will be unsubscribed when the object is deinitialized.  
+### Scoped Observing
+In observing, you can pass `AnyObject` as the parameter of `duringScopeOf:`.  
+An observer function which is observing the Signal will be dispose when the object is deinitialize.  
 
 ```swift
-signal.subscribe(duringScopeOf: self) { value in
+signal.observe(duringScopeOf: self) { value in
     // Not executed after `self` had deinitialized.
 }
 ```
 
 ### Bind
-Binding makes target object's value be updated to the latest value sent by the Signal.  
+Binding makes target object's value be updated to the latest value received via Signal.  
 The binding is no longer valid after the target object is deinitialized.  
 
 Closure binding.
