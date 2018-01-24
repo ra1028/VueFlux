@@ -21,14 +21,14 @@ public struct Binder<Value> {
         }
     }
     
-    /// Binds the values, updating the target's value to the latest value of source until target deinitialized.
+    /// Binds the values, updating the target's value to the latest value of signal until target deinitialized.
     ///
     /// - Parameters:
-    ///   - source: A subscribable source that updating the target's value to its latest value.
+    ///   - signal: A signal that updating the target's value to its latest value.
     ///
-    /// - Returns: A subscription to unbind from source.
-    public func bind<Source: Subscribable>(_ source: Source) -> Subscription where Source.Value == Value {
-        let subscription = source.subscribe(observer: binding)
+    /// - Returns: A subscription to unbind from signal.
+    public func bind(signal: Signal<Value>) -> Subscription {
+        let subscription = signal.subscribe(observer: binding)
         addSubscription(subscription)
         return subscription
     }

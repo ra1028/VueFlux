@@ -1,8 +1,16 @@
-import VueFlux
-
-/// Represents an object wich have subscribe function.
-public protocol Subscribable {
-    associatedtype Value
+/// A stream that can be sending values over time.
+public struct Signal<Value> {
+    public typealias Producer = (@escaping (Value) -> Void) -> Subscription
+    
+    private let producer: (@escaping (Value) -> Void) -> Subscription
+    
+    /// Create a signal with subscribed function.
+    ///
+    /// - Parameters:
+    ///   - producer: A function of behavior when subscribed.
+    public init(_ producer: @escaping Producer) {
+        self.producer = producer
+    }
     
     /// Subscribe the observer function to be received the values.
     ///
@@ -11,10 +19,10 @@ public protocol Subscribable {
     ///
     /// - Returns: A subscription to unsubscribe given observer.
     @discardableResult
-    func subscribe(observer: @escaping (Value) -> Void) -> Subscription
-}
-
-public extension Subscribable {
+    public func subscribe(observer: @escaping (Value) -> Void) -> Subscription {
+        return producer(observer)
+    }
+    
     /// Subscribe the observer function to be received the values during scope of given object deinitialized.
     ///
     /// - Prameters:
@@ -37,7 +45,7 @@ public extension Subscribable {
     /// - Returns: A subscription to unbind given binder.
     @discardableResult
     func bind(to binder: Binder<Value>) -> Subscription {
-        return binder.bind(self)
+        return binder.bind(signal: self)
     }
     
     /// Binds the values to a target, updating the target's value to the latest value of `self` until target deinitialized.
