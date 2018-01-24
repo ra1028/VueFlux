@@ -4,26 +4,26 @@ public struct Signal<Value> {
     
     private let producer: (@escaping (Value) -> Void) -> Subscription
     
-    /// Create a signal with subscribed function.
+    /// Create new signal with a producer function.
     ///
     /// - Parameters:
-    ///   - producer: A function of behavior when subscribed.
+    ///   - producer:  A function that to produce values.
     public init(_ producer: @escaping Producer) {
         self.producer = producer
     }
     
-    /// Subscribe the observer function to be received the values.
+    /// Observe the values to the given observer.
     ///
     /// - Prameters:
     ///   - observer: A function to be received the values.
     ///
     /// - Returns: A subscription to unsubscribe given observer.
     @discardableResult
-    public func subscribe(observer: @escaping (Value) -> Void) -> Subscription {
+    public func observe(_ observer: @escaping (Value) -> Void) -> Subscription {
         return producer(observer)
     }
     
-    /// Subscribe the observer function to be received the values during scope of given object deinitialized.
+    /// observe the values to the given observer during during scope of specified object.
     ///
     /// - Prameters:
     ///   - object: An object that will unsubscribe given observer by being deinitialize.
@@ -31,13 +31,13 @@ public struct Signal<Value> {
     ///
     /// - Returns: A subscription to unsubscribe given observer.
     @discardableResult
-    func subscribe(duringScopeOf object: AnyObject, observer: @escaping (Value) -> Void) -> Subscription {
-        let subscription = subscribe(observer: observer)
+    func observe(duringScopeOf object: AnyObject, _ observer: @escaping (Value) -> Void) -> Subscription {
+        let subscription = observe(observer)
         SubscriptionScope.associated(with: object) += subscription
         return subscription
     }
     
-    /// Binds the values to a binder, updating the binder target's value to the latest value of `self` until binder target deinitialized.
+    /// Binds the values to a binder, updating the binder target's value to the latest value of `self` during scope of binder target.
     ///
     /// - Prameters:
     ///   - binder: A binder to be bound.
@@ -48,7 +48,7 @@ public struct Signal<Value> {
         return binder.bind(signal: self)
     }
     
-    /// Binds the values to a target, updating the target's value to the latest value of `self` until target deinitialized.
+    /// Binds the values to a target, updating the target's value to the latest value of `self` during scope of binder target.
     ///
     /// - Prameters:
     ///   - target: A binding target object.
@@ -60,7 +60,7 @@ public struct Signal<Value> {
         return bind(to: .init(target: target, binding: binding))
     }
     
-    /// Binds the values to a target, updating the target's value to the latest value of `self` until target deinitialized.
+    /// Binds the values to a target, updating the target's value to the latest value of `self` during scope of binder target.
     ///
     /// - Prameters:
     ///   - target: A binding target object.
@@ -74,7 +74,7 @@ public struct Signal<Value> {
         }
     }
     
-    /// Binds the values to a target, updating the target's value to the latest value of `self` until target deinitialized.
+    /// Binds the values to a target, updating the target's value to the latest value of `self` during scope of binder target.
     ///
     /// - Prameters:
     ///   - target: A binding target object.

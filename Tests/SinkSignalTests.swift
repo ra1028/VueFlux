@@ -7,13 +7,13 @@ final class SinkSignalTests: XCTestCase {
         var value = 0
     }
     
-    func testSubscribe() {
+    func testObserve() {
         let sink = Sink<Int>()
         let signal = sink.signal
         
         var value = 0
         
-        signal.subscribe { int in
+        signal.observe { int in
             value += int
         }
         
@@ -21,7 +21,7 @@ final class SinkSignalTests: XCTestCase {
         
         XCTAssertEqual(value, 1)
         
-        signal.subscribe { int in
+        signal.observe { int in
             XCTAssertTrue(Thread.isMainThread)
             value += int
         }
@@ -37,7 +37,7 @@ final class SinkSignalTests: XCTestCase {
         
         var value = 0
         
-        let subscription = signal.subscribe { int in
+        let subscription = signal.observe { int in
             value = int
         }
         
@@ -52,7 +52,7 @@ final class SinkSignalTests: XCTestCase {
         XCTAssertEqual(value, 1)
     }
     
-    func testScopedSubscribe() {
+    func testScopedObserving() {
         var value1 = 0
         var value2 = 0
         var object: Object? = .init()
@@ -62,11 +62,11 @@ final class SinkSignalTests: XCTestCase {
         let signal1 = sink1.signal
         let signal2 = sink2.signal
         
-        signal1.subscribe(duringScopeOf: object!) { int in
+        signal1.observe(duringScopeOf: object!) { int in
             value1 = int
         }
         
-        signal2.subscribe(duringScopeOf: object!) { int in
+        signal2.observe(duringScopeOf: object!) { int in
             value2 = int
         }
         
@@ -85,9 +85,9 @@ final class SinkSignalTests: XCTestCase {
         XCTAssertEqual(value2, 10)
     }
     
-    func testScopedSubscribeConcurrentAsync() {
+    func testConcurrentAsyncScopedObserving() {
         var value = 0
-        let queue = DispatchQueue(label: "scoped subscribe loop queue")
+        let queue = DispatchQueue(label: "scoped observe loop queue")
         let group = DispatchGroup()
         
         let sink = Sink<Int>()
@@ -97,7 +97,7 @@ final class SinkSignalTests: XCTestCase {
             queue.async(group: group) {
                 var object: Object? = .init()
                 
-                signal.subscribe(duringScopeOf: object!) { int in
+                signal.observe(duringScopeOf: object!) { int in
                     value += int
                 }
                 
@@ -112,7 +112,7 @@ final class SinkSignalTests: XCTestCase {
         
         var object: Object? = .init()
         
-        signal.subscribe(duringScopeOf: object!) { int in
+        signal.observe(duringScopeOf: object!) { int in
             value += int
         }
         
@@ -204,7 +204,7 @@ final class SinkSignalTests: XCTestCase {
         
         var value: String?
         
-        let subscription = signal.map(String.init(_:)).subscribe { string in
+        let subscription = signal.map(String.init(_:)).observe { string in
             value = string
         }
         
@@ -225,11 +225,11 @@ final class SinkSignalTests: XCTestCase {
         
         var value = 0
         
-        let expectation = self.expectation(description: "subscribe to signal on global queue")
+        let expectation = self.expectation(description: "observe a signal on global queue")
         
         signal
             .observe(on: .queue(.globalDefault()))
-            .subscribe { int in
+            .observe { int in
                 XCTAssertFalse(Thread.isMainThread)
                 value = int
                 expectation.fulfill()
@@ -250,11 +250,11 @@ final class SinkSignalTests: XCTestCase {
         
         var value = 0
         
-        let expectation = self.expectation(description: "subscribe to signal on queue")
+        let expectation = self.expectation(description: "observe a signal on queue")
         
         let subscription = signal
             .observe(on: .queue(queue))
-            .subscribe { int in
+            .observe { int in
                 value = int
         }
         

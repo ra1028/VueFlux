@@ -28,7 +28,7 @@ public struct Binder<Value> {
     ///
     /// - Returns: A subscription to unbind from signal.
     public func bind(signal: Signal<Value>) -> Subscription {
-        let subscription = signal.subscribe(observer: binding)
+        let subscription = signal.observe(binding)
         addSubscription(subscription)
         return subscription
     }

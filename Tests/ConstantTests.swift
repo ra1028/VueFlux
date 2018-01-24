@@ -9,7 +9,7 @@ final class ConstantTests: XCTestCase {
         
         var value: Int? = nil
         
-        constant.signal.subscribe { int in
+        constant.signal.observe { int in
             XCTAssertTrue(Thread.isMainThread)
             value = int
         }
@@ -29,7 +29,7 @@ final class ConstantTests: XCTestCase {
         
         var value: Int? = nil
         
-        let subscription = constant.signal.subscribe { int in
+        let subscription = constant.signal.observe { int in
             value = int
         }
         
@@ -48,7 +48,7 @@ final class ConstantTests: XCTestCase {
         XCTAssertEqual(constant.value, 2)
         XCTAssertEqual(value, 1)
         
-        constant.signal.subscribe { int in
+        constant.signal.observe { int in
             value = int
         }
         
@@ -90,8 +90,10 @@ final class ConstantTests: XCTestCase {
         
         var value: String?
         
-        let subscription = constant.signal.map(String.init(_:)).subscribe { string in
-            value = string
+        let subscription = constant.signal
+            .map(String.init(_:))
+            .observe { string in
+                value = string
         }
         
         XCTAssertEqual(value, "0")
@@ -118,7 +120,7 @@ final class ConstantTests: XCTestCase {
         
         signal
             .observe(on: .queue(.globalDefault()))
-            .subscribe { int in
+            .observe { int in
                 XCTAssertFalse(Thread.isMainThread)
                 value = int
                 expectation.fulfill()

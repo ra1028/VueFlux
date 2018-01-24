@@ -8,7 +8,7 @@ final class VariableTests: XCTestCase {
         
         var value: Int? = nil
         
-        variable.signal.subscribe { int in
+        variable.signal.observe { int in
             XCTAssertTrue(Thread.isMainThread)
             value = int
         }
@@ -27,7 +27,7 @@ final class VariableTests: XCTestCase {
         
         var value: Int? = nil
         
-        let subscription = variable.signal.subscribe { int in
+        let subscription = variable.signal.observe { int in
             value = int
         }
 
@@ -46,7 +46,7 @@ final class VariableTests: XCTestCase {
         XCTAssertEqual(variable.value, 2)
         XCTAssertEqual(value, 1)
         
-        variable.signal.subscribe { int in
+        variable.signal.observe { int in
             value = int
         }
         
@@ -86,8 +86,10 @@ final class VariableTests: XCTestCase {
         
         var value: String?
         
-        let subscription = variable.signal.map(String.init(_:)).subscribe { string in
-            value = string
+        let subscription = variable.signal
+            .map(String.init(_:))
+            .observe { string in
+                value = string
         }
         
         XCTAssertEqual(value, "0")
@@ -109,11 +111,11 @@ final class VariableTests: XCTestCase {
         
         var value: Int?
         
-        let expectation = self.expectation(description: "subscribe to signal on global queue")
+        let expectation = self.expectation(description: "observe a signal on global queue")
         
         signal
             .observe(on: .queue(.globalDefault()))
-            .subscribe { int in
+            .observe { int in
                 XCTAssertFalse(Thread.isMainThread)
                 value = int
                 expectation.fulfill()

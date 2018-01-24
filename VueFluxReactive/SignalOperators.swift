@@ -9,7 +9,7 @@ public extension Signal {
     /// - Returns: A signal to be receives new values.
     public func map<T>(_ transform: @escaping (Value) -> T) -> Signal<T> {
         return .init { send in
-            self.subscribe { value in
+            self.observe { value in
                 send(transform(value))
             }
         }
@@ -25,7 +25,7 @@ public extension Signal {
         return .init { send in
             let workItem = Executor.WorkItem(send)
             
-            let subscription = self.subscribe { value in
+            let subscription = self.observe { value in
                 executor.execute(workItem: workItem, with: value)
             }
             
