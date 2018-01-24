@@ -1,4 +1,5 @@
-<H1 align="center">VueFlux</H1>
+![VueFlux](./assets/logo.png)
+
 <H4 align="center">
 Unidirectional Data Flow State Management Architecture for Swift - Inspired by <a href="https://github.com/vuejs/vuex">Vuex</a> and <a href="https://github.com/facebook/flux">Flux</a>
 </H4>
@@ -32,7 +33,7 @@ However, as the scale of your project becomes larger, VueFlux will be the best c
 VueFlux is receives state changes by efficient reactive system. [VueFluxReactive](./VueFluxReactive) is µ reactive framework(not functional) compatible with this architecture.  
 Arbitrary third party reactive frameworks (e.g. [RxSwift](https://github.com/ReactiveX/RxSwift), [ReactiveSwift](https://github.com/ReactiveCocoa/ReactiveSwift) and [ReactiveKit](https://github.com/ReactiveKit/ReactiveKit)) can also be used with VueFlux.  
 
-![VueFlux Architecture](./assets/VueFlux.png)
+![VueFlux Architecture](./assets/architecture.png)
 
 ---
 
