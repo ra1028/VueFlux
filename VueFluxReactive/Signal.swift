@@ -31,7 +31,7 @@ public struct Signal<Value> {
     ///
     /// - Returns: A disposable to unregister given observer.
     @discardableResult
-    func observe(duringScopeOf object: AnyObject, _ observer: @escaping (Value) -> Void) -> Disposable {
+    public func observe(duringScopeOf object: AnyObject, _ observer: @escaping (Value) -> Void) -> Disposable {
         let disposable = observe(observer)
         DisposableScope.associated(with: object) += disposable
         return disposable
@@ -44,7 +44,7 @@ public struct Signal<Value> {
     ///
     /// - Returns: A disposable to unbind given binder.
     @discardableResult
-    func bind(to binder: Binder<Value>) -> Disposable {
+    public func bind(to binder: Binder<Value>) -> Disposable {
         return binder.bind(signal: self)
     }
     
@@ -56,7 +56,7 @@ public struct Signal<Value> {
     ///
     /// - Returns: A disposable to unbind given target.
     @discardableResult
-    func bind<Target: AnyObject>(to target: Target, binding: @escaping (Target, Value) -> Void) -> Disposable {
+    public func bind<Target: AnyObject>(to target: Target, binding: @escaping (Target, Value) -> Void) -> Disposable {
         return bind(to: .init(target: target, binding: binding))
     }
     
@@ -68,7 +68,7 @@ public struct Signal<Value> {
     ///
     /// - Returns: A disposable to unbind given target.
     @discardableResult
-    func bind<Target: AnyObject>(to target: Target, _ keyPath: ReferenceWritableKeyPath<Target, Value>) -> Disposable {
+    public func bind<Target: AnyObject>(to target: Target, _ keyPath: ReferenceWritableKeyPath<Target, Value>) -> Disposable {
         return bind(to: target) { target, value in
             target[keyPath: keyPath] = value
         }
@@ -82,7 +82,7 @@ public struct Signal<Value> {
     ///
     /// - Returns: A disposable to unbind given target.
     @discardableResult
-    func bind<Target: AnyObject>(to target: Target, _ keyPath: ReferenceWritableKeyPath<Target, Value?>) -> Disposable {
+    public func bind<Target: AnyObject>(to target: Target, _ keyPath: ReferenceWritableKeyPath<Target, Value?>) -> Disposable {
         return bind(to: target) { target, value in
             target[keyPath: keyPath] = value as Value?
         }

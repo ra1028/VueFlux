@@ -36,7 +36,7 @@ private extension CounterViewController {
         
         store.computed.command
             .observe(on: .mainThread)
-            .subscribe(duringScopeOf: self) { [unowned self] command in
+            .observe(duringScopeOf: self) { [unowned self] command in
                 switch command {
                 case .openGitHub:
                     guard let url = URL(string: "https://github.com/ra1028/VueFlux") else { return }
