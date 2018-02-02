@@ -1,14 +1,7 @@
-import Foundation
-
 /// An thread-safe value wrapper.
 public final class ThreadSafe<Value> {
     private var _value: Value
-    private let lock: NSLocking = {
-        if #available(*, iOS 10.0, macOS 10.12, tvOS 10.0, watchOS 3.0) {
-            return OSUnfairLock()
-        }
-        return PosixThreadMutex()
-    }()
+    private let lock = Lock.initialize()
     
     /// Synchronized value getter and setter
     public var value: Value {
@@ -62,66 +55,6 @@ public final class ThreadSafe<Value> {
             let oldValue = value
             value = newValue
             return oldValue
-        }
-    }
-}
-
-private extension ThreadSafe {
-    /// Fast non-recursive thread lock.
-    /// Use in supported OS version only.
-    @available(iOS 10.0, *)
-    @available(macOS 10.12, *)
-    @available(tvOS 10.0, *)
-    @available(watchOS 3.0, *)
-    final class OSUnfairLock: NSLocking {
-        private let _lock = os_unfair_lock_t.allocate(capacity: 1)
-        
-        init() {
-            _lock.initialize(to: os_unfair_lock())
-        }
-        
-        deinit {
-            _lock.deinitialize()
-            _lock.deallocate(capacity: 1)
-        }
-        
-        func lock() {
-            os_unfair_lock_lock(_lock)
-        }
-        
-        func unlock() {
-            os_unfair_lock_unlock(_lock)
-        }
-    }
-    
-    /// Non-recursive thread lock.
-    /// Use in OS that `os_unfair_lock` not available.
-    final class PosixThreadMutex: NSLocking {
-        private let _lock = UnsafeMutablePointer<pthread_mutex_t>.allocate(capacity: 1)
-        
-        init() {
-            _lock.initialize(to: pthread_mutex_t())
-            
-            let result = pthread_mutex_init(_lock, nil)
-            assert(result == 0)
-        }
-        
-        deinit {
-            let result = pthread_mutex_destroy(_lock)
-            assert(result == 0)
-            
-            _lock.deinitialize()
-            _lock.deallocate(capacity: 1)
-        }
-        
-        func lock() {
-            let result = pthread_mutex_lock(_lock)
-            assert(result == 0)
-        }
-        
-        func unlock() {
-            let result = pthread_mutex_unlock(_lock)
-            assert(result == 0)
         }
     }
 }

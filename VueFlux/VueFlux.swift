@@ -27,8 +27,12 @@ open class Store<State: VueFlux.State> {
     public init(state: State, mutations: State.Mutations, executor: Executor) {
         self.state = state
         
+        let lock = Lock.initialize()
         let dispatch: (State.Action) -> Void = { [weak state] action in
             guard let state = state else { return }
+            
+            lock.lock()
+            defer { lock.unlock() }
             mutations.commit(action: action, state: state)
         }
         
