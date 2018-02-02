@@ -134,6 +134,7 @@ final class SinkSignalTests: XCTestCase {
         let signal = sink.signal
         
         let binder = Binder<Int>(target: object) { object, value in
+            XCTAssertTrue(Thread.isMainThread)
             object.value = value
         }
         
@@ -150,7 +151,10 @@ final class SinkSignalTests: XCTestCase {
         let sink = Sink<Int>()
         let signal = sink.signal
         
-        signal.bind(to: object) { $0.value = $1 }
+        signal.bind(to: object) {
+            XCTAssertTrue(Thread.isMainThread)
+            $0.value = $1
+        }
         
         sink.send(value: 3)
         
@@ -179,7 +183,10 @@ final class SinkSignalTests: XCTestCase {
         var value = 0
         var object: Object? = .init()
         
-        let binder = Binder(target: object!) { _, int in value = int }
+        let binder = Binder<Int>(target: object!) { _, int in
+            XCTAssertTrue(Thread.isMainThread)
+            value = int
+        }
         
         signal.bind(to: binder)
         
