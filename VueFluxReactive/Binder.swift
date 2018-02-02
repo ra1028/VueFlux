@@ -25,10 +25,11 @@ public struct Binder<Value> {
     ///
     /// - Parameters:
     ///   - signal: A signal that updating the target's value to its latest value.
+    ///   - executor: A executor to forward events to binding on.
     ///
     /// - Returns: A disposable to unbind from signal.
-    public func bind(signal: Signal<Value>) -> Disposable {
-        let disposable = signal.observe(binding)
+    public func bind(signal: Signal<Value>, on executor: Executor) -> Disposable {
+        let disposable = signal.observe(on: executor).observe(binding)
         addDisposable(disposable)
         return disposable
     }
