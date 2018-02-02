@@ -114,8 +114,8 @@ Properties of State in the Store can only be accessed via this.
 
 ```swift
 extension Computed where State == CounterState {
-    var count: Constant<Int> {
-        return state.count.constant
+    var countTextValues: Signal<String> {
+        return state.count.signal.map { String($0) }
     }
 }
 ```
@@ -136,10 +136,7 @@ final class CounterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        store.computed.count.signal
-            .map { String($0) }
-            .observe(on: .mainThread)
-            .bind(to: counterLabel, \.text)
+        store.computed.countTextValues.bind(to: counterLabel, \.text)
     }
 
     @IBAction func incrementButtonTapped(sender: UIButton) {
@@ -382,19 +379,18 @@ signal.observe(duringScopeOf: self) { value in
 ### Bind
 Binding makes target object's value be updated to the latest value received via Signal.  
 The binding is no longer valid after the target object is deinitialized.  
+Bindings work on `main thread` by default.  
 
 Closure binding.
 ```swift
-text.signal
-    .observe(on: .mainThread)
-    .bind(to: label) { label, text in label.text = text }
+text.signal.bind(to: label) { label, text in
+    label.text = text
+}
 ```
 
 Smart KeyPath binding.
 ```swift
-text.signal
-    .observe(on: .mainThread)
-    .bind(to: label, \.text)
+text.signal.bind(to: label, \.text)
 ```
 
 Binder
@@ -412,9 +408,7 @@ extension UIView {
     }
 }
 
-isViewHidden.signal
-    .observe(on: .mainThread)
-    .bind(to: view.setHiddenBinder(duration: 0.3))
+isViewHidden.signal.bind(to: view.setHiddenBinder(duration: 0.3))
 ```
 
 ### Shared Store
