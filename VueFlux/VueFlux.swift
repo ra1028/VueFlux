@@ -36,8 +36,8 @@ open class Store<State: VueFlux.State> {
             mutations.commit(action: action, state: state)
         }
         
-        dispatcherKey = dispatcher.subscribe(executor: executor, dispatch: dispatch)
-        sharedDispatcherKey = sharedDispatcher.subscribe(executor: executor, dispatch: dispatch)
+        dispatcherKey = dispatcher.subscribe(on: executor, dispatch: dispatch)
+        sharedDispatcherKey = sharedDispatcher.subscribe(on: executor, dispatch: dispatch)
     }
     
     deinit {

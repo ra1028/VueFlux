@@ -33,7 +33,7 @@ struct Dispatcher<State: VueFlux.State> {
     ///
     /// - Returns: A disposable to be able to unsubscribe.
     @discardableResult
-    func subscribe(executor: Executor, dispatch: @escaping (State.Action) -> Void) -> Observers.Key {
+    func subscribe(on executor: Executor, dispatch: @escaping (State.Action) -> Void) -> Observers.Key {
         return observers.modify { observers in
             observers.add { action in
                 executor.execute { dispatch(action) }

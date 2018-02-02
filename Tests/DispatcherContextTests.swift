@@ -7,7 +7,7 @@ final class DispatcherContextTests: XCTestCase {
         
         let dispatcher1 = DispatcherContext.shared.dispatcher(for: TestState.self)
         
-        dispatcher1.subscribe(executor: .immediate) {
+        dispatcher1.subscribe(on: .immediate) {
             value += 1
         }
         
@@ -17,7 +17,7 @@ final class DispatcherContextTests: XCTestCase {
         
         XCTAssertEqual(value, 1)
         
-        dispatcher2.subscribe(executor: .immediate) {
+        dispatcher2.subscribe(on: .immediate) {
             value += 1
         }
         
