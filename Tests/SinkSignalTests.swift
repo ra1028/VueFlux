@@ -87,7 +87,7 @@ final class SinkSignalTests: XCTestCase {
     
     func testConcurrentAsyncScopedObserving() {
         var value = 0
-        let queue = DispatchQueue(label: "scoped observe loop queue")
+        let queue = DispatchQueue(label: "testConcurrentAsyncScopedObserving")
         let group = DispatchGroup()
         
         let sink = Sink<Int>()
@@ -232,7 +232,7 @@ final class SinkSignalTests: XCTestCase {
         
         var value = 0
         
-        let expectation = self.expectation(description: "observe a signal on global queue")
+        let expectation = self.expectation(description: "testObserveOn")
         
         signal
             .observe(on: .queue(.globalDefault()))
@@ -257,7 +257,7 @@ final class SinkSignalTests: XCTestCase {
         
         var value = 0
         
-        let expectation = self.expectation(description: "observe a signal on queue")
+        let expectation = self.expectation(description: "testImmediatelyDisposeObserveOn")
         
         let disposable = signal
             .observe(on: .queue(queue))

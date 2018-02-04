@@ -30,7 +30,7 @@ final class BinderTests: XCTestCase {
         let sink = Sink<Int>()
         let signal = sink.signal
         
-        let expectation = self.expectation(description: "send value on global queue")
+        let expectation = self.expectation(description: "testBindOnImmediateExectuor")
         
         let binder = Binder<Int>(target: object) { object, value in
             XCTAssertFalse(Thread.isMainThread)
@@ -52,12 +52,12 @@ final class BinderTests: XCTestCase {
     func testImmediatelyDisposeBinding() {
         let object = Object()
         
-        let queue = DispatchQueue(label: "testImmediatelyDisposeObserveOn")
+        let queue = DispatchQueue(label: "testImmediatelyDisposeBinding")
         
         let sink = Sink<Int>()
         let signal = sink.signal
         
-        let expectation = self.expectation(description: "bind on global queue")
+        let expectation = self.expectation(description: "testImmediatelyDisposeBinding")
         
         let binder = Binder<Int>(target: object) { object, value in
             object.value = value

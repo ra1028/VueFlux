@@ -33,7 +33,7 @@ final class VueFluxTests: XCTestCase {
         
         XCTAssertEqual(store1.computed.value, 1)
         
-        let expectation = self.expectation(description: "dispatch on global queue")
+        let expectation = self.expectation(description: "testDispatchOnTargetThread")
         
         let state2 = TestState { _ in
             XCTAssertFalse(Thread.isMainThread)
@@ -66,8 +66,9 @@ final class VueFluxTests: XCTestCase {
     func testStoreDeinit() {
         var store: Store<TestState>? = .init(state: .init(), mutations: .init(), executor: .immediate)
         let computed = store!.computed
+        let actions = store!.actions
         
-        store?.actions.check()
+        actions.check()
         
         XCTAssertEqual(computed.value, 1)
         
@@ -77,25 +78,31 @@ final class VueFluxTests: XCTestCase {
         
         store = nil
         
+        actions.check()
+        
+        XCTAssertEqual(computed.value, 2)
+        
         Store<TestState>.actions.check()
         
         XCTAssertEqual(computed.value, 2)
     }
     
     func testImmediatelyCancelCommiting() {
-        let queue = DispatchQueue(label: "testImmediatlyCancelCommiting")
+        let queue = DispatchQueue(label: "testImmediatelyCancelCommiting")
         var store: Store<TestState>? = .init(state: .init(), mutations: .init(), executor: .queue(queue))
         let computed = store!.computed
+        let actions = store!.actions
         
         queue.suspend()
         
+        actions.check()
         Store<TestState>.actions.check()
         
         store = nil
         
         queue.resume()
         
-        let expectation = self.expectation(description: "immediately cancel commiting on async queue")
+        let expectation = self.expectation(description: "testImmediatelyCancelCommiting")
         
         queue.async {
             expectation.fulfill()

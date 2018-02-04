@@ -116,7 +116,7 @@ final class ConstantTests: XCTestCase {
         
         var value: Int?
         
-        let expectation = self.expectation(description: "observe a signal on global queue")
+        let expectation = self.expectation(description: "testObserveOn")
         
         signal
             .observe(on: .queue(.globalDefault()))

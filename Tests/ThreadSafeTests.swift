@@ -74,7 +74,7 @@ final class ThreadSafeTests: XCTestCase {
     func testAsync() {
         let threadSafe = ThreadSafe(0)
         
-        let expectation = self.expectation(description: "async modify")
+        let expectation = self.expectation(description: "testAsync")
         
         threadSafe.modify { value in
             value = 1
