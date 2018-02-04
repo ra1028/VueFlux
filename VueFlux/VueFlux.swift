@@ -1,6 +1,5 @@
 /// Manages a State and commits the action received via dispatcher to mutations.
 open class Store<State: VueFlux.State> {
-    private let state: State
     private let dispatcher = Dispatcher<State>()
     private let sharedDispatcher = Dispatcher<State>.shared
     private let dispatcherKey: Dispatcher<State>.Observers.Key
@@ -16,7 +15,7 @@ open class Store<State: VueFlux.State> {
     public lazy var actions = Actions<State>(dispatcher: dispatcher)
     
     /// A proxy for computed properties to be published of State.
-    public lazy var computed = Computed<State>(state: state)
+    public let computed: Computed<State>
     
     /// Initialize a new store.
     ///
@@ -25,9 +24,14 @@ open class Store<State: VueFlux.State> {
     ///   - mutations: A mutations for mutates the state.
     ///   - executor: An executor to dispatch actions on.
     public init(state: State, mutations: State.Mutations, executor: Executor) {
-        self.state = state
+        let lock = Lock.initialize(recursive: true)
         
-        let lock = Lock.initialize()
+        computed = .init {
+            lock.lock()
+            defer { lock.unlock() }
+            return state
+        }
+        
         let dispatch: (State.Action) -> Void = { [weak state] action in
             guard let state = state else { return }
             
@@ -85,13 +89,17 @@ public struct Actions<State: VueFlux.State> {
 /// A proxy of properties to be published of State.
 public struct Computed<State: VueFlux.State> {
     /// A state to be publish properties by `self`.
-    public let state: State
+    public var state: State {
+        return getState()
+    }
+    
+    private let getState: () -> State
     
     /// Create the proxy.
     ///
     /// - Parameters:
-    ///   - state: A state to be proxied.
-    fileprivate init(state: State) {
-        self.state = state
+    ///   - getState: An access to state to be proxied.
+    fileprivate init(getState: @escaping () -> State) {
+        self.getState = getState
     }
 }

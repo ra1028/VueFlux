@@ -1,7 +1,7 @@
 /// An thread-safe value wrapper.
 public final class ThreadSafe<Value> {
     private var _value: Value
-    private let lock = Lock.initialize()
+    private let lock: Lock
     
     /// Synchronized value getter and setter
     public var value: Value {
@@ -13,8 +13,10 @@ public final class ThreadSafe<Value> {
     ///
     /// - Parameters:
     ///   - value: Initial value.
-    public init(_ value: Value) {
+    ///   - recursive: A Bool value indicating whether lock is recursive.
+    public init(_ value: Value, recursive: Bool = false) {
         _value = value
+        lock = .initialize(recursive: recursive)
     }
     
     /// Perform a given action with current value thread-safely.
