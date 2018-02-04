@@ -93,7 +93,7 @@ This is the protocol that represents `commit` function that mutate the state.
 Be able to change the fileprivate properties of the state by implementing it in the same file.  
 The only way to actually change State in a Store is committing an Action via Mutations.  
 Changes of State must be done **synchronously**.  
-Access from Computed and Mutations `commit ()` are exclusive on multiple threads, so you don't need to be conscious of threads.  
+Access from Computed and Mutations `commit()` are exclusive on multiple threads, so you don't need to be conscious of threads.  
 
 ```swift
 struct CounterMutations: Mutations {
@@ -251,7 +251,7 @@ constant.signal.observe { print($0) }
 ## Advanced Usage
 
 ### Executor
-Executor determines the execution context of function such as execute on main-thread, on a global queue and so on.  
+Executor determines the execution context of function such as execute on main thread, on a global queue and so on.  
 Some contexts are built in default.  
 
 - immediate  
@@ -343,7 +343,7 @@ DispatchQueue.global().async {
 ```
 
 ### Disposable
-Disposable represents something that can be “disposed”, usually unregister a observe that registered to Signal.  
+Disposable represents something that can be disposed, usually unregister a observe that registered to Signal.  
 
 ```swift
 let disposable = signal.observe { value in
@@ -381,7 +381,7 @@ signal.observe(duringScopeOf: self) { value in
 ### Bind
 Binding makes target object's value be updated to the latest value received via Signal.  
 The binding is no longer valid after the target object is deinitialized.  
-Bindings work on `main thread` by default.  
+Bindings work on **main thread** by default.  
 
 Closure binding.
 ```swift
