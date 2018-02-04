@@ -54,6 +54,7 @@ You can see example implementation [here](./Examples/Example).
 This is the protocol that only just for constraining the type of Action and Mutations, represents the state managed by the Store.  
 Implement some properties of the state, and keeps them readonly by fileprivate access control, like below.   
 Will be mutated only by Mutations, and the properties will be published only by Computed.  
+State managed by Store is always accessed in **thread-safe**.  
 
 ```swift
 final class CounterState: State {
@@ -91,7 +92,8 @@ extension Actions where State == CounterState {
 This is the protocol that represents `commit` function that mutate the state.  
 Be able to change the fileprivate properties of the state by implementing it in the same file.  
 The only way to actually change State in a Store is committing an Action via Mutations.  
-Changes of State must be done `synchronously`.  
+Changes of State must be done **synchronously**.  
+Access from Computed and Mutations `commit ()` are exclusive on multiple threads, so you don't need to be conscious of threads.  
 
 ```swift
 struct CounterMutations: Mutations {
