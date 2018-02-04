@@ -1,5 +1,6 @@
 /// Manages a State and commits the action received via dispatcher to mutations.
 open class Store<State: VueFlux.State> {
+    private let commitWorkItem: Executor.WorkItem<State.Action>
     private let dispatcher = Dispatcher<State>()
     private let sharedDispatcher = Dispatcher<State>.shared
     private let dispatcherKey: Dispatcher<State>.Observers.Key
@@ -26,13 +27,7 @@ open class Store<State: VueFlux.State> {
     public init(state: State, mutations: State.Mutations, executor: Executor) {
         let lock = Lock.initialize(recursive: true)
         
-        computed = .init {
-            lock.lock()
-            defer { lock.unlock() }
-            return state
-        }
-        
-        let dispatch: (State.Action) -> Void = { [weak state] action in
+        let commitWorkItem = Executor.WorkItem<State.Action> { [weak state] action in
             guard let state = state else { return }
             
             lock.lock()
@@ -40,11 +35,23 @@ open class Store<State: VueFlux.State> {
             mutations.commit(action: action, state: state)
         }
         
-        dispatcherKey = dispatcher.subscribe(on: executor, dispatch: dispatch)
-        sharedDispatcherKey = sharedDispatcher.subscribe(on: executor, dispatch: dispatch)
+        let commit: (State.Action) -> Void = { action in
+            executor.execute(workItem: commitWorkItem, with: action)
+        }
+        
+        computed = .init {
+            lock.lock()
+            defer { lock.unlock() }
+            return state
+        }
+        
+        self.commitWorkItem = commitWorkItem
+        dispatcherKey = dispatcher.subscribe(commit)
+        sharedDispatcherKey = sharedDispatcher.subscribe(commit)
     }
     
     deinit {
+        commitWorkItem.cancel()
         dispatcher.unsubscribe(for: dispatcherKey)
         sharedDispatcher.unsubscribe(for: sharedDispatcherKey)
     }
@@ -99,7 +106,7 @@ public struct Computed<State: VueFlux.State> {
     ///
     /// - Parameters:
     ///   - getState: An access to state to be proxied.
-    fileprivate init(getState: @escaping () -> State) {
+    fileprivate init(_ getState: @escaping () -> State) {
         self.getState = getState
     }
 }

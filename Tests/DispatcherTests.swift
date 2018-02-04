@@ -7,7 +7,7 @@ final class DispatcherTests: XCTestCase {
         
         var value = 0
         
-        _ = dispatcher.subscribe(on: .immediate) {
+        _ = dispatcher.subscribe {
             value += 1
         }
         
@@ -27,7 +27,7 @@ final class DispatcherTests: XCTestCase {
         
         var value = 0
         
-        let key = dispatcher.subscribe(on: .immediate) {
+        let key = dispatcher.subscribe {
             value += 1
         }
         
@@ -39,7 +39,7 @@ final class DispatcherTests: XCTestCase {
         
         XCTAssertEqual(value, 0)
         
-        _ = dispatcher.subscribe(on: .immediate) {
+        _ = dispatcher.subscribe {
             value += 1
         }
         

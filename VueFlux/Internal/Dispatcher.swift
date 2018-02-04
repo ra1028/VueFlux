@@ -12,7 +12,7 @@ struct Dispatcher<State: VueFlux.State> {
     /// Create a Dispatcher
     init() {}
     
-    /// Dispatch an action for all subscribed dispatch functions.
+    /// Dispatch an action for all subscribed observers.
     ///
     /// - Parameters:
     ///   - action: An Action to be dispatch.
@@ -24,20 +24,16 @@ struct Dispatcher<State: VueFlux.State> {
         }
     }
     
-    /// Subscribe a dispatch function.
-    /// The function is performed on executor.
+    /// Subscribe an observer in order to observe `self` for all actions being dispatched.
     ///
     /// - Parameters:
-    ///   - executor: An executor to dispatch actions on.
-    ///   - dispatch: A function to be called with action.
+    ///   - observer: A function to be received the actions.
     ///
-    /// - Returns: A disposable to be able to unsubscribe.
+    /// - Returns: A key for remove given observer.
     @discardableResult
-    func subscribe(on executor: Executor, dispatch: @escaping (State.Action) -> Void) -> Observers.Key {
+    func subscribe(_ observer: @escaping (State.Action) -> Void) -> Observers.Key {
         return observers.modify { observers in
-            observers.add { action in
-                executor.execute { dispatch(action) }
-            }
+            observers.add(observer)
         }
     }
     

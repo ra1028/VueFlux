@@ -14,7 +14,7 @@ public struct Signal<Value> {
         self.producer = producer
     }
     
-    /// Observe the values to the given observer.
+    /// Observe `self` for all values being sended.
     ///
     /// - Prameters:
     ///   - observer: A function to be received the values.

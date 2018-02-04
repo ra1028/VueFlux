@@ -77,11 +77,33 @@ final class VueFluxTests: XCTestCase {
         
         store = nil
         
-        XCTAssertEqual(computed.value, 2)
-        
         Store<TestState>.actions.check()
         
         XCTAssertEqual(computed.value, 2)
+    }
+    
+    func testImmediatelyCancelCommiting() {
+        let queue = DispatchQueue(label: "testImmediatlyCancelCommiting")
+        var store: Store<TestState>? = .init(state: .init(), mutations: .init(), executor: .queue(queue))
+        let computed = store!.computed
+        
+        queue.suspend()
+        
+        Store<TestState>.actions.check()
+        
+        store = nil
+        
+        queue.resume()
+        
+        let expectation = self.expectation(description: "immediately cancel commiting on async queue")
+        
+        queue.async {
+            expectation.fulfill()
+        }
+        
+        waitForExpectations(timeout: 1) { _ in
+            XCTAssertEqual(computed.value, 0)
+        }
     }
 }
 
