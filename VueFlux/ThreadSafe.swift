@@ -27,9 +27,9 @@ public final class ThreadSafe<Value> {
     /// - Returns: Result value of action.
     @discardableResult
     public func synchronized<Result>(_ function: (Value) throws -> Result) rethrows -> Result {
-        lock.lock()
-        defer { lock.unlock() }
-        return try function(_value)
+        return try lock.synchronized {
+            try function(_value)
+        }
     }
     
     /// Modifies the value thread-safely.
@@ -40,9 +40,9 @@ public final class ThreadSafe<Value> {
     /// - Returns: Result value of modification action.
     @discardableResult
     public func modify<Result>(_ function: (inout Value) throws -> Result) rethrows -> Result {
-        lock.lock()
-        defer { lock.unlock() }
-        return try function(&_value)
+        return try lock.synchronized {
+            try function(&_value)
+        }
     }
     
     /// Set the new value and Returns old value.

@@ -90,4 +90,12 @@ class Lock {
     func unlock() {
         fatalError()
     }
+    
+    @inline(__always)
+    @discardableResult
+    func synchronized<Result>(_ function: () throws -> Result) rethrows -> Result {
+        lock()
+        defer { unlock() }
+        return try function()
+    }
 }

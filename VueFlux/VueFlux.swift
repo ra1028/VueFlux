@@ -28,9 +28,9 @@ open class Store<State: VueFlux.State> {
         let lock = Lock.initialize(recursive: true)
         
         let commitWorkItem = Executor.WorkItem<State.Action> { action in
-            lock.lock()
-            defer { lock.unlock() }
-            mutations.commit(action: action, state: state)
+            lock.synchronized {
+                mutations.commit(action: action, state: state)
+            }
         }
         
         let commit: (State.Action) -> Void = { action in
@@ -38,9 +38,7 @@ open class Store<State: VueFlux.State> {
         }
         
         computed = .init {
-            lock.lock()
-            defer { lock.unlock() }
-            return state
+            lock.synchronized { state }
         }
         
         self.commitWorkItem = commitWorkItem
