@@ -27,9 +27,7 @@ open class Store<State: VueFlux.State> {
     public init(state: State, mutations: State.Mutations, executor: Executor) {
         let lock = Lock.initialize(recursive: true)
         
-        let commitWorkItem = Executor.WorkItem<State.Action> { [weak state] action in
-            guard let state = state else { return }
-            
+        let commitWorkItem = Executor.WorkItem<State.Action> { action in
             lock.lock()
             defer { lock.unlock() }
             mutations.commit(action: action, state: state)
