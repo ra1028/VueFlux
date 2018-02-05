@@ -9,7 +9,7 @@ public final class ThreadSafe<Value> {
         set { modify { $0 = newValue } }
     }
     
-    /// Initialize with the given initial value.
+    /// Initialize with a given initial value.
     ///
     /// - Parameters:
     ///   - value: Initial value.

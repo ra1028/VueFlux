@@ -1,4 +1,4 @@
-/// An collection of values of type `Element` that to be able to remove value by key.
+/// Collection of values of type `Element` that to be able to remove value by key.
 public struct Storage<Element> {
     private var buffer = ContiguousArray<(key: Key, element: Element)>()
     private var nextKey = Key.first

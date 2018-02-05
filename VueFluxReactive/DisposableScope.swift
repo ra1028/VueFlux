@@ -1,6 +1,7 @@
 import VueFlux
 
-/// A wrapper for automatically dispose added all disposables.
+/// A container that automatically dispose all added disposables when deinitialized.
+/// Itself also behaves as Disposable.
 public final class DisposableScope: Disposable {
     private enum State {
         case active(disposables: ContiguousArray<Disposable>)

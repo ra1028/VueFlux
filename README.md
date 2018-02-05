@@ -42,7 +42,7 @@ VueFlux makes a unidirectional and predictable flow by explicitly dividing the r
 It's constituted of following core concepts.  
 State changes are observed by the ViewController using the reactive system.  
 Sample code uses VueFluxReactive which will be described later.  
-You can see example implementation [here](./Examples/Example).  
+You can see example implementation [here](./Example).
 
 - [State](#state)
 - [Actions](#actions)

@@ -1,6 +1,6 @@
 import VueFlux
 
-/// An dispose function wrapper.
+/// Disposable that consist of any function.
 public struct AnyDisposable: Disposable {
     private enum State {
         case active(dispose: () -> Void)

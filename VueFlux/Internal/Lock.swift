@@ -1,7 +1,7 @@
 import Foundation
 
 /// The lock that coordinates the operation of multiple threads of execution.
-/// Use `os_unfair_lock` on supported platforms, otherwise pthread mutex instead.
+/// Use `os_unfair_lock` if on supported platforms and non-recursive, otherwise pthread mutex instead.
 class Lock {
     @available(iOS 10.0, *)
     @available(macOS 10.12, *)
