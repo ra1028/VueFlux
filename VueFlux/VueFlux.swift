@@ -26,23 +26,16 @@ open class Store<State: VueFlux.State> {
     ///   - mutations: A mutations for mutates the state.
     ///   - executor: An executor to dispatch actions on.
     public init(state: State, mutations: State.Mutations, executor: Executor) {
-        let lock = Lock.initialize(recursive: true)
-        
         let commitWorkItem = Executor.WorkItem<State.Action> { action in
-            lock.synchronized {
-                mutations.commit(action: action, state: state)
-            }
+            mutations.commit(action: action, state: state)
         }
         
         let commit: (State.Action) -> Void = { action in
             executor.execute(workItem: commitWorkItem, with: action)
         }
         
-        computed = .init {
-            lock.synchronized { state }
-        }
-        
         self.commitWorkItem = commitWorkItem
+        computed = .init(state: state)
         dispatcherKey = dispatcher.subscribe(commit)
         sharedDispatcherKey = sharedDispatcher.subscribe(commit)
     }
@@ -93,17 +86,13 @@ public struct Actions<State: VueFlux.State> {
 /// A proxy of properties to be published of State.
 public struct Computed<State: VueFlux.State> {
     /// A state to be publish properties by `self`.
-    public var state: State {
-        return getState()
-    }
-    
-    private let getState: () -> State
+    public let state: State
     
     /// Create the proxy.
     ///
     /// - Parameters:
-    ///   - getState: An access to state to be proxied.
-    fileprivate init(_ getState: @escaping () -> State) {
-        self.getState = getState
+    ///   - state: A state to be proxied.
+    fileprivate init(state: State) {
+        self.state = state
     }
 }

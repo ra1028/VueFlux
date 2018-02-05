@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		6B008F47202490C400F93B32 /* BinderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B008F46202490C400F93B32 /* BinderTests.swift */; };
-		6B008F4A2024C30800F93B32 /* Lock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B008F492024C30800F93B32 /* Lock.swift */; };
-		6B008F4E202793C900F93B32 /* LockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B008F4D202793C900F93B32 /* LockTests.swift */; };
 		6B052E141FCB4EE2008B3731 /* Binder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B052E131FCB4EE2008B3731 /* Binder.swift */; };
 		6B665528200AE8A000883C12 /* ExecutorWorkItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B665527200AE8A000883C12 /* ExecutorWorkItem.swift */; };
 		6B9920711FEC261600D4837C /* Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9920701FEC261600D4837C /* Stream.swift */; };
@@ -70,8 +68,6 @@
 
 /* Begin PBXFileReference section */
 		6B008F46202490C400F93B32 /* BinderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinderTests.swift; sourceTree = "<group>"; };
-		6B008F492024C30800F93B32 /* Lock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lock.swift; sourceTree = "<group>"; };
-		6B008F4D202793C900F93B32 /* LockTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockTests.swift; sourceTree = "<group>"; };
 		6B052E131FCB4EE2008B3731 /* Binder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binder.swift; sourceTree = "<group>"; };
 		6B120DC81FD5B52D001FEAB4 /* Universal.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Universal.xcconfig; sourceTree = "<group>"; };
 		6B665527200AE8A000883C12 /* ExecutorWorkItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExecutorWorkItem.swift; sourceTree = "<group>"; };
@@ -177,7 +173,6 @@
 				6BE63FF31FB39A3C007F8B5D /* DispatcherContextTests.swift */,
 				6BA27BD31FB8CFE600809472 /* StorageTests.swift */,
 				6BE63FF01FB39446007F8B5D /* ThreadSafeTests.swift */,
-				6B008F4D202793C900F93B32 /* LockTests.swift */,
 				6B9EB2561FCB2FEE009F0659 /* SinkSignalTests.swift */,
 				6B9EB25C1FCB3D81009F0659 /* VariableTests.swift */,
 				6BEB90121FCF2340001B9BF6 /* ConstantTests.swift */,
@@ -209,7 +204,6 @@
 			children = (
 				6B9EB2151FCB14BF009F0659 /* Dispatcher.swift */,
 				6B9EB2161FCB14BF009F0659 /* DispatcherContext.swift */,
-				6B008F492024C30800F93B32 /* Lock.swift */,
 			);
 			path = Internal;
 			sourceTree = "<group>";
@@ -435,7 +429,6 @@
 				6B9EB2241FCB14ED009F0659 /* VueFlux.swift in Sources */,
 				6B9EB23F1FCB1CFB009F0659 /* ThreadSafe.swift in Sources */,
 				6BC665331FF032C500BD74C8 /* Executor.swift in Sources */,
-				6B008F4A2024C30800F93B32 /* Lock.swift in Sources */,
 				6B9EB23E1FCB1CFB009F0659 /* Storage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -456,7 +449,6 @@
 				6B9EB2481FCB203B009F0659 /* DispatcherContextTests.swift in Sources */,
 				6B9EB2491FCB203B009F0659 /* DisposableScopeTests.swift in Sources */,
 				6B9EB24A1FCB203B009F0659 /* StorageTests.swift in Sources */,
-				6B008F4E202793C900F93B32 /* LockTests.swift in Sources */,
 				6B9EB24B1FCB203B009F0659 /* ThreadSafeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
