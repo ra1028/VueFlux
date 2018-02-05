@@ -14,7 +14,7 @@ open class Store<State: VueFlux.State> {
     }
     
     /// A action proxy that dispatches actions via dispatcher retained by `self`.
-    public lazy var actions = Actions<State>(dispatcher: dispatcher)
+    public let actions: Actions<State>
     
     /// A proxy for computed properties to be published of State.
     public let computed: Computed<State>
@@ -35,7 +35,10 @@ open class Store<State: VueFlux.State> {
         }
         
         self.commitWorkItem = commitWorkItem
+        
+        actions = .init(dispatcher: dispatcher)
         computed = .init(state: state)
+        
         dispatcherKey = dispatcher.subscribe(commit)
         sharedDispatcherKey = sharedDispatcher.subscribe(commit)
     }
