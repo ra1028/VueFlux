@@ -1,4 +1,4 @@
-/// An thread-safe value wrapper.
+/// Thread-safe value wrapper.
 public final class ThreadSafe<Value> {
     private var _value: Value
     private let lock: Lock
@@ -45,7 +45,7 @@ public final class ThreadSafe<Value> {
         }
     }
     
-    /// Set the new value and Returns old value.
+    /// Set the new value and returns old value.
     ///
     /// - Parameters:
     ///   - newValue: A new value.

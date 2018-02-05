@@ -1,8 +1,9 @@
 /// Manages a State and commits the action received via dispatcher to mutations.
 open class Store<State: VueFlux.State> {
-    private let commitWorkItem: Executor.WorkItem<State.Action>
     private let dispatcher = Dispatcher<State>()
     private let sharedDispatcher = Dispatcher<State>.shared
+    
+    private let commitWorkItem: Executor.WorkItem<State.Action>
     private let dispatcherKey: Dispatcher<State>.Observers.Key
     private let sharedDispatcherKey: Dispatcher<State>.Observers.Key
     
