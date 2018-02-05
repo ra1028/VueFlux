@@ -14,7 +14,7 @@ public final class DisposableScope: Disposable {
         return true
     }
     
-    private let state: ThreadSafe<State>
+    private let state: AtomicReference<State>
     
     deinit {
         dispose()

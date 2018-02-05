@@ -2,7 +2,7 @@
 struct DispatcherContext {
     static let shared = DispatcherContext()
     
-    private let dispatchers = ThreadSafe([Identifier: Any]())
+    private let dispatchers = AtomicReference([Identifier: Any]())
     
     private init() {}
     

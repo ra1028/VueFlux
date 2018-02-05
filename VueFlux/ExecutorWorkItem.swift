@@ -7,7 +7,7 @@ public extension Executor {
             case canceled
         }
         
-        private let state: ThreadSafe<State>
+        private let state: AtomicReference<State>
         
         /// A Bool value indicating whether canceled.
         public var isCanceled: Bool {

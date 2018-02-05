@@ -7,7 +7,7 @@ public struct AnyDisposable: Disposable {
         case disposed
     }
     
-    private let state: ThreadSafe<State>
+    private let state: AtomicReference<State>
     
     /// A Bool value indicating whether disposed.
     public var isDisposed: Bool {

@@ -7,7 +7,7 @@ struct Dispatcher<State: VueFlux.State> {
         return DispatcherContext.shared.dispatcher(for: State.self)
     }
     
-    private let observers = ThreadSafe(Observers())
+    private let observers = AtomicReference(Observers())
     
     /// Create a Dispatcher
     init() {}
