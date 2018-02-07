@@ -16,7 +16,7 @@
 		6B9EB21E1FCB14ED009F0659 /* DispatcherContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB2161FCB14BF009F0659 /* DispatcherContext.swift */; };
 		6B9EB2241FCB14ED009F0659 /* VueFlux.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB21C1FCB14BF009F0659 /* VueFlux.swift */; };
 		6B9EB23E1FCB1CFB009F0659 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB23C1FCB1CFB009F0659 /* Storage.swift */; };
-		6B9EB23F1FCB1CFB009F0659 /* AtomicReferenceSafe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB23D1FCB1CFB009F0659 /* AtomicReferenceSafe.swift */; };
+		6B9EB23F1FCB1CFB009F0659 /* AtomicReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB23D1FCB1CFB009F0659 /* AtomicReference.swift */; };
 		6B9EB2431FCB1FF8009F0659 /* VueFluxReactive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B9EB2361FCB157C009F0659 /* VueFluxReactive.framework */; };
 		6B9EB2441FCB203B009F0659 /* VueFluxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE63FFE1FB3A6D8007F8B5D /* VueFluxTests.swift */; };
 		6B9EB2451FCB203B009F0659 /* ExecutorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE63FF91FB39EA6007F8B5D /* ExecutorTests.swift */; };
@@ -84,7 +84,7 @@
 		6B9EB23A1FCB1C87009F0659 /* Disposable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Disposable.swift; sourceTree = "<group>"; };
 		6B9EB23B1FCB1C88009F0659 /* DisposableScope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisposableScope.swift; sourceTree = "<group>"; };
 		6B9EB23C1FCB1CFB009F0659 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
-		6B9EB23D1FCB1CFB009F0659 /* AtomicReferenceSafe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomicReferenceSafe.swift; sourceTree = "<group>"; };
+		6B9EB23D1FCB1CFB009F0659 /* AtomicReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomicReference.swift; sourceTree = "<group>"; };
 		6B9EB2521FCB2B82009F0659 /* StreamTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamTests.swift; sourceTree = "<group>"; };
 		6B9EB2561FCB2FEE009F0659 /* SinkSignalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinkSignalTests.swift; sourceTree = "<group>"; };
 		6B9EB25C1FCB3D81009F0659 /* VariableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableTests.swift; sourceTree = "<group>"; };
@@ -192,7 +192,7 @@
 				6BC665321FF032C500BD74C8 /* Executor.swift */,
 				6B665527200AE8A000883C12 /* ExecutorWorkItem.swift */,
 				6B9EB23C1FCB1CFB009F0659 /* Storage.swift */,
-				6B9EB23D1FCB1CFB009F0659 /* AtomicReferenceSafe.swift */,
+				6B9EB23D1FCB1CFB009F0659 /* AtomicReference.swift */,
 				6B9EB2141FCB14BF009F0659 /* Internal */,
 				6B9EB2131FCB14BF009F0659 /* Info.plist */,
 			);
@@ -427,7 +427,7 @@
 				6B9EB21E1FCB14ED009F0659 /* DispatcherContext.swift in Sources */,
 				6B665528200AE8A000883C12 /* ExecutorWorkItem.swift in Sources */,
 				6B9EB2241FCB14ED009F0659 /* VueFlux.swift in Sources */,
-				6B9EB23F1FCB1CFB009F0659 /* AtomicReferenceSafe.swift in Sources */,
+				6B9EB23F1FCB1CFB009F0659 /* AtomicReference.swift in Sources */,
 				6BC665331FF032C500BD74C8 /* Executor.swift in Sources */,
 				6B9EB23E1FCB1CFB009F0659 /* Storage.swift in Sources */,
 			);
