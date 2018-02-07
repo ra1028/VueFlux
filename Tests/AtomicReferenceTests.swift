@@ -1,13 +1,13 @@
 import XCTest
 @testable import VueFlux
 
-final class ThreadSafeTests: XCTestCase {
+final class AtomicReferenceTests: XCTestCase {
     func testSynchronized() {
-        let threadSafe = ThreadSafe(0)
+        let atomicReference = AtomicReference(0)
         
         var targetValue = 1
         
-        threadSafe.synchronized { value in
+        atomicReference.synchronized { value in
             targetValue = value
         }
         
@@ -15,9 +15,9 @@ final class ThreadSafeTests: XCTestCase {
     }
     
     func testSynchronizedResult() {
-        let threadSafe = ThreadSafe(0)
+        let atomicReference = AtomicReference(0)
         
-        let result = threadSafe.synchronized { value in
+        let result = atomicReference.synchronized { value in
             "\(value)"
         }
         
@@ -25,21 +25,21 @@ final class ThreadSafeTests: XCTestCase {
     }
     
     func testModify() {
-        let threadSafe = ThreadSafe(0)
+        let atomicReference = AtomicReference(0)
         
         let expectedValue = 1
         
-        threadSafe.modify { value in
+        atomicReference.modify { value in
             value = expectedValue
         }
         
-        XCTAssertEqual(threadSafe.synchronized { $0 }, expectedValue)
+        XCTAssertEqual(atomicReference.synchronized { $0 }, expectedValue)
     }
     
     func testModifyResult() {
-        let threadSafe = ThreadSafe(0)
+        let atomicReference = AtomicReference(0)
         
-        let result: String = threadSafe.modify { value in
+        let result: String = atomicReference.modify { value in
             value = 1
             return "\(value)"
         }
@@ -48,12 +48,12 @@ final class ThreadSafeTests: XCTestCase {
     }
     
     func testValueGetterAndSetter() {
-        let threadSafe = ThreadSafe(0)
+        let atomicReference = AtomicReference(0)
         
         let expectedValue = 1
         
-        threadSafe.value = expectedValue
-        let resultValue = threadSafe.value
+        atomicReference.value = expectedValue
+        let resultValue = atomicReference.value
         
         XCTAssertEqual(resultValue, expectedValue)
     }
@@ -62,35 +62,35 @@ final class ThreadSafeTests: XCTestCase {
         let initialValue = 0
         let expectedValue = 1
         
-        let threadSafe = ThreadSafe(initialValue)
+        let atomicReference = AtomicReference(initialValue)
 
-        let oldValue = threadSafe.swap(expectedValue)
-        let newValue = threadSafe.value
+        let oldValue = atomicReference.swap(expectedValue)
+        let newValue = atomicReference.value
         
         XCTAssertEqual(oldValue, initialValue)
         XCTAssertEqual(newValue, expectedValue)
     }
     
     func testAsync() {
-        let threadSafe = ThreadSafe(0)
+        let atomicReference = AtomicReference(0)
         
-        let expectation = self.expectation(description: "async modify")
+        let expectation = self.expectation(description: "testAsync")
         
-        threadSafe.modify { value in
+        atomicReference.modify { value in
             value = 1
             sleep(1)
         }
         
         DispatchQueue.globalDefault().asyncAfter(deadline: .now() + 0.5) {
-            XCTAssertEqual(threadSafe.synchronized { $0 }, 1)
+            XCTAssertEqual(atomicReference.synchronized { $0 }, 1)
             
-            threadSafe.modify { value in
+            atomicReference.modify { value in
                 value += 1
             }
             
-            XCTAssertEqual(threadSafe.synchronized { $0 }, 2)
+            XCTAssertEqual(atomicReference.synchronized { $0 }, 2)
             
-            threadSafe.modify { value in
+            atomicReference.modify { value in
                 value += 1
             }
             
@@ -98,7 +98,7 @@ final class ThreadSafeTests: XCTestCase {
         }
         
         waitForExpectations(timeout: 2) { _ in
-            XCTAssertEqual(threadSafe.synchronized { $0 }, 3)
+            XCTAssertEqual(atomicReference.synchronized { $0 }, 3)
         }
     }
 }

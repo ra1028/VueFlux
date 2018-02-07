@@ -42,7 +42,7 @@ VueFlux makes a unidirectional and predictable flow by explicitly dividing the r
 It's constituted of following core concepts.  
 State changes are observed by the ViewController using the reactive system.  
 Sample code uses VueFluxReactive which will be described later.  
-You can see example implementation [here](./Examples/Example).  
+You can see example implementation [here](./Example).
 
 - [State](#state)
 - [Actions](#actions)
@@ -53,7 +53,7 @@ You can see example implementation [here](./Examples/Example).
 ### State
 This is the protocol that only just for constraining the type of Action and Mutations, represents the state managed by the Store.  
 Implement some properties of the state, and keeps them readonly by fileprivate access control, like below.   
-Will be mutated only by Mutations, and the properties will be published only by Computed.  
+Will be mutated only by Mutations, and the properties will be published only by Computed.
 
 ```swift
 final class CounterState: State {
@@ -91,7 +91,7 @@ extension Actions where State == CounterState {
 This is the protocol that represents `commit` function that mutate the state.  
 Be able to change the fileprivate properties of the state by implementing it in the same file.  
 The only way to actually change State in a Store is committing an Action via Mutations.  
-Changes of State must be done `synchronously`.  
+Changes of State must be done **synchronously**.
 
 ```swift
 struct CounterMutations: Mutations {
@@ -114,8 +114,8 @@ Properties of State in the Store can only be accessed via this.
 
 ```swift
 extension Computed where State == CounterState {
-    var count: Constant<Int> {
-        return state.count.constant
+    var countTextValues: Signal<String> {
+        return state.count.signal.map { String($0) }
     }
 }
 ```
@@ -136,10 +136,7 @@ final class CounterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        store.computed.count.signal
-            .map { String($0) }
-            .observe(on: .mainThread)
-            .bind(to: counterLabel, \.text)
+        store.computed.countTextValues.bind(to: counterLabel, \.text)
     }
 
     @IBAction func incrementButtonTapped(sender: UIButton) {
@@ -252,14 +249,14 @@ constant.signal.observe { print($0) }
 ## Advanced Usage
 
 ### Executor
-Executor determines the execution context of function such as execute on main-thread, on a global queue and so on.  
+Executor determines the execution context of function such as execute on main thread, on a global queue and so on.  
 Some contexts are built in default.  
 
 - immediate  
   Executes function immediately and synchronously.  
 
 - mainThread  
-  Executes immediately and synchronously if execution thread is main-thread. Otherwise enqueue to main-queue.  
+  Executes immediately and synchronously if execution thread is main thread. Otherwise enqueue to main-queue.
 
 - queue(_ dispatchQueue: DispatchQueue)  
   All functions are enqueued to given dispatch queue.  
@@ -344,7 +341,7 @@ DispatchQueue.global().async {
 ```
 
 ### Disposable
-Disposable represents something that can be “disposed”, usually unregister a observe that registered to Signal.  
+Disposable represents something that can be disposed, usually unregister a observe that registered to Signal.  
 
 ```swift
 let disposable = signal.observe { value in
@@ -382,19 +379,18 @@ signal.observe(duringScopeOf: self) { value in
 ### Bind
 Binding makes target object's value be updated to the latest value received via Signal.  
 The binding is no longer valid after the target object is deinitialized.  
+Bindings work on **main thread** by default.  
 
 Closure binding.
 ```swift
-text.signal
-    .observe(on: .mainThread)
-    .bind(to: label) { label, text in label.text = text }
+text.signal.bind(to: label) { label, text in
+    label.text = text
+}
 ```
 
 Smart KeyPath binding.
 ```swift
-text.signal
-    .observe(on: .mainThread)
-    .bind(to: label, \.text)
+text.signal.bind(to: label, \.text)
 ```
 
 Binder
@@ -412,9 +408,7 @@ extension UIView {
     }
 }
 
-isViewHidden.signal
-    .observe(on: .mainThread)
-    .bind(to: view.setHiddenBinder(duration: 0.3))
+isViewHidden.signal.bind(to: view.setHiddenBinder(duration: 0.3))
 ```
 
 ### Shared Store

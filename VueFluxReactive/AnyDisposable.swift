@@ -1,13 +1,13 @@
 import VueFlux
 
-/// An dispose function wrapper.
+/// Disposable that consist of any function.
 public struct AnyDisposable: Disposable {
     private enum State {
         case active(dispose: () -> Void)
         case disposed
     }
     
-    private let state: ThreadSafe<State>
+    private let state: AtomicReference<State>
     
     /// A Bool value indicating whether disposed.
     public var isDisposed: Bool {

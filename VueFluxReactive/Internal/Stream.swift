@@ -2,7 +2,7 @@ import VueFlux
 
 /// A stream that able to both sends and receive values.
 final class Stream<Value> {
-    private lazy var observers = ThreadSafe(Storage<(Value) -> Void>())
+    private lazy var observers = AtomicReference(Storage<(Value) -> Void>())
     
     /// Add the observer function to be received the values.
     ///

@@ -1,8 +1,9 @@
 /// Manages a State and commits the action received via dispatcher to mutations.
 open class Store<State: VueFlux.State> {
-    private let state: State
     private let dispatcher = Dispatcher<State>()
     private let sharedDispatcher = Dispatcher<State>.shared
+    
+    private let commitWorkItem: Executor.WorkItem<State.Action>
     private let dispatcherKey: Dispatcher<State>.Observers.Key
     private let sharedDispatcherKey: Dispatcher<State>.Observers.Key
     
@@ -13,10 +14,10 @@ open class Store<State: VueFlux.State> {
     }
     
     /// A action proxy that dispatches actions via dispatcher retained by `self`.
-    public lazy var actions = Actions<State>(dispatcher: dispatcher)
+    public let actions: Actions<State>
     
     /// A proxy for computed properties to be published of State.
-    public lazy var computed = Computed<State>(state: state)
+    public let computed: Computed<State>
     
     /// Initialize a new store.
     ///
@@ -25,18 +26,25 @@ open class Store<State: VueFlux.State> {
     ///   - mutations: A mutations for mutates the state.
     ///   - executor: An executor to dispatch actions on.
     public init(state: State, mutations: State.Mutations, executor: Executor) {
-        self.state = state
-        
-        let dispatch: (State.Action) -> Void = { [weak state] action in
-            guard let state = state else { return }
+        let commitWorkItem = Executor.WorkItem<State.Action> { action in
             mutations.commit(action: action, state: state)
         }
         
-        dispatcherKey = dispatcher.subscribe(executor: executor, dispatch: dispatch)
-        sharedDispatcherKey = sharedDispatcher.subscribe(executor: executor, dispatch: dispatch)
+        let commit: (State.Action) -> Void = { action in
+            executor.execute(workItem: commitWorkItem, with: action)
+        }
+        
+        self.commitWorkItem = commitWorkItem
+        
+        actions = .init(dispatcher: dispatcher)
+        computed = .init(state: state)
+        
+        dispatcherKey = dispatcher.subscribe(commit)
+        sharedDispatcherKey = sharedDispatcher.subscribe(commit)
     }
     
     deinit {
+        commitWorkItem.cancel()
         dispatcher.unsubscribe(for: dispatcherKey)
         sharedDispatcher.unsubscribe(for: sharedDispatcherKey)
     }

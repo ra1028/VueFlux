@@ -6,7 +6,7 @@ import VueFluxReactive
 final class CounterViewController: UIViewController {
     @IBOutlet private weak var counterView: CounterView!
     
-    private let store = Store<CounterState>(state: .init(max: 1000), mutations: .init(), executor: .immediate)
+    private let store = Store<CounterState>(state: .init(max: 1000), mutations: .init(), executor: .queue(.global()))
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -26,13 +26,8 @@ private extension CounterViewController {
         counterView.openGitHubButton.addTarget(self, action: #selector(openGithub), for: .touchUpInside)
         counterView.intervalSlider.addTarget(self, action: #selector(updateInterval(_:)), for: .valueChanged)
         
-        store.computed.countText
-            .observe(on: .mainThread)
-            .bind(to: counterView.counterLabel, \.text)
-        
-        store.computed.intervalText
-            .observe(on: .mainThread)
-            .bind(to: counterView.intervalLabel, \.text)
+        store.computed.countText.bind(to: counterView.counterLabel, \.text)
+        store.computed.intervalText.bind(to: counterView.intervalLabel, \.text)
         
         store.computed.command
             .observe(on: .mainThread)

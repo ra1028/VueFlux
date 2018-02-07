@@ -1,4 +1,4 @@
-import class VueFlux.ThreadSafe
+import class VueFlux.AtomicReference
 
 /// Represents an observable value that can be change directly.
 public final class Variable<Value> {
@@ -32,7 +32,7 @@ public final class Variable<Value> {
     }
     
     private let stream = Stream<Value>()
-    private var _value: ThreadSafe<Value>
+    private var _value: AtomicReference<Value>
     
     /// Create a new variable with its initial value.
     ///

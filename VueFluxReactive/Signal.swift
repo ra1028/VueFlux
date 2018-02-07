@@ -1,3 +1,5 @@
+import VueFlux
+
 /// A stream that can be sending values over time.
 public struct Signal<Value> {
     public typealias Producer = (@escaping (Value) -> Void) -> Disposable
@@ -12,7 +14,7 @@ public struct Signal<Value> {
         self.producer = producer
     }
     
-    /// Observe the values to the given observer.
+    /// Observe `self` for all values being sended.
     ///
     /// - Prameters:
     ///   - observer: A function to be received the values.
@@ -41,23 +43,25 @@ public struct Signal<Value> {
     ///
     /// - Prameters:
     ///   - binder: A binder to be bound.
+    ///   - executor: A executor to forward events to binder on.
     ///
     /// - Returns: A disposable to unbind given binder.
     @discardableResult
-    public func bind(to binder: Binder<Value>) -> Disposable {
-        return binder.bind(signal: self)
+    public func bind(to binder: Binder<Value>, on executor: Executor = .mainThread) -> Disposable {
+        return binder.bind(signal: self, on: executor)
     }
     
     /// Binds the values to a target, updating the target's value to the latest value of `self` during scope of binder target.
     ///
     /// - Prameters:
     ///   - target: A binding target object.
+    ///   - executor: A executor to forward events to binder on.
     ///   - binding: A function to bind values.
     ///
     /// - Returns: A disposable to unbind given target.
     @discardableResult
-    public func bind<Target: AnyObject>(to target: Target, binding: @escaping (Target, Value) -> Void) -> Disposable {
-        return bind(to: .init(target: target, binding: binding))
+    public func bind<Target: AnyObject>(to target: Target, on executor: Executor = .mainThread, binding: @escaping (Target, Value) -> Void) -> Disposable {
+        return bind(to: .init(target: target, binding: binding), on: executor)
     }
     
     /// Binds the values to a target, updating the target's value to the latest value of `self` during scope of binder target.
@@ -65,11 +69,12 @@ public struct Signal<Value> {
     /// - Prameters:
     ///   - target: A binding target object.
     ///   - keyPath: The key path of the object that to bind values.
+    ///   - executor: A executor to forward events to binder on.
     ///
     /// - Returns: A disposable to unbind given target.
     @discardableResult
-    public func bind<Target: AnyObject>(to target: Target, _ keyPath: ReferenceWritableKeyPath<Target, Value>) -> Disposable {
-        return bind(to: target) { target, value in
+    public func bind<Target: AnyObject>(to target: Target, _ keyPath: ReferenceWritableKeyPath<Target, Value>, on executor: Executor = .mainThread) -> Disposable {
+        return bind(to: target, on: executor) { target, value in
             target[keyPath: keyPath] = value
         }
     }
@@ -79,11 +84,12 @@ public struct Signal<Value> {
     /// - Prameters:
     ///   - target: A binding target object.
     ///   - keyPath: The key path of the object that to bind values. Allows optional.
+    ///   - executor: A executor to forward events to binder on.
     ///
     /// - Returns: A disposable to unbind given target.
     @discardableResult
-    public func bind<Target: AnyObject>(to target: Target, _ keyPath: ReferenceWritableKeyPath<Target, Value?>) -> Disposable {
-        return bind(to: target) { target, value in
+    public func bind<Target: AnyObject>(to target: Target, _ keyPath: ReferenceWritableKeyPath<Target, Value?>, on executor: Executor = .mainThread) -> Disposable {
+        return bind(to: target, on: executor) { target, value in
             target[keyPath: keyPath] = value as Value?
         }
     }
