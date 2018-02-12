@@ -1,6 +1,7 @@
 /// Collection of values of type `Element` that to be able to remove value by key.
 public struct Storage<Element> {
-    private var buffer = ContiguousArray<(key: Key, element: Element)>()
+    private var elements = ContiguousArray<Element>()
+    private var keyRawValues = ContiguousArray<Key.RawValue>()
     private var nextKey = Key.first
     
     /// Create the new, empty storage.
@@ -12,10 +13,14 @@ public struct Storage<Element> {
     ///   - element: An element to be added.
     ///
     /// - Returns: A key for remove given element.
+    @discardableResult
     public mutating func add(_ element: Element) -> Key {
         let key = nextKey
         nextKey = key.next
-        buffer.append((key: key, element: element))
+        
+        elements.append(element)
+        keyRawValues.append(key.rawValue)
+        
         return key
     }
     
@@ -23,59 +28,73 @@ public struct Storage<Element> {
     ///
     /// - Parameters:
     ///   - key: A key for remove element.
-    public mutating func remove(for key: Key) {
-        if let index = buffer.index(where: { $0.key == key }) {
-            buffer.remove(at: index)
-        }
+    ///
+    /// - Returns: A removed element.
+    @discardableResult
+    public mutating func remove(for key: Key) -> Element? {
+        guard let index = indices.first(where: { keyRawValues[$0] == key.rawValue }) else { return nil }
+        
+        keyRawValues.remove(at: index)
+        return elements.remove(at: index)
     }
 }
 
 extension Storage: RandomAccessCollection {
     public var startIndex: Int {
-        return buffer.startIndex
+        return elements.startIndex
     }
     
     public var endIndex: Int {
-        return buffer.endIndex
+        return elements.endIndex
     }
     
-    public func index(after i: Int) -> Int {
-        return i + 1
+    public subscript(index: Int) -> Element {
+        return elements[index]
     }
     
-    public subscript(position: Int) -> Element {
-        return buffer[position].element
+    public func makeIterator() -> Iterator {
+        return .init(elements)
+    }
+    
+    /// A type that provides the sequence's iteration interface and encapsulates its iteration state.
+    public struct Iterator: IteratorProtocol {
+        private let elements: ContiguousArray<Element>
+        private var nextIndex: Int
+        private let endIndex: Int
+        
+        fileprivate init(_ elements: ContiguousArray<Element>) {
+            self.elements = elements
+            nextIndex = elements.startIndex
+            endIndex = elements.endIndex
+        }
+        
+        public mutating func next() -> Element? {
+            let index = nextIndex
+            guard index < endIndex else { return nil }
+            
+            nextIndex = index + 1
+            return elements[index]
+        }
     }
 }
 
 public extension Storage {
     /// An unique key for remove element.
-    public struct Key: Equatable {
-        private let value: UInt64
+    public struct Key {
+        fileprivate typealias RawValue = UInt64
         
-        /// Create a first key
+        fileprivate let rawValue: RawValue
+        
         fileprivate static var first: Key {
-            return .init(value: 0)
+            return .init(rawValue: 0)
         }
         
-        /// A next key
         fileprivate var next: Key {
-            return .init(value: value &+ 1)
+            return .init(rawValue: rawValue &+ 1)
         }
         
-        private init(value: UInt64) {
-            self.value = value
-        }
-        
-        /// Compare whether two keys are equal.
-        ///
-        /// - Parameters:
-        ///   - lhs: A key to compare.
-        ///   - rhs: Another key to compare.
-        ///
-        /// - Returns: A Bool value indicating whether two keys are equal.
-        public static func == (lhs: Key, rhs: Key) -> Bool {
-            return lhs.value == rhs.value
+        private init(rawValue: RawValue) {
+            self.rawValue = rawValue
         }
     }
 }
