@@ -48,12 +48,33 @@ extension Storage: RandomAccessCollection {
         return elements.endIndex
     }
     
-    public func index(after i: Int) -> Int {
-        return i + 1
+    public subscript(index: Int) -> Element {
+        return elements[index]
     }
     
-    public subscript(position: Int) -> Element {
-        return elements[position]
+    public func makeIterator() -> Iterator {
+        return .init(elements)
+    }
+    
+    /// A type that provides the sequence's iteration interface and encapsulates its iteration state.
+    public struct Iterator: IteratorProtocol {
+        private let elements: ContiguousArray<Element>
+        private var nextIndex: Int
+        private let endIndex: Int
+        
+        fileprivate init(_ elements: ContiguousArray<Element>) {
+            self.elements = elements
+            nextIndex = elements.startIndex
+            endIndex = elements.endIndex
+        }
+        
+        public mutating func next() -> Element? {
+            let index = nextIndex
+            guard index < endIndex else { return nil }
+            
+            nextIndex = index + 1
+            return elements[index]
+        }
     }
 }
 
