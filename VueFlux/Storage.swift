@@ -93,7 +93,7 @@ public extension Storage {
             return .init(rawValue: rawValue &+ 1)
         }
         
-        private init(rawValue: UInt64) {
+        private init(rawValue: RawValue) {
             self.rawValue = rawValue
         }
     }
