@@ -1,5 +1,5 @@
 /// An action dispatcher for subscribed dispatch functions.
-struct Dispatcher<State: VueFlux.State> {
+final class Dispatcher<State: VueFlux.State> {
     typealias Observers = Storage<(State.Action) -> Void>
     
     /// Shared instance associated by generic type of State.
