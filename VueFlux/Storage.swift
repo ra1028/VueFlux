@@ -52,29 +52,8 @@ extension Storage: RandomAccessCollection {
         return elements[index]
     }
     
-    public func makeIterator() -> Iterator {
-        return .init(elements)
-    }
-    
-    /// A type that provides the sequence's iteration interface and encapsulates its iteration state.
-    public struct Iterator: IteratorProtocol {
-        private let elements: ContiguousArray<Element>
-        private var nextIndex: Int
-        private let endIndex: Int
-        
-        fileprivate init(_ elements: ContiguousArray<Element>) {
-            self.elements = elements
-            nextIndex = elements.startIndex
-            endIndex = elements.endIndex
-        }
-        
-        public mutating func next() -> Element? {
-            let index = nextIndex
-            guard index < endIndex else { return nil }
-            
-            nextIndex = index + 1
-            return elements[index]
-        }
+    public func makeIterator() -> IndexingIterator<ContiguousArray<Element>> {
+        return elements.makeIterator()
     }
 }
 
