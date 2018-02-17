@@ -3,17 +3,13 @@ import class VueFlux.AtomicReference
 /// Represents an observable value that can be change directly.
 public final class Variable<Value> {
     /// Create a constant which reflects the `self`.
-    public var constant: Constant<Value> {
-        return .init(variable: self)
-    }
+    public lazy var constant = Constant(variable: self)
     
     /// Create a signal to forwards the current value at observation and the all value changes.
-    public var signal: Signal<Value> {
-        return .init { send in
-            self._value.synchronized { value in
-                send(value)
-                return self.stream.observe(send)
-            }
+    public lazy var signal = Signal<Value> { send in
+        self._value.synchronized { value in
+            send(value)
+            return self.stream.observe(send)
         }
     }
     
