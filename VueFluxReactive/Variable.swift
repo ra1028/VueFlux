@@ -12,7 +12,7 @@ public final class Variable<Value> {
         return .init { send in
             self._value.synchronized { value in
                 send(value)
-                return self.stream.add(observer: send)
+                return self.stream.observe(send)
             }
         }
     }

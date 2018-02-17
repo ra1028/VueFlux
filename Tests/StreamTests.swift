@@ -8,7 +8,7 @@ final class StreamTests: XCTestCase {
         
         var value = 0
         
-        stream.add { int in
+        stream.observe { int in
             XCTAssertTrue(Thread.isMainThread)
             value = int
         }
@@ -27,7 +27,7 @@ final class StreamTests: XCTestCase {
         
         var value = 0
         
-        let disposable = stream.add { int in
+        let disposable = stream.observe { int in
             value = int
         }
         
