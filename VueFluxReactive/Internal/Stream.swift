@@ -12,13 +12,13 @@ final class Stream<Value> {
     /// - Returns: A disposable to remove given observer from `self`.
     @discardableResult
     func observe(_ observer: @escaping (Value) -> Void) -> Disposable {
-        return observers.modify { observers in
-            let key = observers.add(observer)
-            
-            return AnyDisposable { [weak self] in
-                self?.observers.modify { observers in
-                    observers.remove(for: key)
-                }
+        let key = observers.modify { observers in
+            observers.add(observer)
+        }
+        
+        return AnyDisposable { [weak self] in
+            self?.observers.modify { observers in
+                observers.remove(for: key)
             }
         }
     }

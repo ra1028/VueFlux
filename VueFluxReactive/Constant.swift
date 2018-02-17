@@ -18,7 +18,7 @@ public struct Constant<Value> {
     /// - Parameters:
     ///   - value: An initial value.
     public init(_ value: Value) {
-        self.variable = .init(value)
+        variable = .init(value)
     }
     
     /// Create a new constant with a variable.
