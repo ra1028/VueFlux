@@ -1,7 +1,7 @@
 import VueFlux
 
 /// A stream that can be sending values over time.
-public struct Signal<Value> {
+public final class Signal<Value> {
     public typealias Producer = (@escaping (Value) -> Void) -> Disposable
     
     private let producer: (@escaping (Value) -> Void) -> Disposable

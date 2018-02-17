@@ -1,6 +1,6 @@
 /// Wrapper to make Variable read-only.
 /// Observable value changes are reflects from its variable.
-public struct Constant<Value> {
+public final class Constant<Value> {
     /// Create a signal to forwards the current value at observation and the all value changes.
     public var signal: Signal<Value> {
         return variable.signal
@@ -18,7 +18,7 @@ public struct Constant<Value> {
     /// - Parameters:
     ///   - value: An initial value.
     public init(_ value: Value) {
-        self.variable = .init(value)
+        variable = .init(value)
     }
     
     /// Create a new constant with a variable.
