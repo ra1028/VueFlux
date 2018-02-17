@@ -29,7 +29,7 @@ extension Actions where State == CounterState {
     }
     
     func openGitHub() {
-        self.dispatch(action: .openGitHub)
+        dispatch(action: .openGitHub)
     }
     
     func update(interval: TimeInterval) {

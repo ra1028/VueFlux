@@ -4,7 +4,7 @@ import VueFluxReactive
 
 extension Computed where State == CounterState {
     var countText: Signal<String> {
-        return state.count.signal.map { String($0) }
+        return state.count.signal.map(String.init)
     }
     
     var interval: TimeInterval {
