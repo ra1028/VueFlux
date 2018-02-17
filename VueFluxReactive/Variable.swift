@@ -12,7 +12,7 @@ public final class Variable<Value> {
         return .init { send in
             self._value.synchronized { value in
                 send(value)
-                return self.stream.observe(send)
+                return self.changesSignal.observe(send)
             }
         }
     }
@@ -26,12 +26,13 @@ public final class Variable<Value> {
         set {
             _value.modify { value in
                 value = newValue
-                stream.send(value: newValue)
+                changesSink.send(value: value)
             }
         }
     }
     
-    private let stream = Stream<Value>()
+    private let changesSink = Sink<Value>()
+    private lazy var changesSignal = changesSink.signal
     private let _value: AtomicReference<Value>
     
     /// Create a new variable with its initial value.

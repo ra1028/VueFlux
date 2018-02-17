@@ -10,7 +10,6 @@
 		6B008F47202490C400F93B32 /* BinderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B008F46202490C400F93B32 /* BinderTests.swift */; };
 		6B052E141FCB4EE2008B3731 /* Binder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B052E131FCB4EE2008B3731 /* Binder.swift */; };
 		6B665528200AE8A000883C12 /* ExecutorWorkItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B665527200AE8A000883C12 /* ExecutorWorkItem.swift */; };
-		6B9920711FEC261600D4837C /* Stream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9920701FEC261600D4837C /* Stream.swift */; };
 		6B9E328B1FA639DF000B24D4 /* VueFlux.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B9E32811FA639DF000B24D4 /* VueFlux.framework */; };
 		6B9EB21D1FCB14ED009F0659 /* Dispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB2151FCB14BF009F0659 /* Dispatcher.swift */; };
 		6B9EB21E1FCB14ED009F0659 /* DispatcherContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB2161FCB14BF009F0659 /* DispatcherContext.swift */; };
@@ -28,7 +27,6 @@
 		6B9EB24B1FCB203B009F0659 /* AtomicReferenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE63FF01FB39446007F8B5D /* AtomicReferenceTests.swift */; };
 		6B9EB24C1FCB2078009F0659 /* Disposable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB23A1FCB1C87009F0659 /* Disposable.swift */; };
 		6B9EB24D1FCB2078009F0659 /* DisposableScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB23B1FCB1C88009F0659 /* DisposableScope.swift */; };
-		6B9EB2531FCB2B82009F0659 /* StreamTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB2521FCB2B82009F0659 /* StreamTests.swift */; };
 		6B9EB2571FCB2FEE009F0659 /* SinkSignalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB2561FCB2FEE009F0659 /* SinkSignalTests.swift */; };
 		6B9EB25D1FCB3D81009F0659 /* VariableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9EB25C1FCB3D81009F0659 /* VariableTests.swift */; };
 		6BB30C4D2018E3AC00C52C76 /* Sink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB30C4C2018E3AC00C52C76 /* Sink.swift */; };
@@ -71,7 +69,6 @@
 		6B052E131FCB4EE2008B3731 /* Binder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binder.swift; sourceTree = "<group>"; };
 		6B120DC81FD5B52D001FEAB4 /* Universal.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Universal.xcconfig; sourceTree = "<group>"; };
 		6B665527200AE8A000883C12 /* ExecutorWorkItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExecutorWorkItem.swift; sourceTree = "<group>"; };
-		6B9920701FEC261600D4837C /* Stream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stream.swift; sourceTree = "<group>"; };
 		6B9E32811FA639DF000B24D4 /* VueFlux.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VueFlux.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B9E328A1FA639DF000B24D4 /* Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B9E329F1FA63B07000B24D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -85,7 +82,6 @@
 		6B9EB23B1FCB1C88009F0659 /* DisposableScope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisposableScope.swift; sourceTree = "<group>"; };
 		6B9EB23C1FCB1CFB009F0659 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		6B9EB23D1FCB1CFB009F0659 /* AtomicReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomicReference.swift; sourceTree = "<group>"; };
-		6B9EB2521FCB2B82009F0659 /* StreamTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamTests.swift; sourceTree = "<group>"; };
 		6B9EB2561FCB2FEE009F0659 /* SinkSignalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinkSignalTests.swift; sourceTree = "<group>"; };
 		6B9EB25C1FCB3D81009F0659 /* VariableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableTests.swift; sourceTree = "<group>"; };
 		6BA27BCB1FB8CD3100809472 /* DisposableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisposableTests.swift; sourceTree = "<group>"; };
@@ -176,7 +172,6 @@
 				6B9EB2561FCB2FEE009F0659 /* SinkSignalTests.swift */,
 				6B9EB25C1FCB3D81009F0659 /* VariableTests.swift */,
 				6BEB90121FCF2340001B9BF6 /* ConstantTests.swift */,
-				6B9EB2521FCB2B82009F0659 /* StreamTests.swift */,
 				6B008F46202490C400F93B32 /* BinderTests.swift */,
 				6BA27BCB1FB8CD3100809472 /* DisposableTests.swift */,
 				6BA27BCE1FB8CE1A00809472 /* DisposableScopeTests.swift */,
@@ -236,7 +231,6 @@
 		6BEB90161FCF24C6001B9BF6 /* Internal */ = {
 			isa = PBXGroup;
 			children = (
-				6B9920701FEC261600D4837C /* Stream.swift */,
 				6BEB90191FCF2DB2001B9BF6 /* AssociatedDisposableScope.swift */,
 			);
 			path = Internal;
@@ -439,7 +433,6 @@
 			files = (
 				6B9EB2441FCB203B009F0659 /* VueFluxTests.swift in Sources */,
 				6B9EB2451FCB203B009F0659 /* ExecutorTests.swift in Sources */,
-				6B9EB2531FCB2B82009F0659 /* StreamTests.swift in Sources */,
 				6B9EB2571FCB2FEE009F0659 /* SinkSignalTests.swift in Sources */,
 				6B9EB2461FCB203B009F0659 /* DisposableTests.swift in Sources */,
 				6BEB90131FCF2340001B9BF6 /* ConstantTests.swift in Sources */,
@@ -465,7 +458,6 @@
 				6BC664F51FEC5ABF00BD74C8 /* AnyDisposable.swift in Sources */,
 				6B052E141FCB4EE2008B3731 /* Binder.swift in Sources */,
 				6BEB901A1FCF2DB2001B9BF6 /* AssociatedDisposableScope.swift in Sources */,
-				6B9920711FEC261600D4837C /* Stream.swift in Sources */,
 				6B9EB24D1FCB2078009F0659 /* DisposableScope.swift in Sources */,
 				6BB30C532018E41600C52C76 /* Constant.swift in Sources */,
 			);
