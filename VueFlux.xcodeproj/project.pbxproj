@@ -211,9 +211,10 @@
 		6B9EB2381FCB1611009F0659 /* VueFluxReactive */ = {
 			isa = PBXGroup;
 			children = (
-				6BB30C4E2018E3CA00C52C76 /* Signal.swift */,
 				6BB30C4C2018E3AC00C52C76 /* Sink.swift */,
+				6BB30C4E2018E3CA00C52C76 /* Signal.swift */,
 				6BB30C502018E3E700C52C76 /* Variable.swift */,
+				6BB30C522018E41600C52C76 /* Constant.swift */,
 				6BC664F61FEC627E00BD74C8 /* SignalOperators.swift */,
 				6BC664F41FEC5ABF00BD74C8 /* AnyDisposable.swift */,
 				6B9EB23A1FCB1C87009F0659 /* Disposable.swift */,
@@ -221,7 +222,6 @@
 				6B052E131FCB4EE2008B3731 /* Binder.swift */,
 				6BEB90161FCF24C6001B9BF6 /* Internal */,
 				6B9EB2391FCB1611009F0659 /* Info.plist */,
-				6BB30C522018E41600C52C76 /* Constant.swift */,
 			);
 			path = VueFluxReactive;
 			sourceTree = "<group>";

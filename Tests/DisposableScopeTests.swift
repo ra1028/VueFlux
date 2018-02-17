@@ -2,7 +2,7 @@ import XCTest
 @testable import VueFluxReactive
 
 final class DisposableScopeTests: XCTestCase {
-    func testdispose() {
+    func testDispose() {
         var value = 0
         let disposableScope = DisposableScope()
         
