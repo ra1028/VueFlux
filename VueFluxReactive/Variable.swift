@@ -32,7 +32,7 @@ public final class Variable<Value> {
     }
     
     private let stream = Stream<Value>()
-    private var _value: AtomicReference<Value>
+    private let _value: AtomicReference<Value>
     
     /// Create a new variable with its initial value.
     ///
