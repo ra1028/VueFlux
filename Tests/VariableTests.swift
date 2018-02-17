@@ -87,7 +87,7 @@ final class VariableTests: XCTestCase {
         var value: String?
         
         let disposable = variable.signal
-            .map(String.init(_:))
+            .map(String.init)
             .observe { string in
                 value = string
         }

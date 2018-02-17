@@ -13,7 +13,7 @@ public struct Executor {
     /// If called execute on main-thread, function is not enqueue and execute immediately.
     public static var mainThread: Executor {
         let innerExecutor = MainThreadInnerExecutor()
-        return .init(innerExecutor.execute(_:))
+        return .init(innerExecutor.execute)
     }
     
     /// All the executions are enqueued to given qeueue.
