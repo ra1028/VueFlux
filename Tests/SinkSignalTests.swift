@@ -211,7 +211,7 @@ final class SinkSignalTests: XCTestCase {
         
         var value: String?
         
-        let disposable = signal.map(String.init(_:)).observe { string in
+        let disposable = signal.map(String.init).observe { string in
             value = string
         }
         

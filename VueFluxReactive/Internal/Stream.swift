@@ -4,14 +4,14 @@ import VueFlux
 final class Stream<Value> {
     private lazy var observers = AtomicReference(Storage<(Value) -> Void>())
     
-    /// Add the observer function to be received the values.
+    /// Observe `self` for all values being sended.
     ///
     /// - Prameters:
     ///   - observer: A function to be received the values.
     ///
     /// - Returns: A disposable to remove given observer from `self`.
     @discardableResult
-    func add(observer: @escaping (Value) -> Void) -> Disposable {
+    func observe(_ observer: @escaping (Value) -> Void) -> Disposable {
         return observers.modify { observers in
             let key = observers.add(observer)
             

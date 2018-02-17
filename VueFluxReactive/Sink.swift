@@ -2,7 +2,7 @@
 public struct Sink<Value> {
     /// Create the signal that flows all values sent into the sink.
     public var signal: Signal<Value> {
-        return .init(stream.add(observer:))
+        return .init(stream.observe)
     }
     
     private let stream = Stream<Value>()

@@ -91,7 +91,7 @@ final class ConstantTests: XCTestCase {
         var value: String?
         
         let disposable = constant.signal
-            .map(String.init(_:))
+            .map(String.init)
             .observe { string in
                 value = string
         }
