@@ -140,6 +140,8 @@ final class SinkSignalTests: XCTestCase {
         
         signal.bind(to: binder)
         
+        XCTAssertEqual(object.value, 0)
+        
         sink.send(value: 3)
         
         XCTAssertEqual(object.value, 3)
@@ -156,6 +158,8 @@ final class SinkSignalTests: XCTestCase {
             $0.value = $1
         }
         
+        XCTAssertEqual(object.value, 0)
+        
         sink.send(value: 3)
         
         XCTAssertEqual(object.value, 3)
@@ -168,6 +172,27 @@ final class SinkSignalTests: XCTestCase {
         let signal = sink.signal
         
         signal.bind(to: object, \.value)
+        
+        XCTAssertEqual(object.value, 0)
+        
+        sink.send(value: 3)
+        
+        XCTAssertEqual(object.value, 3)
+    }
+    
+    func testBindWithTargetAndKeyPathOptional() {
+        final class Object {
+            var value: Int?
+        }
+        
+        let object = Object()
+        
+        let sink = Sink<Int>()
+        let signal = sink.signal
+        
+        signal.bind(to: object, \.value)
+        
+        XCTAssertNil(object.value)
         
         sink.send(value: 3)
         
