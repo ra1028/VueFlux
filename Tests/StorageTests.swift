@@ -21,7 +21,8 @@ final class StorageTests: XCTestCase {
         
         XCTAssertEqual(targetValue1, additionValue1 + additionValue2)
         
-        storage.remove(for: key1)
+        let removed1 = storage.remove(for: key1)
+        XCTAssertEqual(removed1, additionValue1)
         
         var targetValue2 = 0
         for additionValue in storage {
@@ -30,12 +31,16 @@ final class StorageTests: XCTestCase {
         
         XCTAssertEqual(targetValue2, additionValue2)
         
-        storage.remove(for: key2)
+        let removed2 = storage.remove(for: key2)
+        XCTAssertEqual(removed2, additionValue2)
         
         var targetValue3 = 0
         for additionValue in storage {
             targetValue3 += additionValue
         }
+        
+        let removed3 = storage.remove(for: key2)
+        XCTAssertNil(removed3)
         
         XCTAssertEqual(targetValue3, 0)
     }
