@@ -16,6 +16,6 @@ matrix:
         - xcodebuild build-for-testing test-without-building -scheme VueFlux -configuration Release -sdk appletvsimulator -destination 'platform=tvOS Simulator,name=Apple TV' ENABLE_TESTABILITY=YES | xcpretty -c
         - xcodebuild build -scheme VueFlux -configuration Release -sdk watchsimulator -destination 'platform=watchOS Simulator,name=Apple Watch - 38mm' ENABLE_TESTABILITY=YES | xcpretty -c
       after_success:
-        - bash <(curl -s https://codecov.io/bash) -J 'VueFlux' -J 'VueFluxReactive'
+        - bash <(curl -s https://codecov.io/bash)
 notifications:
   email: false
