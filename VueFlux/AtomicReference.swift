@@ -108,27 +108,21 @@ extension AtomicReference {
         
         init() {
             _lock.initialize(to: pthread_mutex_t())
-            
-            let result = pthread_mutex_init(_lock, nil)
-            assert(result == 0)
+            pthread_mutex_init(_lock, nil)
         }
         
         deinit {
-            let result = pthread_mutex_destroy(_lock)
-            assert(result == 0)
-            
+            pthread_mutex_destroy(_lock)
             _lock.deinitialize()
             _lock.deallocate(capacity: 1)
         }
         
         func lock() {
-            let result = pthread_mutex_lock(_lock)
-            assert(result == 0)
+            pthread_mutex_lock(_lock)
         }
         
         func unlock() {
-            let result = pthread_mutex_unlock(_lock)
-            assert(result == 0)
+            pthread_mutex_unlock(_lock)
         }
     }
 }
