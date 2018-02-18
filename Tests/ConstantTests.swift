@@ -23,7 +23,21 @@ final class ConstantTests: XCTestCase {
         XCTAssertEqual(value, 1)
     }
     
-    func testdispose() {
+    func testObserveConstatValue() {
+        let constant = Constant(0)
+        
+        var value: Int? = nil
+        
+        constant.signal.observe { int in
+            XCTAssertTrue(Thread.isMainThread)
+            value = int
+        }
+        
+        XCTAssertEqual(constant.value, 0)
+        XCTAssertEqual(value, 0)
+    }
+    
+    func testDispose() {
         let variable = Variable(0)
         let constant = variable.constant
         
