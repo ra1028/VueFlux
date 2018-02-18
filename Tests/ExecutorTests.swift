@@ -85,7 +85,21 @@ final class ExecutorTests: XCTestCase {
         }
     }
     
-    func testWorkItem() {
+    func testVoidWorkItem() {
+        var value = 0
+        
+        let workItem = Executor.WorkItem<Void> {
+            value = 1
+        }
+        
+        XCTAssertEqual(value, 0)
+        
+        workItem.execute()
+        
+        XCTAssertEqual(value, 1)
+    }
+    
+    func testWorkItemWithExecutor() {
         var value = 0
         
         let expectation = self.expectation(description: "testWorkItem")
@@ -116,6 +130,8 @@ final class ExecutorTests: XCTestCase {
         }
         
         let executor = Executor.queue(queue)
+        
+        XCTAssertFalse(workItem.isCanceled)
         
         queue.suspend()
         
