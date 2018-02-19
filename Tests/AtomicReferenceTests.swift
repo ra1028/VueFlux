@@ -102,15 +102,24 @@ final class AtomicReferenceTests: XCTestCase {
         }
     }
     
-    func testUsePosixThreadMutexForced() {
-        let atomicReference = AtomicReference(0, usePosixThreadMutexForced: true)
+    func testPosixThreadMutex() {
+        let atomicReference = AtomicReference(0, usePosixThreadLockForeced: true)
         
-        var targetValue = 1
+        let queue = DispatchQueue(label: "testPosixThreadMutex", attributes: .concurrent)
+        let group = DispatchGroup()
         
-        atomicReference.synchronized { value in
-            targetValue = value
+        for _ in (1...100) {
+            queue.async(group: group) {
+                atomicReference.modify { value in
+                    value += 1
+                    value -= 1
+                    value += 2
+                    value -= 2
+                }
+            }
         }
         
-        XCTAssertEqual(targetValue, 0)
+        _ = group.wait(timeout: .now() + 10)
+        XCTAssertEqual(atomicReference.value, 0)
     }
 }

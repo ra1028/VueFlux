@@ -1,3 +1,5 @@
+import Foundation
+
 /// A value reference that may be updated atomically.
 public final class AtomicReference<Value> {
     /// Atomically value getter and setter.
@@ -11,22 +13,22 @@ public final class AtomicReference<Value> {
     /// - Parameters:
     ///   - value: Initial value.
     public convenience init(_ value: Value) {
-        self.init(value, usePosixThreadMutexForced: false)
+        self.init(value, usePosixThreadLockForeced: false)
     }
     
-    /// Initialize with a given initial value.
-    /// For testability, can specify whether to use PosixThreadMutex forced.
-    ///
-    /// - Parameters:
-    ///   - value: Initial value.
-    ///   - usePosixThreadMutexForced: A Bool value indicating whether to use PosixThreadLock forced.
-    init(_ value: Value, usePosixThreadMutexForced: Bool) {
+    /// For testability.
+    init(_ value: Value, usePosixThreadLockForeced: Bool) {
         _value = value
-        lock = ._init(usePosixThreadMutexForced: usePosixThreadMutexForced)
+        
+        if #available(*, iOS 10.0, macOS 10.12, tvOS 10.0, watchOS 3.0), !usePosixThreadLockForeced {
+            lock = OSUnfairLock()
+        } else {
+            lock = PosixThreadMutex()
+        }
     }
     
-    private let lock: Lock
     private var _value: Value
+    private let lock: NSLocking
     
     /// Atomically perform an arbitrary function using the current value.
     ///
@@ -66,6 +68,56 @@ public final class AtomicReference<Value> {
             let oldValue = value
             value = newValue
             return oldValue
+        }
+    }
+}
+
+private extension AtomicReference {
+    @available(iOS 10.0, *)
+    @available(macOS 10.12, *)
+    @available(tvOS 10.0, *)
+    @available(watchOS 3.0, *)
+    final class OSUnfairLock: NSLocking {
+        private let _lock = os_unfair_lock_t.allocate(capacity: 1)
+        
+        init() {
+            _lock.initialize(to: os_unfair_lock())
+        }
+        
+        deinit {
+            _lock.deinitialize()
+            _lock.deallocate(capacity: 1)
+        }
+        
+        func lock() {
+            os_unfair_lock_lock(_lock)
+        }
+        
+        func unlock() {
+            os_unfair_lock_unlock(_lock)
+        }
+    }
+    
+    final class PosixThreadMutex: NSLocking {
+        private let _lock = UnsafeMutablePointer<pthread_mutex_t>.allocate(capacity: 1)
+        
+        init() {
+            _lock.initialize(to: pthread_mutex_t())
+            pthread_mutex_init(_lock, nil)
+        }
+        
+        deinit {
+            pthread_mutex_destroy(_lock)
+            _lock.deinitialize()
+            _lock.deallocate(capacity: 1)
+        }
+        
+        func lock() {
+            pthread_mutex_lock(_lock)
+        }
+        
+        func unlock() {
+            pthread_mutex_unlock(_lock)
         }
     }
 }

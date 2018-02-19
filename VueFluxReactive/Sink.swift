@@ -20,14 +20,16 @@ public final class Sink<Value> {
     }
     
     private let observers = AtomicReference(Observers())
-    private let _send = AtomicReference<(Observers, Value) -> Void> { observers, value in
-        for observer in observers {
-            observer(value)
+    private let _send: AtomicReference<(Observers, Value) -> Void>
+    
+    /// Initialize a sink.
+    public init() {
+        _send = .init { observers, value in
+            for observer in observers {
+                observer(value)
+            }
         }
     }
-    
-    /// Create a sink.
-    public init() {}
     
     /// Send arbitrary value to the signal.
     ///
