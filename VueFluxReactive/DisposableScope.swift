@@ -38,6 +38,8 @@ public final class DisposableScope: Disposable {
     /// - Parameters:
     ///   - disposable: A disposable to be add to scope.
     public func add(disposable: Disposable) {
+        guard !disposable.isDisposed else { return }
+        
         state.modify { state in
             guard case var .active(disposables) = state else {
                 disposable.dispose()
