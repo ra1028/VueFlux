@@ -2,6 +2,8 @@ import VueFlux
 
 /// Represents the wrapper around a function to forward values to signal.
 public final class Sink<Value> {
+    private typealias Observers = Storage<(Value) -> Void>
+    
     /// Create the signal that flows all values sent into the sink.
     public var signal: Signal<Value> {
         return .init { send in
@@ -17,7 +19,12 @@ public final class Sink<Value> {
         }
     }
     
-    private let observers = AtomicReference(Storage<(Value) -> Void>())
+    private let observers = AtomicReference(Observers())
+    private let _send = AtomicReference<(Observers, Value) -> Void> { observers, value in
+        for observer in observers {
+            observer(value)
+        }
+    }
     
     /// Create a sink.
     public init() {}
@@ -27,10 +34,8 @@ public final class Sink<Value> {
     /// - Parameters:
     ///   - value: A value to send to the signal.
     public func send(value: Value) {
-        observers.synchronized { observers in
-            for observer in observers {
-                observer(value)
-            }
+        _send.synchronized { send in
+            send(observers.value, value)
         }
     }
 }

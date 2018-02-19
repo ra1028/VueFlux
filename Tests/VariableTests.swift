@@ -58,14 +58,23 @@ final class VariableTests: XCTestCase {
         let variable = Variable(())
         let signal = variable.signal
         
-        let disposable = signal.observe {}
+        let disposable1 = signal.observe {}
+        let disposable2 = signal.observe {}
+        
+        var observedCount = 0
         signal.observe {
-            disposable.dispose()
+            if observedCount == 0 {
+                disposable1.dispose()
+            } else {
+                disposable2.dispose()
+            }
+            observedCount += 1
         }
         
         variable.value = ()
         
-        XCTAssertEqual(disposable.isDisposed, true)
+        XCTAssertEqual(disposable1.isDisposed, true)
+        XCTAssertEqual(disposable2.isDisposed, true)
     }
     
     func testConcurrentQueueValueChanged() {
