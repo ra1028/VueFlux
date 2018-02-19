@@ -77,4 +77,18 @@ final class DisposableScopeTests: XCTestCase {
         XCTAssertEqual(disposable.isDisposed, true)
         XCTAssertEqual(disposableScope.isDisposed, true)
     }
+    
+    func testAddDiposableAlreadyDisposed() {
+        var disposable: DisposableScope? = .init()
+        weak var disposableRef = disposable
+        
+        disposable?.dispose()
+        
+        let disposableScope = DisposableScope()
+        disposableScope += disposable!
+        
+        disposable = nil
+        
+        XCTAssertNil(disposableRef)
+    }
 }
