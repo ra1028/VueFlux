@@ -103,7 +103,7 @@ final class AtomicReferenceTests: XCTestCase {
     }
     
     func testPosixThreadMutex() {
-        let atomicReference = AtomicReference(0, usePosixThreadLockForced: true)
+        let atomicReference = AtomicReference(0, usePosixThreadMutexForced: true)
         
         let queue = DispatchQueue(label: "testPosixThreadMutex", attributes: .concurrent)
         let group = DispatchGroup()

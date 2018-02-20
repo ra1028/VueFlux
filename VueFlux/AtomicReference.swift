@@ -13,14 +13,14 @@ public final class AtomicReference<Value> {
     /// - Parameters:
     ///   - value: Initial value.
     public convenience init(_ value: Value) {
-        self.init(value, usePosixThreadLockForced: false)
+        self.init(value, usePosixThreadMutexForced: false)
     }
     
     /// For testability.
-    init(_ value: Value, usePosixThreadLockForced: Bool) {
+    init(_ value: Value, usePosixThreadMutexForced: Bool) {
         _value = value
         
-        if #available(*, iOS 10.0, macOS 10.12, tvOS 10.0, watchOS 3.0), !usePosixThreadLockForced {
+        if #available(*, iOS 10.0, macOS 10.12, tvOS 10.0, watchOS 3.0), !usePosixThreadMutexForced {
             lock = OSUnfairLock()
         } else {
             lock = PosixThreadMutex()
