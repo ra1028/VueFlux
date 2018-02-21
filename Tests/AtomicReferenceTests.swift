@@ -102,8 +102,31 @@ final class AtomicReferenceTests: XCTestCase {
         }
     }
     
+    func testRecursiveAtomicReference() {
+        let atomicReference = AtomicReference(0, recursive: true)
+        
+        let queue = DispatchQueue(label: "testRecursiveAtomicReference", attributes: .concurrent)
+        let group = DispatchGroup()
+        
+        for _ in (1...100) {
+            queue.async(group: group) {
+                atomicReference.synchronized { _ in
+                    atomicReference.modify { value in
+                        value += 1
+                        value -= 1
+                        value += 2
+                        value -= 2
+                    }
+                }
+            }
+        }
+        
+        _ = group.wait(timeout: .now() + 10)
+        XCTAssertEqual(atomicReference.value, 0)
+    }
+    
     func testPosixThreadMutex() {
-        let atomicReference = AtomicReference(0, usePosixThreadMutexForced: true)
+        let atomicReference = AtomicReference(0, usePosixThreadMutexForced: true, recursive: false)
         
         let queue = DispatchQueue(label: "testPosixThreadMutex", attributes: .concurrent)
         let group = DispatchGroup()
