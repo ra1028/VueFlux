@@ -12,18 +12,19 @@ public final class AtomicReference<Value> {
     ///
     /// - Parameters:
     ///   - value: Initial value.
-    public convenience init(_ value: Value) {
-        self.init(value, usePosixThreadMutexForced: false)
+    ///   - recursive: A Bool value indicating whether locking is recursive.
+    public convenience init(_ value: Value, recursive: Bool = false) {
+        self.init(value, usePosixThreadMutexForced: false, recursive: recursive)
     }
     
     /// For testability.
-    init(_ value: Value, usePosixThreadMutexForced: Bool) {
+    init(_ value: Value, usePosixThreadMutexForced: Bool, recursive: Bool) {
         _value = value
         
-        if #available(*, iOS 10.0, macOS 10.12, tvOS 10.0, watchOS 3.0), !usePosixThreadMutexForced {
+        if #available(*, iOS 10.0, macOS 10.12, tvOS 10.0, watchOS 3.0), !usePosixThreadMutexForced, !recursive {
             lock = OSUnfairLock()
         } else {
-            lock = PosixThreadMutex()
+            lock = PosixThreadMutex(recursive: recursive)
         }
     }
     
@@ -101,9 +102,22 @@ private extension AtomicReference {
     final class PosixThreadMutex: NSLocking {
         private let _lock = UnsafeMutablePointer<pthread_mutex_t>.allocate(capacity: 1)
         
-        init() {
+        init(recursive: Bool = false) {
             _lock.initialize(to: pthread_mutex_t())
-            pthread_mutex_init(_lock, nil)
+            
+            if recursive {
+                let attributes = UnsafeMutablePointer<pthread_mutexattr_t>.allocate(capacity: 1)
+                attributes.initialize(to: pthread_mutexattr_t())
+                pthread_mutexattr_init(attributes)
+                pthread_mutexattr_settype(attributes, Int32(PTHREAD_MUTEX_RECURSIVE))
+                pthread_mutex_init(_lock, attributes)
+                
+                pthread_mutexattr_destroy(attributes)
+                attributes.deinitialize()
+                attributes.deallocate(capacity: 1)
+            } else {
+                pthread_mutex_init(_lock, nil)
+            }
         }
         
         deinit {
