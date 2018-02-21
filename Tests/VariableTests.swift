@@ -22,7 +22,7 @@ final class VariableTests: XCTestCase {
         XCTAssertEqual(value, 1)
     }
     
-    func testdispose() {
+    func testDispose() {
         let variable = Variable(0)
         
         var value: Int? = nil
@@ -52,6 +52,54 @@ final class VariableTests: XCTestCase {
         
         XCTAssertEqual(variable.value, 2)
         XCTAssertEqual(value, 2)
+    }
+    
+    func testDisposeOnObserving() {
+        let variable = Variable(())
+        let signal = variable.signal
+        
+        let disposable1 = signal.observe {}
+        let disposable2 = signal.observe {}
+        
+        var observedCount = 0
+        signal.observe {
+            if observedCount == 0 {
+                disposable1.dispose()
+            } else {
+                disposable2.dispose()
+            }
+            observedCount += 1
+        }
+        
+        variable.value = ()
+        
+        XCTAssertEqual(disposable1.isDisposed, true)
+        XCTAssertEqual(disposable2.isDisposed, true)
+    }
+    
+    func testConcurrentQueueValueChanged() {
+        let variable = Variable(())
+        let signal = variable.signal
+        
+        let queue = DispatchQueue(label: "testConcurrentQueueValueChanged", attributes: .concurrent)
+        let group = DispatchGroup()
+        
+        var value = 0
+        signal.observe {
+            value += 1
+            value -= 1
+            value += 2
+            value -= 2
+        }
+        
+        for _ in (1...100) {
+            queue.async(group: group) {
+                variable.value = ()
+            }
+        }
+        
+        _ = group.wait(timeout: .now() + 10)
+        XCTAssertEqual(value, 0)
     }
     
     func testUnbindOnTargetDeinit() {

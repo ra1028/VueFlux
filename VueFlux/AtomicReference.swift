@@ -16,12 +16,7 @@ public final class AtomicReference<Value> {
         self.init(value, usePosixThreadMutexForced: false)
     }
     
-    /// Initialize with a given initial value.
-    /// For testability, can specify whether to use PosixThreadMutex forced.
-    ///
-    /// - Parameters:
-    ///   - value: Initial value.
-    ///   - usePosixThreadMutexForced: A Bool value indicating whether to use PosixThreadLock forced.
+    /// For testability.
     init(_ value: Value, usePosixThreadMutexForced: Bool) {
         _value = value
         
@@ -32,8 +27,8 @@ public final class AtomicReference<Value> {
         }
     }
     
-    private let lock: NSLocking
     private var _value: Value
+    private let lock: NSLocking
     
     /// Atomically perform an arbitrary function using the current value.
     ///
@@ -77,7 +72,7 @@ public final class AtomicReference<Value> {
     }
 }
 
-extension AtomicReference {
+private extension AtomicReference {
     @available(iOS 10.0, *)
     @available(macOS 10.12, *)
     @available(tvOS 10.0, *)

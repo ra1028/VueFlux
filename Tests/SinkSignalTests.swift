@@ -52,6 +52,20 @@ final class SinkSignalTests: XCTestCase {
         XCTAssertEqual(value, 1)
     }
     
+    func testDisposeOnObserving() {
+        let sink = Sink<Void>()
+        let signal = sink.signal
+        
+        let disposable = signal.observe {}
+        signal.observe {
+            disposable.dispose()
+        }
+        
+        sink.send(value: ())
+        
+        XCTAssertEqual(disposable.isDisposed, true)
+    }
+    
     func testScopedObserving() {
         var value1 = 0
         var value2 = 0
@@ -83,6 +97,31 @@ final class SinkSignalTests: XCTestCase {
         
         XCTAssertEqual(value1, 1)
         XCTAssertEqual(value2, 10)
+    }
+    
+    func testConcurrentQueueSend() {
+        let sink = Sink<Void>()
+        let signal = sink.signal
+        
+        let queue = DispatchQueue(label: "testConcurrentQueueSend", attributes: .concurrent)
+        let group = DispatchGroup()
+        
+        var value = 0
+        signal.observe {
+            value += 1
+            value -= 1
+            value += 2
+            value -= 2
+        }
+        
+        for _ in (1...100) {
+            queue.async(group: group) {
+                sink.send(value: ())
+            }
+        }
+        
+        _ = group.wait(timeout: .now() + 10)
+        XCTAssertEqual(value, 0)
     }
     
     func testConcurrentAsyncScopedObserving() {
