@@ -3,18 +3,13 @@ import VueFlux
 /// A container that automatically dispose all added disposables when deinitialized.
 /// Itself also behaves as Disposable.
 public final class DisposableScope: Disposable {
-    private enum State {
-        case active(disposables: ContiguousArray<Disposable>)
-        case disposed
-    }
-    
     /// A Bool value indicating whether disposed.
     public var isDisposed: Bool {
-        guard case .disposed = state.value else { return false }
-        return true
+        return _isDisposed.value
     }
     
-    private let state: AtomicReference<State>
+    private let _isDisposed: AtomicBool = false
+    private var disposables: ContiguousArray<Disposable>?
     
     deinit {
         dispose()
@@ -25,7 +20,7 @@ public final class DisposableScope: Disposable {
     /// - Parameters:
     ///   - disposables: Sequence of something conformed to Disposable.
     public init<Sequence: Swift.Sequence>(_ disposebles: Sequence) where Sequence.Element == Disposable {
-        state = .init(.active(disposables: .init(disposebles)))
+        self.disposables = .init(.init(disposebles))
     }
     
     /// Initialize a new, empty DisposableScope.
@@ -33,26 +28,19 @@ public final class DisposableScope: Disposable {
         self.init([])
     }
     
-    /// Add a new Disposable to a scope.
+    /// Add a new Disposable to a scope if not already disposed.
     ///
     /// - Parameters:
     ///   - disposable: A disposable to be add to scope.
     public func add(disposable: Disposable) {
-        guard !disposable.isDisposed else { return }
-        
-        state.modify { state in
-            guard case var .active(disposables) = state else {
-                disposable.dispose()
-                return
-            }
-            disposables.append(disposable)
-            state = .active(disposables: disposables)
-        }
+        guard !isDisposed, !disposable.isDisposed else { return disposable.dispose() }
+        disposables?.append(disposable)
     }
     
     /// Dispose all disposables if not already been disposed.
     public func dispose() {
-        guard case let .active(disposables) = state.swap(.disposed) else { return }
+        guard _isDisposed.compareAndSwapBarrier(old: false, new: true), let disposables = disposables else { return }
+        self.disposables = nil
         
         for disposable in disposables {
             disposable.dispose()
