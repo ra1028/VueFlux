@@ -7,25 +7,24 @@ public struct AnyDisposable: Disposable {
         case disposed
     }
     
-    private let state: AtomicReference<State>
-    
     /// A Bool value indicating whether disposed.
     public var isDisposed: Bool {
-        guard case .disposed = state.value else { return false }
-        return true
+        return _dispose.value == nil
     }
+    
+    private let _dispose: AtomicReference<(() -> Void)?>
     
     /// Create with dispose function.
     ///
     /// - Parameters:
     ///   - dispose: A function to run when disposed.
     public init(_ dispose: @escaping () -> Void) {
-        state = .init(.active(dispose: dispose))
+        _dispose = .init(dispose)
     }
     
     /// Dispose if not already been disposed.
     public func dispose() {
-        guard case let .active(dispose) = state.swap(.disposed) else { return }
+        guard let dispose = _dispose.swap(nil) else { return }
         dispose()
     }
 }
