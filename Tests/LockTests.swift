@@ -43,18 +43,21 @@ final class LockTests: XCTestCase {
         func runRecursiveTest<Lock: LockProtocol>(for lock: Lock) {
             runTest { criticalSection in
                 lock.lock()
+                lock.lock()
                 criticalSection()
+                lock.unlock()
                 lock.unlock()
             }
         }
         
         runNonRecursiveTest(for: VueFlux.Lock(recursive: false))
         runNonRecursiveTest(for: VueFluxReactive.Lock(recursive: false))
-        runNonRecursiveTest(for: VueFlux.Lock(recursive: true))
-        runNonRecursiveTest(for: VueFluxReactive.Lock(recursive: true))
         runNonRecursiveTest(for: VueFlux.Lock(recursive: false, usePosixThreadMutexForced: true))
         runNonRecursiveTest(for: VueFluxReactive.Lock(recursive: false, usePosixThreadMutexForced: true))
-        runNonRecursiveTest(for: VueFlux.Lock(recursive: true, usePosixThreadMutexForced: true))
-        runNonRecursiveTest(for: VueFluxReactive.Lock(recursive: true, usePosixThreadMutexForced: true))
+        
+        runRecursiveTest(for: VueFlux.Lock(recursive: true))
+        runRecursiveTest(for: VueFluxReactive.Lock(recursive: true))
+        runRecursiveTest(for: VueFlux.Lock(recursive: true, usePosixThreadMutexForced: true))
+        runRecursiveTest(for: VueFluxReactive.Lock(recursive: true, usePosixThreadMutexForced: true))
     }
 }
