@@ -1,30 +1,27 @@
 import VueFlux
 
 /// Disposable that consist of any function.
-public struct AnyDisposable: Disposable {
-    private enum State {
-        case active(dispose: () -> Void)
-        case disposed
-    }
-    
+public final class AnyDisposable: Disposable {
     /// A Bool value indicating whether disposed.
     public var isDisposed: Bool {
-        return _dispose.value == nil
+        return _isDisposed.value
     }
     
-    private let _dispose: AtomicReference<(() -> Void)?>
+    private let _isDisposed: AtomicBool = false
+    private var _dispose: (() -> Void)?
     
     /// Create with dispose function.
     ///
     /// - Parameters:
     ///   - dispose: A function to run when disposed.
     public init(_ dispose: @escaping () -> Void) {
-        _dispose = .init(dispose)
+        _dispose = dispose
     }
     
     /// Dispose if not already been disposed.
     public func dispose() {
-        guard let dispose = _dispose.swap(nil) else { return }
-        dispose()
+        guard _isDisposed.compareAndSwapBarrier(old: false, new: true) else { return }
+        _dispose?()
+        _dispose = nil
     }
 }
