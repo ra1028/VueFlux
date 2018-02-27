@@ -8,7 +8,7 @@ final class AtomicBool: ExpressibleByBooleanLiteral {
     }
     
     init(booleanLiteral value: Bool) {
-        rawValue.initialize(to: value ? 1 : 0)
+        rawValue.initialize(to: value.int32Value)
     }
     
     deinit {
