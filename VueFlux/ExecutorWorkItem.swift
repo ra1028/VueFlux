@@ -1,26 +1,21 @@
 public extension Executor {
     /// Encapsulates the function to execute by Executor.
     /// Also be able to cancel its execution.
-    public struct WorkItem<Value> {
-        private enum State {
-            case active(function: (Value) -> Void)
-            case canceled
-        }
-        
-        private let state: AtomicReference<State>
-        
+    public final class WorkItem<Value> {
         /// A Bool value indicating whether canceled.
         public var isCanceled: Bool {
-            guard case .canceled = state.value else { return false }
-            return true
+            return _isCanceled.value
         }
+        
+        private let _isCanceled: AtomicBool = false
+        private var _execute: ((Value) -> Void)?
         
         /// Create with an arbitrary function.
         ///
         /// - Parameters:
-        ///   - function: A function to be executed by calling `execute(with:)` until canceled.
-        public init(_ function: @escaping (Value) -> Void) {
-            state = .init(.active(function: function))
+        ///   - execute: A function to be executed by calling `execute(with:)` until canceled.
+        public init(_ execute: @escaping (Value) -> Void) {
+            _execute = execute
         }
         
         /// Synchronously execute the specified function.
@@ -28,14 +23,15 @@ public extension Executor {
         /// - Parameters:
         ///   - value: A value to be pass to specified function.
         public func execute(with value: @autoclosure () -> Value) {
-            guard case let .active(function) = state.value else { return }
-            function(value())
+            guard !isCanceled, let execute = _execute else { return }
+            execute(value())
         }
         
         /// Cancel the specified function.
         /// Cancellation does not affect any execution of the function that is already in progress.
         public func cancel() {
-            state.value = .canceled
+            guard _isCanceled.compareAndSwapBarrier(old: false, new: true) else { return }
+            _execute = nil
         }
     }
 }

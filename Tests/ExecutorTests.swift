@@ -173,6 +173,8 @@ final class ExecutorTests: XCTestCase {
         
         queue.resume()
         
+        workItem.cancel()
+        
         queue.async(execute: expectation.fulfill)
         
         waitForExpectations(timeout: 1) { _ in

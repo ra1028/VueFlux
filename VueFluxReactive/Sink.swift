@@ -18,7 +18,7 @@ public final class Sink<Value> {
     }
     
     private let observers = AtomicReference(Storage<(Value) -> Void>())
-    private let sendLock = AtomicReference<Void>(())
+    private let sendLock = Lock(recursive: false)
     
     /// Initialize a sink.
     public init() {}
@@ -28,10 +28,11 @@ public final class Sink<Value> {
     /// - Parameters:
     ///   - value: A value to send to the signal.
     public func send(value: Value) {
-        sendLock.synchronized {
-            for observer in observers.value {
-                observer(value)
-            }
+        sendLock.lock()
+        defer { sendLock.unlock() }
+        
+        for observer in observers.value {
+            observer(value)
         }
     }
 }
