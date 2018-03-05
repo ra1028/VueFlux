@@ -47,4 +47,36 @@ final class DispatcherTests: XCTestCase {
         
         XCTAssertEqual(value, 1)
     }
+    
+    func testRecursiveDispatch() {
+        let dispatcher = Dispatcher<TestState>()
+
+        var flag = false
+
+        dispatcher.subscribe {
+            if !flag {
+                flag = true
+                dispatcher.dispatch(action: ())
+            }
+        }
+
+        dispatcher.dispatch(action: ())
+
+        XCTAssertEqual(flag, true)
+    }
+    
+    func testRecursiveSubscribe() {
+        let dispatcher = Dispatcher<TestState>()
+        
+        var flag = false
+        
+        dispatcher.subscribe {
+            flag = true
+            dispatcher.subscribe {}
+        }
+        
+        dispatcher.dispatch(action: ())
+        
+        XCTAssertEqual(flag, true)
+    }
 }

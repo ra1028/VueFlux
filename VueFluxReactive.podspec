@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name = 'VueFluxReactive'
-  spec.version  = '1.3.0'
+  spec.version  = '1.3.1'
   spec.author = { 'ra1028' => 'r.fe51028.r@gmail.com' }
   spec.homepage = 'https://github.com/ra1028/VueFlux'
   spec.summary = 'Reactive system for VueFlux architecture in Swift'
