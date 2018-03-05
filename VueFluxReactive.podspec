@@ -7,7 +7,7 @@ Pod::Spec.new do |spec|
   spec.source = { :git => 'https://github.com/ra1028/VueFlux.git', :tag => spec.version.to_s }
   spec.license = { :type => 'MIT', :file => 'LICENSE' }
   spec.source_files = 'VueFluxReactive/**/*.swift', 'CommonInternal/**/*.swift'
-  spec.dependency 'VueFlux', '~> 1.2.0'
+  spec.dependency 'VueFlux', '~> 1.3.1'
   spec.requires_arc = true
   spec.osx.deployment_target = '10.9'
   spec.ios.deployment_target = '9.0'
