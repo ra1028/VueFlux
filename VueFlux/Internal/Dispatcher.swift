@@ -7,6 +7,7 @@ final class Dispatcher<State: VueFlux.State> {
         return DispatcherContext.shared.dispatcher(for: State.self)
     }
     
+    private let dispatchLock = Lock(recursive: true)
     private let observers = AtomicReference(Observers())
     
     /// Create a Dispatcher
@@ -17,10 +18,11 @@ final class Dispatcher<State: VueFlux.State> {
     /// - Parameters:
     ///   - action: An Action to be dispatch.
     func dispatch(action: State.Action) {
-        observers.synchronized { observers in
-            for observer in observers {
-                observer(action)
-            }
+        dispatchLock.lock()
+        defer { dispatchLock.unlock() }
+        
+        for observer in observers.value {
+            observer(action)
         }
     }
     
