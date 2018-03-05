@@ -168,7 +168,7 @@ VueFluxReactive is constituted of following primitives.
 This type has a way of generating Signal.  
 One can send values into a sink and receives it by observing generated signal.  
 Signals generated from Sink does not hold the latest value.  
-Practically, it's used to send commands (such as presents another ViewController) from State to ViewController.
+Practically, it's used to send commands (such as presents another ViewController) from State to ViewController.  
 **Can't deliver values recursively**.  
 
 ```swift
