@@ -169,6 +169,7 @@ This type has a way of generating Signal.
 One can send values into a sink and receives it by observing generated signal.  
 Signals generated from Sink does not hold the latest value.  
 Practically, it's used to send commands (such as presents another ViewController) from State to ViewController.
+**Can't deliver values recursively**.  
 
 ```swift
 let sink = Sink<Int>()
@@ -205,6 +206,7 @@ sink.send(value: 200)
 ### Variable
 Variable represents a thread-safe mutable value that allows observation of its changes via signal generated from it.  
 The signal forwards the latest value when observing starts. All value changes are delivers on after that.  
+**Can't deliver values recursively**.  
 
 ```swift
 let variable = Variable(0)
