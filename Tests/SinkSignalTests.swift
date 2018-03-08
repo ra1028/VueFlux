@@ -52,6 +52,33 @@ final class SinkSignalTests: XCTestCase {
         XCTAssertEqual(value, 1)
     }
     
+    func testImmediatelyDisposeSignal() {
+        let queue = DispatchQueue(label: "testImmediatelyDisposeSignal")
+        
+        let signal = Signal<Void> { send in
+            queue.async {
+                send(())
+            }
+            return AnyDisposable {}
+        }
+        
+        queue.suspend()
+        
+        let disposable = signal.observe {
+            XCTFail()
+        }
+        
+        disposable.dispose()
+        
+        let expectation = self.expectation(description: "testImmediatelyDisposeSignal")
+        
+        queue.resume()
+        
+        queue.async(execute: expectation.fulfill)
+        
+        waitForExpectations(timeout: 1) { _ in }
+    }
+    
     func testDisposeOnObserving() {
         let sink = Sink<Void>()
         let signal = sink.signal

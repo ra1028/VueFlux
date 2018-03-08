@@ -281,26 +281,6 @@ store.computed.valueSignal
 }
 ```
 
-**Executor.WorkItem**  
-Executor can also be executed with WorkItem.  
-The WorkItem can call `cancel` to prevent it from execute in future.  
-Cancellation does not affect any execution of the function that is already in progress.  
-
-```swift
-let executor = Executor.immediate
-let workItem = Executor.WorkItem<Int> { value in
-    print("Value is \(value)")
-}
-
-executor.execute(workItem: workItem, with: 100)
-
-workItem.cancel()
-
-executor.execute(workItem: workItem, with: 200)
-
-// prints "Value is 100"
-```
-
 ### Signal Operators
 VueFluxReactive restricts functional approach AMAP.  
 However, includes minimum operators for convenience.  

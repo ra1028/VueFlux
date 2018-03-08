@@ -8,10 +8,8 @@ public extension Signal {
     ///
     /// - Returns: A signal to be receives new values.
     public func map<T>(_ transform: @escaping (Value) -> T) -> Signal<T> {
-        return .init { send in
-            self.observe { value in
-                send(transform(value))
-            }
+        return operated { value, send in
+            send(transform(value))
         }
     }
     
@@ -22,16 +20,17 @@ public extension Signal {
     ///
     /// - returns: A signal that will forward values on given executor.
     public func observe(on executor: Executor) -> Signal<Value> {
+        return operated { value, send in
+            executor.execute { send(value) }
+        }
+    }
+}
+
+private extension Signal {
+    func operated<T>(_ operation: @escaping (Value, @escaping (T) -> Void) -> Void) -> Signal<T> {
         return .init { send in
-            let workItem = Executor.WorkItem(send)
-            
-            let disposable = self.observe { value in
-                executor.execute(workItem: workItem, with: value)
-            }
-            
-            return AnyDisposable {
-                workItem.cancel()
-                disposable.dispose()
+            self.observe { value in
+                operation(value, send)
             }
         }
     }
