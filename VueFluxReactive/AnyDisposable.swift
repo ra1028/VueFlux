@@ -10,12 +10,17 @@ public final class AnyDisposable: Disposable {
     private let _isDisposed: AtomicBool = false
     private var _dispose: (() -> Void)?
     
-    /// Create with dispose function.
+    /// Initialize with dispose function.
     ///
     /// - Parameters:
     ///   - dispose: A function to run when disposed.
     public init(_ dispose: @escaping () -> Void) {
         _dispose = dispose
+    }
+    
+    /// Initialize a nop disposable.
+    public init() {
+        _dispose = nil
     }
     
     /// Dispose if not already been disposed.
