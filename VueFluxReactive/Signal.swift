@@ -22,7 +22,15 @@ public struct Signal<Value> {
     /// - Returns: A disposable to unregister given observer.
     @discardableResult
     public func observe(_ observer: @escaping (Value) -> Void) -> Disposable {
-        return producer(observer)
+        let workItem = Executor.WorkItem<Value>(observer)
+        let disposable =  producer { value in
+            workItem.execute(with: value)
+        }
+        
+        return AnyDisposable {
+            workItem.cancel()
+            disposable.dispose()
+        }
     }
     
     /// observe the values to the given observer during during scope of specified object.
