@@ -23,7 +23,7 @@ public struct Signal<Value> {
     @discardableResult
     public func observe(_ observer: @escaping (Value) -> Void) -> Disposable {
         let workItem = Executor.WorkItem<Value>(observer)
-        let disposable =  producer { value in
+        let disposable = producer { value in
             workItem.execute(with: value)
         }
         
