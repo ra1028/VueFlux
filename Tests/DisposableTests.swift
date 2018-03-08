@@ -21,4 +21,15 @@ final class DisposableTests: XCTestCase {
         XCTAssertEqual(value, 1)
         XCTAssertEqual(disposable.isDisposed, true)
     }
+    
+    func testNopDisposable() {
+        let disposable = AnyDisposable()
+        
+        XCTAssertEqual(disposable.isDisposed, false)
+        
+        disposable.dispose()
+        
+        XCTAssertEqual(disposable.isDisposed, true)
+        
+    }
 }
