@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name = 'VueFlux'
-  spec.version  = '1.3.1'
+  spec.version  = '1.4.0'
   spec.author = { 'ra1028' => 'r.fe51028.r@gmail.com' }
   spec.homepage = 'https://github.com/ra1028/VueFlux'
   spec.summary = 'Unidirectional State Management for Swift - Inspired by Vuex and Flux'
