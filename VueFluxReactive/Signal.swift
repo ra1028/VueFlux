@@ -22,13 +22,13 @@ public struct Signal<Value> {
     /// - Returns: A disposable to unregister given observer.
     @discardableResult
     public func observe(_ observer: @escaping (Value) -> Void) -> Disposable {
-        let workItem = Executor.WorkItem<Value>(observer)
+        let observerProcedure = CancelableProcedure<Value>(observer)
         let disposable = producer { value in
-            workItem.execute(with: value)
+            observerProcedure.execute(with: value)
         }
         
         return AnyDisposable {
-            workItem.cancel()
+            observerProcedure.cancel()
             disposable.dispose()
         }
     }

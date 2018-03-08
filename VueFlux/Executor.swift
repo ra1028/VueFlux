@@ -38,23 +38,6 @@ public struct Executor {
     public func execute(_ function: @escaping () -> Void) {
         context(function)
     }
-
-    /// Execute an arbitrary work item.
-    ///
-    /// - Parameters:
-    ///   - workItem: A work item to be execute.
-    ///   - value: A value that pass to work item.
-    public func execute<Value>(workItem: WorkItem<Value>, with value: @autoclosure @escaping () -> Value) {
-        execute { workItem.execute(with: value()) }
-    }
-
-    /// Execute an arbitrary work item.
-    ///
-    /// - Parameters:
-    ///   - workItem: A work item to be execute.
-    public func execute(workItem: WorkItem<Void>) {
-        execute { workItem.execute() }
-    }
 }
 
 private extension Executor {

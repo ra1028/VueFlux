@@ -3,7 +3,7 @@ open class Store<State: VueFlux.State> {
     private let dispatcher = Dispatcher<State>()
     private let sharedDispatcher = Dispatcher<State>.shared
     
-    private let commitWorkItem: Executor.WorkItem<State.Action>
+    private let commitProcedure: CancelableProcedure<State.Action>
     private let dispatcherKey: Dispatcher<State>.Observers.Key
     private let sharedDispatcherKey: Dispatcher<State>.Observers.Key
     
@@ -26,15 +26,15 @@ open class Store<State: VueFlux.State> {
     ///   - mutations: A mutations for mutates the state.
     ///   - executor: An executor to dispatch actions on.
     public init(state: State, mutations: State.Mutations, executor: Executor) {
-        let commitWorkItem = Executor.WorkItem<State.Action> { action in
+        let commitProcedure = CancelableProcedure<State.Action> { action in
             mutations.commit(action: action, state: state)
         }
         
         let commit: (State.Action) -> Void = { action in
-            executor.execute(workItem: commitWorkItem, with: action)
+            executor.execute { commitProcedure.execute(with: action) }
         }
         
-        self.commitWorkItem = commitWorkItem
+        self.commitProcedure = commitProcedure
         
         actions = .init(dispatcher: dispatcher)
         computed = .init(state: state)
@@ -44,7 +44,7 @@ open class Store<State: VueFlux.State> {
     }
     
     deinit {
-        commitWorkItem.cancel()
+        commitProcedure.cancel()
         dispatcher.unsubscribe(for: dispatcherKey)
         sharedDispatcher.unsubscribe(for: sharedDispatcherKey)
     }

@@ -74,9 +74,7 @@ final class SinkSignalTests: XCTestCase {
         
         queue.resume()
         
-        queue.async {
-            expectation.fulfill()
-        }
+        queue.async(execute: expectation.fulfill)
         
         waitForExpectations(timeout: 1) { _ in }
     }
