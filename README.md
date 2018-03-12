@@ -473,6 +473,11 @@ carthage update
 
 ---
 
+## Example Projects
+- [VueFluxExample-GitHub](https://github.com/ra1028/VueFluxExample-GitHub): Simple example using GitHub user search API.  
+
+---
+
 ## Contribution
 Welcome to fork and submit pull requests.  
 
