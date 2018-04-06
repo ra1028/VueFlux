@@ -18,7 +18,7 @@ public struct Executor {
     
     /// All the executions are enqueued to given qeueue.
     public static func queue(_ dispatchQueue: DispatchQueue) -> Executor {
-        return .init { function in dispatchQueue.async(execute: function) }
+        return .init { function in dispatchQueue.async { function() } }
     }
     
     private let context: Context
