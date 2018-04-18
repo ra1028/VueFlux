@@ -32,8 +32,8 @@ Although VueFlux makes your projects more productive and codes more readable, it
 If your project is small-scale, you will most likely be fine without VueFlux.  
 However, as the scale of your project becomes larger, VueFlux will be the best choice to handle the complicated data flow.  
 
-VueFlux is receives state changes by efficient reactive system. [VueFluxReactive](./VueFluxReactive) is µ reactive framework(not functional) compatible with this architecture.  
-Arbitrary third party reactive frameworks (e.g. [RxSwift](https://github.com/ReactiveX/RxSwift), [ReactiveSwift](https://github.com/ReactiveCocoa/ReactiveSwift) and [ReactiveKit](https://github.com/ReactiveKit/ReactiveKit)) can also be used with VueFlux.  
+VueFlux is receives state changes by efficient reactive system. [VueFluxReactive](./VueFluxReactive) is µ reactive framework compatible with this architecture.  
+Arbitrary third party reactive frameworks (e.g. [RxSwift](https://github.com/ReactiveX/RxSwift), [ReactiveSwift](https://github.com/ReactiveCocoa/ReactiveSwift), etc) can also be used with VueFlux.  
 
 ![VueFlux Architecture](./assets/architecture.png)
 
@@ -409,7 +409,7 @@ final class CounterStore: Store<CounterState> {
 }
 ```
 
-### Global Event Bus
+### Global Dispatch
 VueFlux can also serve as a global event bus.  
 If you call a function from `actions` that is a static member of Store, all the states managed in the stores which have same generic type of State in common are affected.  
 
@@ -428,11 +428,11 @@ print(store.computed.count.value)
 ---
 
 ## Requirements
-- Swift4.0 or later
-- OS X 10.9 or later
-- iOS 9.0 or later
-- watchOS 2.0 or later
-- tvOS 9.0 or later
+- Swift4.1+
+- OS X 10.9+
+- iOS 9.0+
+- watchOS 2.0+
+- tvOS 9.0+
 
 ---
 
@@ -453,7 +453,7 @@ use_frameworks!
 
 target 'TargetName' do
   pod 'VueFlux'
-  # and reactive framework you like
+  # And reactive framework you like
 end
 ```
 And run
