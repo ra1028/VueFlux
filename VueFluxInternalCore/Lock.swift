@@ -30,7 +30,7 @@ struct Lock {
     private final class PosixThreadMutex: NSLocking {
         private let _lock = UnsafeMutablePointer<pthread_mutex_t>.allocate(capacity: 1)
         
-        init(recursive: Bool = false) {
+        init(recursive: Bool) {
             _lock.initialize(to: pthread_mutex_t())
             
             if recursive {
@@ -79,9 +79,8 @@ struct Lock {
     ///
     /// - Parameters:
     ///   - recursive: A Bool value indicating whether locking is recursive.
-    ///   - usePosixThreadMutexForced: Force to use Posix thread mutex.
-    init(recursive: Bool, usePosixThreadMutexForced: Bool = false) {
-        if #available(*, iOS 10.0, macOS 10.12, tvOS 10.0, watchOS 3.0), !usePosixThreadMutexForced, !recursive {
+    init(recursive: Bool) {
+        if #available(*, iOS 10.0, macOS 10.12, tvOS 10.0, watchOS 3.0), !recursive {
             inner = OSUnfairLock()
         } else {
             inner = PosixThreadMutex(recursive: recursive)

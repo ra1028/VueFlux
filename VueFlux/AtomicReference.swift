@@ -6,6 +6,9 @@ public final class AtomicReference<Value> {
         set { modify { $0 = newValue } }
     }
     
+    private var _value: Value
+    private let lock: Lock
+    
     /// Initialize with a given initial value.
     ///
     /// - Parameters:
@@ -15,9 +18,6 @@ public final class AtomicReference<Value> {
         _value = value
         lock = .init(recursive: recursive)
     }
-    
-    private var _value: Value
-    private let lock: Lock
     
     /// Atomically perform an arbitrary function using the current value.
     ///
