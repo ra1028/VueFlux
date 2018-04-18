@@ -12,8 +12,8 @@ final class AtomicBool: ExpressibleByBooleanLiteral {
     }
     
     deinit {
-        rawValue.deinitialize()
-        rawValue.deallocate(capacity: 1)
+        rawValue.deinitialize(count: 1)
+        rawValue.deallocate()
     }
     
     func compareAndSwapBarrier(old: Bool, new: Bool) -> Bool {

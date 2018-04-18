@@ -14,8 +14,8 @@ struct Lock {
         }
         
         deinit {
-            _lock.deinitialize()
-            _lock.deallocate(capacity: 1)
+            _lock.deinitialize(count: 1)
+            _lock.deallocate()
         }
         
         func lock() {
@@ -41,8 +41,8 @@ struct Lock {
                 pthread_mutex_init(_lock, attributes)
                 
                 pthread_mutexattr_destroy(attributes)
-                attributes.deinitialize()
-                attributes.deallocate(capacity: 1)
+                attributes.deinitialize(count: 1)
+                attributes.deallocate()
             } else {
                 pthread_mutex_init(_lock, nil)
             }
@@ -50,8 +50,8 @@ struct Lock {
         
         deinit {
             pthread_mutex_destroy(_lock)
-            _lock.deinitialize()
-            _lock.deallocate(capacity: 1)
+            _lock.deinitialize(count: 1)
+            _lock.deallocate()
         }
         
         func lock() {
