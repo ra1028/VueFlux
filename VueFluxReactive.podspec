@@ -6,7 +6,7 @@ Pod::Spec.new do |spec|
   spec.summary = 'Reactive system for VueFlux architecture in Swift'
   spec.source = { :git => 'https://github.com/ra1028/VueFlux.git', :tag => spec.version.to_s }
   spec.license = { :type => 'MIT', :file => 'LICENSE' }
-  spec.source_files = 'VueFluxReactive/**/*.swift', 'CommonInternal/**/*.swift'
+  spec.source_files = 'VueFluxReactive/**/*.swift', 'VueFluxInternalCore/**/*.swift'
   spec.dependency 'VueFlux', '~> 1.4.1'
   spec.requires_arc = true
   spec.osx.deployment_target = '10.9'
