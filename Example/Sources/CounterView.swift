@@ -73,7 +73,7 @@ private extension CounterView {
     func updateColors() {
         guard let gradientLayer = gradientLayer else { return }
         
-        gradientLayer.colors = [startColor, endColor].flatMap { $0?.cgColor }
+        gradientLayer.colors = [startColor, endColor].compactMap { $0?.cgColor }
         gradientLayer.startPoint = .init(x: 0.5, y: 0)
         gradientLayer.endPoint = .init(x: 0.5, y: 1)
     }

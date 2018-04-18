@@ -51,8 +51,8 @@ private extension Executor {
         }
         
         deinit {
-            executingCount.deinitialize()
-            executingCount.deallocate(capacity: 1)
+            executingCount.deinitialize(count: 1)
+            executingCount.deallocate()
         }
         
         /// Serial execute a function on main thread.

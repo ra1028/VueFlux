@@ -9,7 +9,6 @@ Unidirectional State Management Architecture for Swift - Inspired by <a href="ht
 <a href="https://developer.apple.com/swift"><img alt="Swift4" src="https://img.shields.io/badge/language-swift4-orange.svg?style=flat"/></a>
 <a href="https://travis-ci.org/ra1028/VueFlux"><img alt="Build Status" src="https://travis-ci.org/ra1028/VueFlux.svg?branch=master"/></a>
 <a href="https://codebeat.co/projects/github-com-ra1028-vueflux-master"><img alt="CodeBeat" src="https://codebeat.co/badges/5f422c2e-40b9-4900-a9e9-9c776757b976"/></a>
-<a href="https://codecov.io/gh/ra1028/VueFlux"><img alt="Codecov" src="https://codecov.io/gh/ra1028/VueFlux/branch/master/graph/badge.svg"/></a>
 </br>
 <a href="https://cocoapods.org/pods/VueFlux"><img alt="CocoaPods" src="https://img.shields.io/cocoapods/v/VueFlux.svg"/></a>
 <a href="https://github.com/Carthage/Carthage"><img alt="Carthage" src="https://img.shields.io/badge/Carthage-compatible-yellow.svg?style=flat"/></a>
@@ -32,8 +31,8 @@ Although VueFlux makes your projects more productive and codes more readable, it
 If your project is small-scale, you will most likely be fine without VueFlux.  
 However, as the scale of your project becomes larger, VueFlux will be the best choice to handle the complicated data flow.  
 
-VueFlux is receives state changes by efficient reactive system. [VueFluxReactive](./VueFluxReactive) is µ reactive framework(not functional) compatible with this architecture.  
-Arbitrary third party reactive frameworks (e.g. [RxSwift](https://github.com/ReactiveX/RxSwift), [ReactiveSwift](https://github.com/ReactiveCocoa/ReactiveSwift) and [ReactiveKit](https://github.com/ReactiveKit/ReactiveKit)) can also be used with VueFlux.  
+VueFlux is receives state changes by efficient reactive system. [VueFluxReactive](./VueFluxReactive) is µ reactive framework compatible with this architecture.  
+Arbitrary third party reactive frameworks (e.g. [RxSwift](https://github.com/ReactiveX/RxSwift), [ReactiveSwift](https://github.com/ReactiveCocoa/ReactiveSwift), etc) can also be used with VueFlux.  
 
 ![VueFlux Architecture](./assets/architecture.png)
 
@@ -409,7 +408,7 @@ final class CounterStore: Store<CounterState> {
 }
 ```
 
-### Global Event Bus
+### Global Dispatch
 VueFlux can also serve as a global event bus.  
 If you call a function from `actions` that is a static member of Store, all the states managed in the stores which have same generic type of State in common are affected.  
 
@@ -428,11 +427,11 @@ print(store.computed.count.value)
 ---
 
 ## Requirements
-- Swift4.0 or later
-- OS X 10.9 or later
-- iOS 9.0 or later
-- watchOS 2.0 or later
-- tvOS 9.0 or later
+- Swift4.1+
+- OS X 10.9+
+- iOS 9.0+
+- watchOS 2.0+
+- tvOS 9.0+
 
 ---
 
@@ -453,7 +452,7 @@ use_frameworks!
 
 target 'TargetName' do
   pod 'VueFlux'
-  # and reactive framework you like
+  # And reactive framework you like
 end
 ```
 And run

@@ -1,14 +1,5 @@
 import XCTest
 @testable import VueFlux
-@testable import VueFluxReactive
-
-protocol LockProtocol {
-    func lock()
-    func unlock()
-}
-
-extension VueFlux.Lock: LockProtocol {}
-extension VueFluxReactive.Lock: LockProtocol {}
 
 final class LockTests: XCTestCase {
     func testLock() {
@@ -32,32 +23,22 @@ final class LockTests: XCTestCase {
             XCTAssertEqual(value, 0)
         }
         
-        func runNonRecursiveTest<Lock: LockProtocol>(for lock: Lock) {
-            runTest { criticalSection in
-                lock.lock()
-                criticalSection()
-                lock.unlock()
-            }
+        let lock = Lock(recursive: false)
+        
+        runTest { criticalSection in
+            lock.lock()
+            criticalSection()
+            lock.unlock()
         }
         
-        func runRecursiveTest<Lock: LockProtocol>(for lock: Lock) {
-            runTest { criticalSection in
-                lock.lock()
-                lock.lock()
-                criticalSection()
-                lock.unlock()
-                lock.unlock()
-            }
+        let recursiveLock = Lock(recursive: true)
+        
+        runTest { criticalSection in
+            recursiveLock.lock()
+            recursiveLock.lock()
+            criticalSection()
+            recursiveLock.unlock()
+            recursiveLock.unlock()
         }
-        
-        runNonRecursiveTest(for: VueFlux.Lock(recursive: false))
-        runNonRecursiveTest(for: VueFluxReactive.Lock(recursive: false))
-        runNonRecursiveTest(for: VueFlux.Lock(recursive: false, usePosixThreadMutexForced: true))
-        runNonRecursiveTest(for: VueFluxReactive.Lock(recursive: false, usePosixThreadMutexForced: true))
-        
-        runRecursiveTest(for: VueFlux.Lock(recursive: true))
-        runRecursiveTest(for: VueFluxReactive.Lock(recursive: true))
-        runRecursiveTest(for: VueFlux.Lock(recursive: true, usePosixThreadMutexForced: true))
-        runRecursiveTest(for: VueFluxReactive.Lock(recursive: true, usePosixThreadMutexForced: true))
     }
 }

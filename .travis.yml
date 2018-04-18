@@ -5,7 +5,7 @@ matrix:
   include:
     - os: osx
       language: objective-c
-      osx_image: xcode9.2
+      osx_image: xcode9.3
       before_install:
         - ./scripts/install_swiftlint.sh
       script:
@@ -15,7 +15,5 @@ matrix:
         - xcodebuild build-for-testing test-without-building -scheme VueFlux -configuration Release -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 8' ENABLE_TESTABILITY=YES | xcpretty - c
         - xcodebuild build-for-testing test-without-building -scheme VueFlux -configuration Release -sdk appletvsimulator -destination 'platform=tvOS Simulator,name=Apple TV' ENABLE_TESTABILITY=YES | xcpretty -c
         - xcodebuild build -scheme VueFlux -configuration Release -sdk watchsimulator -destination 'platform=watchOS Simulator,name=Apple Watch - 38mm' ENABLE_TESTABILITY=YES | xcpretty -c
-      after_success:
-        - bash <(curl -s https://codecov.io/bash)
 notifications:
   email: false
