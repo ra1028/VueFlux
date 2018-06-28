@@ -9,7 +9,7 @@ enum CounterAction {
     case update(interval: TimeInterval)
 }
 
-extension Actions where State == CounterState {
+extension Actions where Action == CounterAction {
     func incrementAcync(after interval: TimeInterval = 0) {
         DispatchQueue.global(qos: .default).asyncAfter(deadline: .now() + interval) {
             self.dispatch(action: .increment)

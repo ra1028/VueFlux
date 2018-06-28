@@ -12,14 +12,14 @@ struct DispatcherContext {
     ///   - stateType: State protocol conformed type for Dispatcher.
     ///
     /// - Returns: An shared instance of Dispatcher.
-    func dispatcher<State: VueFlux.State>(for stateType: State.Type) -> Dispatcher<State> {
+    func dispatcher<State, Action>(for stateType: State.Type) -> Dispatcher<State, Action> {
         return dispatchers.modify { dispatchers in
             let identifier = ObjectIdentifier(stateType)
-            if let dispatcher = dispatchers[identifier] as? Dispatcher<State> {
+            if let dispatcher = dispatchers[identifier] as? Dispatcher<State, Action> {
                 return dispatcher
             }
             
-            let dispatcher = Dispatcher<State>()
+            let dispatcher = Dispatcher<State, Action>()
             dispatchers[identifier] = dispatcher
             return dispatcher
         }

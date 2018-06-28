@@ -1,9 +1,9 @@
 /// An action dispatcher for subscribed dispatch functions.
-final class Dispatcher<State: VueFlux.State> {
-    typealias Observers = Storage<(State.Action) -> Void>
+final class Dispatcher<State, Action> {
+    typealias Observers = Storage<(Action) -> Void>
     
     /// Shared instance associated by generic type of State.
-    static var shared: Dispatcher<State> {
+    static var shared: Dispatcher<State, Action> {
         return DispatcherContext.shared.dispatcher(for: State.self)
     }
     
@@ -17,7 +17,7 @@ final class Dispatcher<State: VueFlux.State> {
     ///
     /// - Parameters:
     ///   - action: An Action to be dispatch.
-    func dispatch(action: State.Action) {
+    func dispatch(action: Action) {
         dispatchLock.lock()
         defer { dispatchLock.unlock() }
         
@@ -33,7 +33,7 @@ final class Dispatcher<State: VueFlux.State> {
     ///
     /// - Returns: A key for remove given observer.
     @discardableResult
-    func subscribe(_ observer: @escaping (State.Action) -> Void) -> Observers.Key {
+    func subscribe(_ observer: @escaping (Action) -> Void) -> Observers.Key {
         return observers.modify { observers in
             observers.add(observer)
         }
