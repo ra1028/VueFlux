@@ -1,5 +1,5 @@
 /// Manages a State and commits the action received via dispatcher to mutations.
-open class Store<State, Action> {
+open class Store<State: AnyObject, Action> {
     private let dispatcher = Dispatcher<State, Action>()
     private let sharedDispatcher = Dispatcher<State, Action>.shared
     
