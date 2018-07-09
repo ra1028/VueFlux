@@ -4,7 +4,7 @@ final class Dispatcher<State, Action> {
     
     /// Shared instance associated by generic type of State.
     static var shared: Dispatcher<State, Action> {
-        return DispatcherContext.shared.dispatcher(for: State.self)
+        return DispatcherContext.shared.dispatcher(for: Dispatcher<State, Action>.self)
     }
     
     private let dispatchLock = Lock(recursive: true)

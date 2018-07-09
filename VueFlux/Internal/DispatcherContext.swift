@@ -12,9 +12,9 @@ struct DispatcherContext {
     ///   - stateType: State protocol conformed type for Dispatcher.
     ///
     /// - Returns: An shared instance of Dispatcher.
-    func dispatcher<State, Action>(for stateType: State.Type) -> Dispatcher<State, Action> {
+    func dispatcher<State, Action>(for dispatcherType: Dispatcher<State, Action>.Type) -> Dispatcher<State, Action> {
         return dispatchers.modify { dispatchers in
-            let identifier = ObjectIdentifier(stateType)
+            let identifier = ObjectIdentifier(dispatcherType)
             if let dispatcher = dispatchers[identifier] as? Dispatcher<State, Action> {
                 return dispatcher
             }
