@@ -181,6 +181,7 @@
 				TargetAttributes = {
 					6BEDA5E11FBA1DFE00F03699 = {
 						CreatedOnToolsVersion = 9.0;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Manual;
 					};
 				};
@@ -400,7 +401,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ryo.Example.VueFlux;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -419,7 +420,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ryo.Example.VueFlux;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
