@@ -17,6 +17,14 @@ final class CounterView: UIView {
     @IBInspectable var endColor: UIColor? {
         didSet { updateColors() }
     }
+
+    override static var layerClass: AnyClass {
+        return CAGradientLayer.self
+    }
+
+    var gradientLayer: CAGradientLayer? {
+        return layer as? CAGradientLayer
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,13 +35,10 @@ final class CounterView: UIView {
         super.init(coder: aDecoder)
         configure()
     }
-    
-    override static var layerClass: AnyClass {
-        return CAGradientLayer.self
-    }
-    
-    var gradientLayer: CAGradientLayer? {
-        return layer as? CAGradientLayer
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        updateMasks()
     }
 }
 
@@ -48,6 +53,12 @@ private extension CounterView {
         leadingAnchor.constraint(equalTo: view.leadingAnchor)
         trailingAnchor.constraint(equalTo: view.trailingAnchor)
         
+        openGitHubButton.titleLabel?.numberOfLines = 2
+        counterLabel.font = .monospacedDigitSystemFont(ofSize: 80, weight: .thin)
+        intervalLabel.font = .monospacedDigitSystemFont(ofSize: 20, weight: .light)
+    }
+
+    func updateMasks() {
         func round(view: UIView, corners: UIRectCorner) {
             let path = UIBezierPath(
                 roundedRect: view.bounds,
@@ -58,16 +69,11 @@ private extension CounterView {
             mask.path = path.cgPath
             view.layer.mask = mask
         }
-        
+
         round(view: incrementButton, corners: [.topRight, .bottomRight])
         round(view: decrementButton, corners: [.topRight, .bottomRight])
         round(view: resetButton, corners: [.topLeft, .bottomLeft])
         round(view: openGitHubButton, corners: [.topLeft, .bottomLeft])
-        
-        openGitHubButton.titleLabel?.numberOfLines = 2
-        
-        counterLabel.font = .monospacedDigitSystemFont(ofSize: 80, weight: .thin)
-        intervalLabel.font = .monospacedDigitSystemFont(ofSize: 20, weight: .light)
     }
     
     func updateColors() {
