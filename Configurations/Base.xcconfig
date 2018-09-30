@@ -13,12 +13,3 @@ VALID_ARCHS[sdk=watchos*] = armv7k
 VALID_ARCHS[sdk=watchsimulator*] = i386
 VALID_ARCHS[sdk=appletv*] = arm64
 VALID_ARCHS[sdk=appletvsimulator*] = x86_64
-
-APPLICATION_EXTENSION_API_ONLY = YES
-INSTALL_PATH = $(LOCAL_LIBRARY_DIR)/Frameworks
-SKIP_INSTALL = YES
-DYLIB_COMPATIBILITY_VERSION = 1
-DYLIB_CURRENT_VERSION = 1
-DYLIB_INSTALL_NAME_BASE = @rpath
-LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/../Frameworks @loader_path/Frameworks @loader_path/../Frameworks
-DEFINES_MODULE = YES

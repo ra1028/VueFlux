@@ -95,11 +95,13 @@
 		6BA27BCB1FB8CD3100809472 /* DisposableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisposableTests.swift; sourceTree = "<group>"; };
 		6BA27BCE1FB8CE1A00809472 /* DisposableScopeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisposableScopeTests.swift; sourceTree = "<group>"; };
 		6BA27BD31FB8CFE600809472 /* StorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageTests.swift; sourceTree = "<group>"; };
+		6BB2AC102161405A00D54781 /* Test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Test.xcconfig; sourceTree = "<group>"; };
+		6BB2AC112161408A00D54781 /* Main.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Main.xcconfig; sourceTree = "<group>"; };
 		6BB30C4C2018E3AC00C52C76 /* Sink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sink.swift; sourceTree = "<group>"; };
 		6BB30C4E2018E3CA00C52C76 /* Signal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Signal.swift; sourceTree = "<group>"; };
 		6BB30C502018E3E700C52C76 /* Variable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Variable.swift; sourceTree = "<group>"; };
 		6BB30C522018E41600C52C76 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
-		6BB5BAF92044353A0009F779 /* Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
+		6BB5BAF92044353A0009F779 /* Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Base.xcconfig; sourceTree = "<group>"; };
 		6BB9F56A20514317008C6C77 /* CancelableProcedureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelableProcedureTests.swift; sourceTree = "<group>"; };
 		6BC664F41FEC5ABF00BD74C8 /* AnyDisposable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyDisposable.swift; sourceTree = "<group>"; };
 		6BC664F61FEC627E00BD74C8 /* SignalOperators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalOperators.swift; sourceTree = "<group>"; };
@@ -147,7 +149,9 @@
 		6B120DC71FD5B4CB001FEAB4 /* Configurations */ = {
 			isa = PBXGroup;
 			children = (
-				6BB5BAF92044353A0009F779 /* Common.xcconfig */,
+				6BB5BAF92044353A0009F779 /* Base.xcconfig */,
+				6BB2AC112161408A00D54781 /* Main.xcconfig */,
+				6BB2AC102161405A00D54781 /* Test.xcconfig */,
 			);
 			path = Configurations;
 			sourceTree = "<group>";
@@ -353,14 +357,16 @@
 				TargetAttributes = {
 					6B9E32801FA639DF000B24D4 = {
 						CreatedOnToolsVersion = 9.0;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Manual;
 					};
 					6B9E32891FA639DF000B24D4 = {
 						CreatedOnToolsVersion = 9.0;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Manual;
 					};
 					6B9EB2251FCB157C009F0659 = {
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Manual;
 					};
 				};
@@ -578,7 +584,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2,3,4";
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -638,7 +644,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2,3,4";
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VALIDATE_PRODUCT = YES;
@@ -650,7 +656,7 @@
 		};
 		6B9E32961FA639DF000B24D4 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6BB5BAF92044353A0009F779 /* Common.xcconfig */;
+			baseConfigurationReference = 6BB2AC112161408A00D54781 /* Main.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = "$(inherited)";
 				CODE_SIGN_IDENTITY = "";
@@ -671,7 +677,7 @@
 				SDKROOT = "$(inherited)";
 				SKIP_INSTALL = "$(inherited)";
 				SUPPORTED_PLATFORMS = "$(inherited)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "$(inherited)";
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VALID_ARCHS = "$(inherited)";
@@ -681,7 +687,7 @@
 		};
 		6B9E32971FA639DF000B24D4 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6BB5BAF92044353A0009F779 /* Common.xcconfig */;
+			baseConfigurationReference = 6BB2AC112161408A00D54781 /* Main.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = "$(inherited)";
 				CODE_SIGN_IDENTITY = "";
@@ -703,7 +709,7 @@
 				SDKROOT = "$(inherited)";
 				SKIP_INSTALL = "$(inherited)";
 				SUPPORTED_PLATFORMS = "$(inherited)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "$(inherited)";
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VALID_ARCHS = "$(inherited)";
@@ -713,6 +719,7 @@
 		};
 		6B9E32991FA639DF000B24D4 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6BB2AC102161405A00D54781 /* Test.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGNING_REQUIRED = NO;
@@ -728,16 +735,17 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = "";
 				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator watchos watchsimulator appletvos appletvsimulator";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2,3,4";
 				TVOS_DEPLOYMENT_TARGET = 9.0;
-				VALID_ARCHS = "i386 x86_64 arm64 armv7 armv7s armv7k";
+				VALID_ARCHS = "$(inherited)";
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
 		};
 		6B9E329A1FA639DF000B24D4 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6BB2AC102161405A00D54781 /* Test.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGNING_REQUIRED = NO;
@@ -753,17 +761,17 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = "";
 				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator watchos watchsimulator appletvos appletvsimulator";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2,3,4";
 				TVOS_DEPLOYMENT_TARGET = 9.0;
-				VALID_ARCHS = "i386 x86_64 arm64 armv7 armv7s armv7k";
+				VALID_ARCHS = "$(inherited)";
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
 		6B9EB2341FCB157C009F0659 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6BB5BAF92044353A0009F779 /* Common.xcconfig */;
+			baseConfigurationReference = 6BB2AC112161408A00D54781 /* Main.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = "$(inherited)";
 				CODE_SIGN_IDENTITY = "";
@@ -784,7 +792,7 @@
 				SDKROOT = "$(inherited)";
 				SKIP_INSTALL = "$(inherited)";
 				SUPPORTED_PLATFORMS = "$(inherited)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "$(inherited)";
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VALID_ARCHS = "$(inherited)";
@@ -794,7 +802,7 @@
 		};
 		6B9EB2351FCB157C009F0659 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6BB5BAF92044353A0009F779 /* Common.xcconfig */;
+			baseConfigurationReference = 6BB2AC112161408A00D54781 /* Main.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = "$(inherited)";
 				CODE_SIGN_IDENTITY = "";
@@ -816,7 +824,7 @@
 				SDKROOT = "$(inherited)";
 				SKIP_INSTALL = "$(inherited)";
 				SUPPORTED_PLATFORMS = "$(inherited)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "$(inherited)";
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				VALID_ARCHS = "$(inherited)";
