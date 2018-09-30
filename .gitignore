@@ -16,3 +16,6 @@ DerivedData
 *.hmap
 *.xccheckout
 *.xcuserstate
+
+.bundle
+vendor
