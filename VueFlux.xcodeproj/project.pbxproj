@@ -357,16 +357,16 @@
 				TargetAttributes = {
 					6B9E32801FA639DF000B24D4 = {
 						CreatedOnToolsVersion = 9.0;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Manual;
 					};
 					6B9E32891FA639DF000B24D4 = {
 						CreatedOnToolsVersion = 9.0;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Manual;
 					};
 					6B9EB2251FCB157C009F0659 = {
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Manual;
 					};
 				};
@@ -377,6 +377,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 6B9E32771FA639DF000B24D4;
 			productRefGroup = 6B9E32821FA639DF000B24D4 /* Products */;
