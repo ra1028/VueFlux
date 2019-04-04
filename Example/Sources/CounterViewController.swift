@@ -6,7 +6,7 @@ import VueFluxReactive
 final class CounterViewController: UIViewController {
     @IBOutlet private weak var counterView: CounterView!
     
-    private let store = Store<CounterState>(state: .init(max: 1000), mutations: .init(), executor: .queue(.global()))
+    private let store = Store<CounterState, CounterAction>(state: .init(max: 1000), mutations: CounterMutations(), executor: .queue(.global()))
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent

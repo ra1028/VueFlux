@@ -20,10 +20,7 @@ extension Computed where State == CounterState {
     }
 }
 
-final class CounterState: State {
-    typealias Action = CounterAction
-    typealias Mutations = CounterMutations
-    
+final class CounterState {
     enum Command {
         case openGitHub
     }
